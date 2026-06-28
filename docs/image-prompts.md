@@ -7,29 +7,13 @@
 
 ## プロジェクト
 
-### public/images/projects/northstar-cover.webp — 1600×1000 (WebP)
+### ~~public/images/projects/northstar-cover.webp~~ — ✅ 配置済み
 
-```
-A civic service-finder web application shown on a desktop screen beside a phone, both floating on frosted glass. A large friendly search field reads "Find local support", with soft category cards below it (Housing, Health, Family, Benefits). Calm, accessible, lots of breathing room. Premium glassmorphism UI: frosted translucent panels with soft gaussian blur over a layered aurora-gradient background of violet, electric blue, magenta and mint green; faint film grain; a thin light highlight along the top edge of each panel; soft ambient shadows; clean geometric sans-serif typography; generous whitespace; calm high-end product design aesthetic; dark theme. High detail, crisp, realistic interface, no logos, no watermarks, no gibberish text, legible short labels only. 1600x1000.
-```
+### ~~public/images/projects/northstar-search.webp~~ — ✅ 配置済み
 
-### public/images/projects/northstar-search.webp — 1600×1200 (WebP)
+### ~~public/images/projects/northstar-mobile.webp~~ — ✅ 配置済み
 
-```
-A close-up of an accessible search-results screen on a frosted glass panel: a prominent search bar at the top, clear result cards each with a short title and a one-line description, large tap targets, strong text contrast. Premium glassmorphism UI: frosted translucent panels with soft gaussian blur over a layered aurora-gradient background of violet, electric blue, magenta and mint green; faint film grain; a thin light highlight along the top edge of each panel; soft ambient shadows; clean geometric sans-serif typography; generous whitespace; calm high-end product design aesthetic; dark theme. High detail, crisp, realistic interface, no logos, no watermarks, no gibberish text, legible short labels only. 1600x1200.
-```
-
-### public/images/projects/northstar-mobile.webp — 1600×1200 (WebP)
-
-```
-A single mobile phone mockup on aurora-lit glass showing a civic service finder: stacked result cards, a sticky bottom action bar, clean accessible typography. Premium glassmorphism UI: frosted translucent panels with soft gaussian blur over a layered aurora-gradient background of violet, electric blue, magenta and mint green; faint film grain; a thin light highlight along the top edge of each panel; soft ambient shadows; clean geometric sans-serif typography; generous whitespace; calm high-end product design aesthetic; dark theme. High detail, crisp, realistic interface, no logos, no watermarks, no gibberish text, legible short labels only. 1600x1200.
-```
-
-### public/images/projects/northstar-directory.webp — 1600×1200 (WebP)
-
-```
-A directory / category overview screen: a grid of frosted glass tiles for local services, each with a simple line icon and a short label, organized and uncluttered. Premium glassmorphism UI: frosted translucent panels with soft gaussian blur over a layered aurora-gradient background of violet, electric blue, magenta and mint green; faint film grain; a thin light highlight along the top edge of each panel; soft ambient shadows; clean geometric sans-serif typography; generous whitespace; calm high-end product design aesthetic; dark theme. High detail, crisp, realistic interface, no logos, no watermarks, no gibberish text, legible short labels only. 1600x1200.
-```
+### ~~public/images/projects/northstar-directory.webp~~ — ✅ 配置済み
 
 ### public/images/projects/fieldnote-cover.webp — 1600×1000 (WebP)
 
@@ -37,11 +21,7 @@ A directory / category overview screen: a grid of frosted glass tiles for local 
 A research knowledge-base interface on frosted glass: a left sidebar of saved studies, a central document with several highlighted observation snippets, and a search bar showing instant filtered results. Scholarly but modern. Premium glassmorphism UI: frosted translucent panels with soft gaussian blur over a layered aurora-gradient background of violet, electric blue, magenta and mint green; faint film grain; a thin light highlight along the top edge of each panel; soft ambient shadows; clean geometric sans-serif typography; generous whitespace; calm high-end product design aesthetic; dark theme. High detail, crisp, realistic interface, no logos, no watermarks, no gibberish text, legible short labels only. 1600x1000.
 ```
 
-### public/images/projects/fieldnote-library.webp — 1600×1200 (WebP)
-
-```
-A library view of research entries shown as frosted cards in a grid, each with a tag chip and a short excerpt, and a faceted filter rail on the left. Premium glassmorphism UI: frosted translucent panels with soft gaussian blur over a layered aurora-gradient background of violet, electric blue, magenta and mint green; faint film grain; a thin light highlight along the top edge of each panel; soft ambient shadows; clean geometric sans-serif typography; generous whitespace; calm high-end product design aesthetic; dark theme. High detail, crisp, realistic interface, no logos, no watermarks, no gibberish text, legible short labels only. 1600x1200.
-```
+### ~~public/images/projects/fieldnote-library.webp~~ — ✅ 配置済み
 
 ### public/images/projects/fieldnote-evidence.webp — 1600×1200 (WebP)
 
