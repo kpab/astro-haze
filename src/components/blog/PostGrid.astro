@@ -1,0 +1,50 @@
+---
+import BlogCard from './BlogCard.astro';
+import { readingTime, type Post } from '@/lib/posts';
+
+export interface Props {
+  posts: Post[];
+  columns?: 'auto' | 'two';
+}
+
+const { posts, columns = 'auto' } = Astro.props;
+---
+
+<div class={`posts-grid posts-grid--${columns}`}>
+  {
+    posts.map((post) => (
+      <BlogCard
+        title={post.data.title}
+        description={post.data.description}
+        pubDate={post.data.pubDate}
+        heroImage={post.data.heroImage}
+        heroImageAlt={post.data.heroImageAlt}
+        tags={post.data.tags}
+        href={`/blog/${post.id}`}
+        readingTime={readingTime(post.body)}
+        featured={post.data.featured}
+      />
+    ))
+  }
+</div>
+
+<style>
+  .posts-grid {
+    display: grid;
+    gap: var(--space-xl);
+  }
+
+  .posts-grid--auto {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+
+  .posts-grid--two {
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  }
+
+  @media (max-width: 640px) {
+    .posts-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

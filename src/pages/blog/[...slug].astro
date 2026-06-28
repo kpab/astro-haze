@@ -1,49 +1,58 @@
 ---
-import { getCollection, render } from 'astro:content';
+import { render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/common/Header.astro';
 import Footer from '@/components/common/Footer.astro';
 import GlassPanel from '@/components/common/GlassPanel.astro';
-import type { CollectionEntry } from 'astro:content';
+import GlassCard from '@/components/ui/GlassCard.astro';
+import Tag from '@/components/ui/Tag.astro';
+import Picture from '@/components/ui/Picture.astro';
+import Toc from '@/components/blog/Toc.astro';
+import {
+  getPublishedPosts,
+  getAdjacentPosts,
+  readingTime,
+} from '@/lib/posts';
+import siteConfig from '@/site.config';
 
-export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
+export const getStaticPaths = (async () => {
+  const posts = await getPublishedPosts();
   return posts.map((post) => ({
     params: { slug: post.id },
-    props: post,
+    props: { post },
   }));
-}
+}) satisfies GetStaticPaths;
 
-type Props = CollectionEntry<'blog'>;
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
 
-const post = Astro.props;
-const { Content } = await render(post);
+const allPosts = await getPublishedPosts();
+const { newer, older } = getAdjacentPosts(allPosts, post.id);
 
-// Calculate reading time
-const readingTime = Math.ceil((post.body ?? '').split(/\s+/).filter(Boolean).length / 200);
+const minutes = readingTime(post.body);
+const dateOpts = { year: 'numeric', month: 'long', day: 'numeric' } as const;
+const formattedDate = post.data.pubDate.toLocaleDateString('en-US', dateOpts);
+const updatedDate = post.data.updatedDate?.toLocaleDateString('en-US', dateOpts);
 
-// Format date
-const formattedDate = post.data.pubDate.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric'
-});
-
-const updatedDate = post.data.updatedDate?.toLocaleDateString('en-US', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric'
-});
+const showToc = siteConfig.blog.showToc && headings.length > 0;
+const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+  post.data.title
+)}&url=${encodeURIComponent(Astro.url.href)}`;
+const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+  Astro.url.href
+)}`;
 ---
 
 <BaseLayout
   title={post.data.title}
   description={post.data.description}
+  ogImage={post.data.heroImage}
   article={{
     publishedTime: post.data.pubDate.toISOString(),
     modifiedTime: post.data.updatedDate?.toISOString(),
     author: post.data.author,
-    tags: post.data.tags
+    tags: post.data.tags,
   }}
 >
   <Header />
@@ -51,93 +60,138 @@ const updatedDate = post.data.updatedDate?.toLocaleDateString('en-US', {
   <main id="main" class="main-content">
     <article class="blog-post">
       <div class="container">
-        <!-- Post Header -->
         <GlassPanel variant="solid" padding="xl" className="post-header">
+          <a href="/blog" class="post-back">← Back to blog</a>
           <h1 class="post-title">{post.data.title}</h1>
 
           <div class="post-meta">
-            <time datetime={post.data.pubDate.toISOString()}>
-              {formattedDate}
-            </time>
-            {updatedDate && (
-              <>
-                <span class="separator">·</span>
-                <span>Updated {updatedDate}</span>
-              </>
-            )}
-            <span class="separator">·</span>
-            <span>{readingTime} min read</span>
-            {post.data.author && (
-              <>
-                <span class="separator">·</span>
-                <span>By {post.data.author}</span>
-              </>
-            )}
+            <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time>
+            {
+              updatedDate && (
+                <>
+                  <span class="separator" aria-hidden="true">·</span>
+                  <span>Updated {updatedDate}</span>
+                </>
+              )
+            }
+            {
+              siteConfig.blog.showReadingTime && (
+                <>
+                  <span class="separator" aria-hidden="true">·</span>
+                  <span>{minutes} min read</span>
+                </>
+              )
+            }
+            {
+              post.data.author && (
+                <>
+                  <span class="separator" aria-hidden="true">·</span>
+                  <span>By {post.data.author}</span>
+                </>
+              )
+            }
           </div>
 
-          {post.data.tags && post.data.tags.length > 0 && (
-            <div class="post-tags">
-              {post.data.tags.map((tag) => (
-                <a href={`/tags/${tag}`} class="tag glass-badge">
-                  {tag}
-                </a>
-              ))}
+          {
+            post.data.tags.length > 0 && (
+              <div class="post-tags">
+                {post.data.tags.map((tag) => (
+                  <Tag name={tag} />
+                ))}
+              </div>
+            )
+          }
+        </GlassPanel>
+
+        {
+          post.data.heroImage && (
+            <div class="post-hero-image">
+              <Picture
+                src={post.data.heroImage}
+                alt={post.data.heroImageAlt ?? post.data.title}
+                loading="eager"
+                fetchpriority="high"
+              />
             </div>
-          )}
-        </GlassPanel>
+          )
+        }
 
-        <!-- Hero Image -->
-        {post.data.heroImage && (
-          <div class="post-hero-image">
-            <img
-              src={post.data.heroImage}
-              alt={post.data.heroImageAlt || post.data.title}
-              loading="eager"
-            />
-          </div>
-        )}
-
-        <!-- Post Content -->
-        <GlassPanel variant="solid" padding="xl" className="post-content">
-          <div class="prose">
-            <Content />
-          </div>
-        </GlassPanel>
-
-        <!-- Post Footer -->
-        <GlassPanel variant="default" padding="lg" className="post-footer">
-          <div class="share-section">
-            <h3>Share this post</h3>
-            <div class="share-buttons">
-              <a
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(Astro.url.href)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="share-button glass-button"
-                aria-label="Share on Twitter"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"></path>
-                </svg>
-                Twitter
-              </a>
-              <a
-                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(Astro.url.href)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="share-button glass-button"
-                aria-label="Share on LinkedIn"
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                  <rect x="2" y="9" width="4" height="12"></rect>
-                  <circle cx="4" cy="4" r="2"></circle>
-                </svg>
-                LinkedIn
-              </a>
+        <div class={`post-body ${showToc ? 'post-body--with-toc' : ''}`}>
+          <GlassPanel variant="solid" padding="xl" className="post-content">
+            <div class="prose">
+              <Content />
             </div>
-          </div>
-        </GlassPanel>
+          </GlassPanel>
+
+          {
+            showToc && (
+              <aside class="post-toc">
+                <div class="post-toc__inner">
+                  <Toc headings={headings} />
+                </div>
+              </aside>
+            )
+          }
+        </div>
+
+        {
+          siteConfig.blog.showShareButtons && (
+            <GlassPanel variant="default" padding="lg" className="post-footer">
+              <div class="share-section">
+                <h2 class="share-title">Share this post</h2>
+                <div class="share-buttons">
+                  <a
+                    href={tweetUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="share-button glass-button"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
+                    </svg>
+                    Share on X
+                  </a>
+                  <a
+                    href={linkedInUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="share-button glass-button"
+                  >
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
+                      <rect x="2" y="9" width="4" height="12" />
+                      <circle cx="4" cy="4" r="2" />
+                    </svg>
+                    Share on LinkedIn
+                  </a>
+                </div>
+              </div>
+            </GlassPanel>
+          )
+        }
+
+        {
+          siteConfig.blog.showRelatedPosts && (newer || older) && (
+            <nav class="post-nav" aria-label="More posts">
+              {older ? (
+                <GlassCard href={`/blog/${older.id}`} class="post-nav__card">
+                  <span class="post-nav__dir">← Older</span>
+                  <span class="post-nav__title">{older.data.title}</span>
+                </GlassCard>
+              ) : (
+                <span />
+              )}
+              {newer ? (
+                <GlassCard href={`/blog/${newer.id}`} class="post-nav__card post-nav__card--next">
+                  <span class="post-nav__dir">Newer →</span>
+                  <span class="post-nav__title">{newer.data.title}</span>
+                </GlassCard>
+              ) : (
+                <span />
+              )}
+            </nav>
+          )
+        }
       </div>
     </article>
   </main>
@@ -152,11 +206,26 @@ const updatedDate = post.data.updatedDate?.toLocaleDateString('en-US', {
 
   .blog-post {
     padding: var(--space-2xl) 0;
-    max-width: 900px;
-    margin: 0 auto;
   }
 
-  /* Post Header */
+  .blog-post .container {
+    max-width: var(--container-5xl);
+    margin-inline: auto;
+    padding-inline: var(--space-lg);
+  }
+
+  .post-back {
+    display: inline-block;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-md);
+    transition: color var(--transition-fast);
+  }
+  .post-back:hover {
+    color: var(--color-accent);
+  }
+
   .post-header {
     text-align: center;
     margin-bottom: var(--space-2xl);
@@ -167,11 +236,7 @@ const updatedDate = post.data.updatedDate?.toLocaleDateString('en-US', {
     font-weight: 800;
     line-height: 1.2;
     margin-bottom: var(--space-lg);
-    background: linear-gradient(
-      135deg,
-      var(--color-text),
-      var(--color-accent)
-    );
+    background: linear-gradient(135deg, var(--color-text), var(--color-accent));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -200,19 +265,6 @@ const updatedDate = post.data.updatedDate?.toLocaleDateString('en-US', {
     margin-top: var(--space-md);
   }
 
-  .tag {
-    font-size: var(--text-sm);
-    text-decoration: none;
-    color: var(--color-text-muted);
-    transition: all var(--transition-fast);
-  }
-
-  .tag:hover {
-    color: var(--color-accent);
-    background: var(--color-accent-glass);
-  }
-
-  /* Hero Image */
   .post-hero-image {
     margin-bottom: var(--space-2xl);
     border-radius: var(--radius-lg);
@@ -220,15 +272,26 @@ const updatedDate = post.data.updatedDate?.toLocaleDateString('en-US', {
     box-shadow: var(--glass-shadow);
   }
 
-  .post-hero-image img {
+  .post-hero-image :global(img) {
     width: 100%;
     height: auto;
     display: block;
   }
 
-  /* Post Content */
-  .post-content {
+  /* Body + optional TOC sidebar */
+  .post-body {
+    display: grid;
+    gap: var(--space-xl);
     margin-bottom: var(--space-2xl);
+  }
+
+  .post-body--with-toc {
+    grid-template-columns: minmax(0, 1fr) 16rem;
+  }
+
+  .post-toc__inner {
+    position: sticky;
+    top: calc(var(--space-3xl) + var(--space-md));
   }
 
   .prose {
@@ -236,12 +299,16 @@ const updatedDate = post.data.updatedDate?.toLocaleDateString('en-US', {
     line-height: 1.8;
   }
 
-  /* Post Footer */
-  .post-footer {
-    margin-top: var(--space-3xl);
+  /* Offset anchored headings from the sticky header */
+  .prose :global(:is(h2, h3, h4)) {
+    scroll-margin-top: var(--space-3xl);
   }
 
-  .share-section h3 {
+  .post-footer {
+    margin-top: var(--space-2xl);
+  }
+
+  .share-title {
     font-size: var(--text-lg);
     font-weight: 600;
     margin-bottom: var(--space-md);
@@ -261,26 +328,68 @@ const updatedDate = post.data.updatedDate?.toLocaleDateString('en-US', {
     text-decoration: none;
     color: var(--color-text);
     font-weight: 500;
-    transition: all var(--transition-fast);
   }
 
   .share-button:hover {
-    background: var(--color-accent-glass);
     color: var(--color-accent);
   }
 
-  /* Mobile Styles */
+  /* Prev / next */
+  .post-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+    margin-top: var(--space-2xl);
+  }
+
+  .post-nav__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  .post-nav__card--next {
+    text-align: right;
+  }
+
+  .post-nav__dir {
+    font-size: var(--text-sm);
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  .post-nav__title {
+    font-weight: 600;
+    line-height: 1.3;
+  }
+
+  @media (max-width: 900px) {
+    .post-body--with-toc {
+      grid-template-columns: 1fr;
+    }
+    .post-toc {
+      order: -1;
+    }
+    .post-toc__inner {
+      position: static;
+    }
+  }
+
   @media (max-width: 768px) {
     .post-title {
       font-size: var(--text-3xl);
     }
-
     .post-meta {
       font-size: var(--text-xs);
     }
-
     .blog-post {
       padding: var(--space-lg) 0;
+    }
+    .post-nav {
+      grid-template-columns: 1fr;
+    }
+    .post-nav__card--next {
+      text-align: left;
     }
   }
 </style>

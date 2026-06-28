@@ -1,0 +1,86 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/common/Header.astro';
+import Footer from '@/components/common/Footer.astro';
+import Container from '@/components/ui/Container.astro';
+import PostGrid from '@/components/blog/PostGrid.astro';
+import Pagination from '@/components/blog/Pagination.astro';
+import { getPublishedPosts, type Post } from '@/lib/posts';
+import siteConfig from '@/site.config';
+
+export const getStaticPaths = (async () => {
+  const posts = await getPublishedPosts();
+  const perPage = siteConfig.blog.postsPerPage;
+  const totalPages = Math.max(1, Math.ceil(posts.length / perPage));
+
+  // Page 1 lives at /blog (index.astro); generate 2..totalPages here.
+  const paths = [];
+  for (let page = 2; page <= totalPages; page++) {
+    paths.push({
+      params: { page: String(page) },
+      props: {
+        posts: posts.slice((page - 1) * perPage, page * perPage),
+        currentPage: page,
+        totalPages,
+      },
+    });
+  }
+  return paths;
+}) satisfies GetStaticPaths;
+
+interface Props {
+  posts: Post[];
+  currentPage: number;
+  totalPages: number;
+}
+
+const { posts, currentPage, totalPages } = Astro.props;
+---
+
+<BaseLayout
+  title={`Blog — Page ${currentPage}`}
+  description="Insights, tutorials, and updates from the Astro Haze blog"
+>
+  <Header />
+
+  <main id="main" class="main-content">
+    <section class="section">
+      <Container>
+        <h2 class="section-title">All Posts</h2>
+        <PostGrid posts={posts} />
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          basePath="/blog"
+        />
+      </Container>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .main-content {
+    min-height: 100vh;
+    padding-top: var(--space-2xl);
+  }
+
+  .section {
+    padding: var(--space-3xl) 0;
+  }
+
+  .section-title {
+    font-size: var(--text-3xl);
+    font-weight: 700;
+    margin-bottom: var(--space-2xl);
+    text-align: center;
+  }
+
+  @media (max-width: 768px) {
+    .section-title {
+      font-size: var(--text-2xl);
+    }
+  }
+</style>

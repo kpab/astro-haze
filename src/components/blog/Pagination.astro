@@ -1,0 +1,156 @@
+---
+export interface Props {
+  currentPage: number;
+  totalPages: number;
+  /** Base path for page 1 (e.g. "/blog"). Pages 2+ live at `${basePath}/page/N`. */
+  basePath?: string;
+}
+
+const { currentPage, totalPages, basePath = '/blog' } = Astro.props;
+
+const pageUrl = (n: number) => (n === 1 ? basePath : `${basePath}/page/${n}`);
+
+// Compact window of page numbers around the current page.
+const windowSize = 2;
+const start = Math.max(1, currentPage - windowSize);
+const end = Math.min(totalPages, currentPage + windowSize);
+const pages = Array.from({ length: end - start + 1 }, (_, i) => start + i);
+
+const prevUrl = currentPage > 1 ? pageUrl(currentPage - 1) : undefined;
+const nextUrl = currentPage < totalPages ? pageUrl(currentPage + 1) : undefined;
+---
+
+{
+  totalPages > 1 && (
+    <nav class="pagination" aria-label="Pagination">
+      {prevUrl ? (
+        <a class="pagination__edge" href={prevUrl} rel="prev" aria-label="Previous page">
+          ← Prev
+        </a>
+      ) : (
+        <span class="pagination__edge pagination__edge--disabled" aria-hidden="true">
+          ← Prev
+        </span>
+      )}
+
+      <ul class="pagination__list">
+        {start > 1 && (
+          <>
+            <li>
+              <a class="pagination__num" href={pageUrl(1)}>
+                1
+              </a>
+            </li>
+            {start > 2 && <li class="pagination__ellipsis" aria-hidden="true">…</li>}
+          </>
+        )}
+
+        {pages.map((n) => (
+          <li>
+            {n === currentPage ? (
+              <span class="pagination__num pagination__num--current" aria-current="page">
+                {n}
+              </span>
+            ) : (
+              <a class="pagination__num" href={pageUrl(n)}>
+                {n}
+              </a>
+            )}
+          </li>
+        ))}
+
+        {end < totalPages && (
+          <>
+            {end < totalPages - 1 && (
+              <li class="pagination__ellipsis" aria-hidden="true">
+                …
+              </li>
+            )}
+            <li>
+              <a class="pagination__num" href={pageUrl(totalPages)}>
+                {totalPages}
+              </a>
+            </li>
+          </>
+        )}
+      </ul>
+
+      {nextUrl ? (
+        <a class="pagination__edge" href={nextUrl} rel="next" aria-label="Next page">
+          Next →
+        </a>
+      ) : (
+        <span class="pagination__edge pagination__edge--disabled" aria-hidden="true">
+          Next →
+        </span>
+      )}
+    </nav>
+  )
+}
+
+<style>
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    margin-top: var(--space-3xl);
+    flex-wrap: wrap;
+  }
+
+  .pagination__list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .pagination__num,
+  .pagination__edge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2.5rem;
+    height: 2.5rem;
+    padding-inline: var(--space-sm);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--color-text);
+    font-weight: 600;
+    border: 1px solid transparent;
+    transition:
+      background-color var(--transition-fast),
+      border-color var(--transition-fast),
+      color var(--transition-fast);
+  }
+
+  a.pagination__num:hover,
+  a.pagination__edge:hover {
+    background: var(--color-accent-glass);
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+  }
+
+  .pagination__num--current {
+    background: var(--color-accent);
+    color: var(--color-text-inverse);
+  }
+
+  .pagination__edge--disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .pagination__ellipsis {
+    padding-inline: var(--space-xs);
+    color: var(--color-text-muted);
+  }
+
+  a.pagination__num:focus-visible,
+  a.pagination__edge:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+</style>

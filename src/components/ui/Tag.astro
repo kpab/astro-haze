@@ -9,7 +9,13 @@ export interface Props {
 const { name, href, size = 'md', class: className = '' } = Astro.props;
 
 // When no explicit href is given, link to the tag archive by default.
-const target = href ?? `/tags/${encodeURIComponent(name.toLowerCase())}`;
+// Slug logic mirrors tagSlug() in src/lib/posts.ts.
+const slug = name
+  .toLowerCase()
+  .trim()
+  .replace(/[^a-z0-9]+/g, '-')
+  .replace(/^-+|-+$/g, '');
+const target = href ?? `/tags/${slug}`;
 const classes = ['tag', `tag--${size}`, className].filter(Boolean).join(' ');
 ---
 

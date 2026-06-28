@@ -1,43 +1,69 @@
 ---
+import Tag from '@/components/ui/Tag.astro';
+import Picture from '@/components/ui/Picture.astro';
+import Badge from '@/components/ui/Badge.astro';
 
 export interface Props {
   title: string;
   description: string;
   pubDate: Date;
   heroImage?: string;
+  heroImageAlt?: string;
   tags?: string[];
   href: string;
   readingTime?: number;
+  featured?: boolean;
 }
 
-const { title, description, pubDate, heroImage, tags = [], href, readingTime } = Astro.props;
+const {
+  title,
+  description,
+  pubDate,
+  heroImage,
+  heroImageAlt,
+  tags = [],
+  href,
+  readingTime,
+  featured = false,
+} = Astro.props;
 
 const formattedDate = pubDate.toLocaleDateString('en-US', {
   year: 'numeric',
   month: 'long',
-  day: 'numeric'
+  day: 'numeric',
 });
 ---
 
 <article class="blog-card glass-card">
-  {heroImage && (
-    <a href={href} class="blog-card__image-link">
-      <div class="blog-card__image">
-        <img src={heroImage} alt={title} loading="lazy" />
-      </div>
-    </a>
-  )}
+  {
+    heroImage && (
+      <a href={href} class="blog-card__image-link" tabindex="-1" aria-hidden="true">
+        <div class="blog-card__image">
+          <Picture src={heroImage} alt={heroImageAlt ?? title} />
+          {featured && (
+            <span class="blog-card__featured">
+              <Badge variant="accent">Featured</Badge>
+            </span>
+          )}
+        </div>
+      </a>
+    )
+  }
 
   <div class="blog-card__content">
     <header class="blog-card__header">
       <div class="blog-card__meta">
         <time datetime={pubDate.toISOString()}>{formattedDate}</time>
-        {readingTime && (
-          <>
-            <span class="separator">·</span>
-            <span>{readingTime} min read</span>
-          </>
-        )}
+        {
+          readingTime && (
+            <>
+              <span class="separator" aria-hidden="true">
+                ·
+              </span>
+              <span>{readingTime} min read</span>
+            </>
+          )
+        }
       </div>
     </header>
 
@@ -45,23 +71,19 @@ const formattedDate = pubDate.toLocaleDateString('en-US', {
       <a href={href}>{title}</a>
     </h3>
 
-    <p class="blog-card__description">
-      {description}
-    </p>
+    <p class="blog-card__description">{description}</p>
 
-    {tags.length > 0 && (
-      <div class="blog-card__tags">
-        {tags.map((tag) => (
-          <a href={`/tags/${tag}`} class="tag glass-badge">
-            {tag}
-          </a>
-        ))}
-      </div>
-    )}
+    {
+      tags.length > 0 && (
+        <div class="blog-card__tags">
+          {tags.slice(0, 3).map((tag) => (
+            <Tag name={tag} size="sm" />
+          ))}
+        </div>
+      )
+    }
 
-    <a href={href} class="blog-card__link">
-      Read more →
-    </a>
+    <span class="blog-card__link" aria-hidden="true">Read more →</span>
   </div>
 </article>
 
@@ -71,11 +93,10 @@ const formattedDate = pubDate.toLocaleDateString('en-US', {
     flex-direction: column;
     height: 100%;
     overflow: hidden;
-    transition: all var(--transition-base);
-  }
-
-  .blog-card:hover {
-    transform: translateY(-4px);
+    transition:
+      transform var(--transition-base),
+      box-shadow var(--transition-base),
+      border-color var(--transition-base);
   }
 
   .blog-card__image-link {
@@ -90,15 +111,21 @@ const formattedDate = pubDate.toLocaleDateString('en-US', {
     background: var(--glass-bg);
   }
 
-  .blog-card__image img {
+  .blog-card__image :global(img) {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform var(--transition-slow);
   }
 
-  .blog-card:hover .blog-card__image img {
+  .blog-card:hover .blog-card__image :global(img) {
     transform: scale(1.05);
+  }
+
+  .blog-card__featured {
+    position: absolute;
+    top: var(--space-sm);
+    left: var(--space-sm);
   }
 
   .blog-card__content {
@@ -137,8 +164,25 @@ const formattedDate = pubDate.toLocaleDateString('en-US', {
     transition: color var(--transition-fast);
   }
 
+  /* Make the whole card clickable while keeping the title as the real link. */
+  .blog-card__title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .blog-card {
+    position: relative;
+  }
+
   .blog-card__title a:hover {
     color: var(--color-accent);
+  }
+
+  .blog-card__title a:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: var(--radius-sm);
   }
 
   .blog-card__description {
@@ -148,6 +192,7 @@ const formattedDate = pubDate.toLocaleDateString('en-US', {
     flex: 1;
     display: -webkit-box;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -157,18 +202,8 @@ const formattedDate = pubDate.toLocaleDateString('en-US', {
     flex-wrap: wrap;
     gap: var(--space-xs);
     margin-bottom: var(--space-lg);
-  }
-
-  .tag {
-    font-size: var(--text-xs);
-    text-decoration: none;
-    color: var(--color-text-muted);
-    transition: all var(--transition-fast);
-  }
-
-  .tag:hover {
-    color: var(--color-accent);
-    background: var(--color-accent-glass);
+    position: relative;
+    z-index: 1;
   }
 
   .blog-card__link {
@@ -176,17 +211,17 @@ const formattedDate = pubDate.toLocaleDateString('en-US', {
     align-items: center;
     color: var(--color-accent);
     font-weight: 600;
-    text-decoration: none;
-    transition: all var(--transition-fast);
-  }
-
-  .blog-card__link:hover {
-    transform: translateX(4px);
   }
 
   @media (max-width: 768px) {
     .blog-card__content {
       padding: var(--space-md);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blog-card:hover .blog-card__image :global(img) {
+      transform: none;
     }
   }
 </style>

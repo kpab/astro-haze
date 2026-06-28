@@ -1,30 +1,20 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Header from '@/components/common/Header.astro';
 import Footer from '@/components/common/Footer.astro';
-import BlogCard from '@/components/blog/BlogCard.astro';
 import GlassPanel from '@/components/common/GlassPanel.astro';
+import Container from '@/components/ui/Container.astro';
+import PostGrid from '@/components/blog/PostGrid.astro';
+import Pagination from '@/components/blog/Pagination.astro';
+import { getPublishedPosts } from '@/lib/posts';
+import siteConfig from '@/site.config';
 
-// Get all blog posts
-const posts = await getCollection('blog', ({ data }) => {
-  return data.draft !== true;
-});
+const allPosts = await getPublishedPosts();
+const perPage = siteConfig.blog.postsPerPage;
+const totalPages = Math.max(1, Math.ceil(allPosts.length / perPage));
 
-// Sort posts by date
-const sortedPosts = posts.sort((a, b) =>
-  b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
-);
-
-// Calculate reading time (rough estimate)
-const postsWithReadingTime = sortedPosts.map(post => ({
-  ...post,
-  readingTime: Math.ceil((post.body ?? '').split(/\s+/).filter(Boolean).length / 200)
-}));
-
-// Get featured posts
-const featuredPosts = postsWithReadingTime.filter(post => post.data.featured);
-const regularPosts = postsWithReadingTime.filter(post => !post.data.featured);
+const featured = allPosts.filter((p) => p.data.featured).slice(0, 2);
+const pagePosts = allPosts.slice(0, perPage);
 ---
 
 <BaseLayout
@@ -34,67 +24,48 @@ const regularPosts = postsWithReadingTime.filter(post => !post.data.featured);
   <Header />
 
   <main id="main" class="main-content">
-    <!-- Hero Section -->
-    <section class="blog-hero section">
-      <div class="container">
+    <section class="blog-hero">
+      <Container>
         <GlassPanel variant="solid" padding="xl" className="hero-content">
           <h1 class="hero-title">Blog</h1>
           <p class="hero-description">
-            Insights, tutorials, and updates about web development, design, and technology.
+            Insights, tutorials, and updates about web development, design, and
+            technology.
           </p>
         </GlassPanel>
-      </div>
+      </Container>
     </section>
 
-    <!-- Featured Posts -->
-    {featuredPosts.length > 0 && (
-      <section class="featured-section section">
-        <div class="container">
-          <h2 class="section-title">Featured Posts</h2>
-          <div class="featured-grid">
-            {featuredPosts.map((post) => (
-              <BlogCard
-                title={post.data.title}
-                description={post.data.description}
-                pubDate={post.data.pubDate}
-                heroImage={post.data.heroImage}
-                tags={post.data.tags}
-                href={`/blog/${post.id}`}
-                readingTime={post.readingTime}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-    )}
+    {
+      featured.length > 0 && (
+        <section class="section">
+          <Container>
+            <h2 class="section-title">Featured</h2>
+            <PostGrid posts={featured} columns="two" />
+          </Container>
+        </section>
+      )
+    }
 
-    <!-- All Posts -->
-    <section class="posts-section section">
-      <div class="container">
+    <section class="section">
+      <Container>
         <h2 class="section-title">
-          {featuredPosts.length > 0 ? 'All Posts' : 'Latest Posts'}
+          {featured.length > 0 ? 'Latest Posts' : 'All Posts'}
         </h2>
 
-        {regularPosts.length === 0 && featuredPosts.length === 0 ? (
-          <GlassPanel variant="default" padding="xl" className="empty-state">
-            <p>No blog posts yet. Check back soon!</p>
-          </GlassPanel>
-        ) : (
-          <div class="posts-grid">
-            {(featuredPosts.length > 0 ? regularPosts : postsWithReadingTime).map((post) => (
-              <BlogCard
-                title={post.data.title}
-                description={post.data.description}
-                pubDate={post.data.pubDate}
-                heroImage={post.data.heroImage}
-                tags={post.data.tags}
-                href={`/blog/${post.id}`}
-                readingTime={post.readingTime}
-              />
-            ))}
-          </div>
-        )}
-      </div>
+        {
+          allPosts.length === 0 ? (
+            <GlassPanel variant="default" padding="xl" className="empty-state">
+              <p>No blog posts yet. Check back soon!</p>
+            </GlassPanel>
+          ) : (
+            <>
+              <PostGrid posts={pagePosts} />
+              <Pagination currentPage={1} totalPages={totalPages} basePath="/blog" />
+            </>
+          )
+        }
+      </Container>
     </section>
   </main>
 
@@ -110,7 +81,6 @@ const regularPosts = postsWithReadingTime.filter(post => !post.data.featured);
     padding: var(--space-3xl) 0;
   }
 
-  /* Hero Section */
   .blog-hero {
     padding-top: var(--space-2xl);
     padding-bottom: var(--space-2xl);
@@ -142,7 +112,6 @@ const regularPosts = postsWithReadingTime.filter(post => !post.data.featured);
     line-height: 1.6;
   }
 
-  /* Section Titles */
   .section-title {
     font-size: var(--text-3xl);
     font-weight: 700;
@@ -150,22 +119,6 @@ const regularPosts = postsWithReadingTime.filter(post => !post.data.featured);
     text-align: center;
   }
 
-  /* Featured Grid */
-  .featured-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: var(--space-xl);
-    margin-bottom: var(--space-3xl);
-  }
-
-  /* Posts Grid */
-  .posts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: var(--space-xl);
-  }
-
-  /* Empty State */
   .empty-state {
     text-align: center;
     max-width: 500px;
@@ -178,34 +131,15 @@ const regularPosts = postsWithReadingTime.filter(post => !post.data.featured);
     margin: 0;
   }
 
-  /* Mobile Styles */
   @media (max-width: 768px) {
     .hero-title {
       font-size: var(--text-4xl);
     }
-
     .section-title {
       font-size: var(--text-2xl);
     }
-
-    .featured-grid,
-    .posts-grid {
-      grid-template-columns: 1fr;
-    }
-
     .section {
       padding: var(--space-2xl) 0;
-    }
-  }
-
-  /* Tablet Styles */
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .featured-grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .posts-grid {
-      grid-template-columns: repeat(2, 1fr);
     }
   }
 </style>

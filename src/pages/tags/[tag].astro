@@ -1,0 +1,100 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Header from '@/components/common/Header.astro';
+import Footer from '@/components/common/Footer.astro';
+import Container from '@/components/ui/Container.astro';
+import PostGrid from '@/components/blog/PostGrid.astro';
+import {
+  getPublishedPosts,
+  collectTags,
+  postsByTag,
+  tagSlug,
+  type Post,
+} from '@/lib/posts';
+
+export const getStaticPaths = (async () => {
+  const posts = await getPublishedPosts();
+  const tags = collectTags(posts);
+  return tags.map(({ tag }) => ({
+    params: { tag: tagSlug(tag) },
+    props: { tag, posts: postsByTag(posts, tag) },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  tag: string;
+  posts: Post[];
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout
+  title={`#${tag}`}
+  description={`Posts tagged "${tag}" on the ${tag} archive.`}
+>
+  <Header />
+
+  <main id="main" class="main-content">
+    <section class="section">
+      <Container>
+        <header class="tag-header">
+          <a href="/tags" class="tag-back">← All tags</a>
+          <h1 class="tag-title">
+            <span class="tag-hash">#</span>{tag}
+          </h1>
+          <p class="tag-count">
+            {posts.length} {posts.length === 1 ? 'post' : 'posts'}
+          </p>
+        </header>
+
+        <PostGrid posts={posts} />
+      </Container>
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .main-content {
+    min-height: 100vh;
+    padding-top: var(--space-2xl);
+  }
+
+  .section {
+    padding: var(--space-2xl) 0 var(--space-3xl);
+  }
+
+  .tag-header {
+    text-align: center;
+    margin-bottom: var(--space-2xl);
+  }
+
+  .tag-back {
+    display: inline-block;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    margin-bottom: var(--space-md);
+    transition: color var(--transition-fast);
+  }
+  .tag-back:hover {
+    color: var(--color-accent);
+  }
+
+  .tag-title {
+    font-size: var(--text-4xl);
+    font-weight: 800;
+  }
+
+  .tag-hash {
+    color: var(--color-accent);
+  }
+
+  .tag-count {
+    color: var(--color-text-muted);
+    margin-top: var(--space-sm);
+  }
+</style>
