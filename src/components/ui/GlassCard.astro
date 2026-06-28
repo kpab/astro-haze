@@ -1,0 +1,81 @@
+---
+export interface Props {
+  href?: string;
+  as?: keyof HTMLElementTagNameMap;
+  padding?: 'none' | 'sm' | 'md' | 'lg' | 'xl';
+  radius?: 'sm' | 'md' | 'lg' | 'xl';
+  interactive?: boolean;
+  external?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  as,
+  padding = 'lg',
+  radius = 'lg',
+  interactive,
+  external = false,
+  class: className = '',
+} = Astro.props;
+
+// Links are interactive by default; non-link cards opt in via `interactive`.
+const isInteractive = interactive ?? Boolean(href);
+const Tag = href ? 'a' : (as ?? 'div');
+
+const paddingMap: Record<string, string> = {
+  none: '0',
+  sm: 'var(--space-md)',
+  md: 'var(--space-lg)',
+  lg: 'var(--space-xl)',
+  xl: 'var(--space-2xl)',
+};
+const radiusMap: Record<string, string> = {
+  sm: 'var(--radius-sm)',
+  md: 'var(--radius-md)',
+  lg: 'var(--radius-lg)',
+  xl: 'var(--radius-xl)',
+};
+
+const classes = ['glass-card', isInteractive && 'glass-card--interactive', className]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<Tag
+  class={classes}
+  href={href}
+  rel={external ? 'noopener noreferrer' : undefined}
+  target={external ? '_blank' : undefined}
+  style={`--card-padding: ${paddingMap[padding]}; --card-radius: ${radiusMap[radius]};`}
+>
+  <slot />
+</Tag>
+
+<style>
+  .glass-card {
+    display: block;
+    padding: var(--card-padding);
+    border-radius: var(--card-radius);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Hover lift only for interactive cards; .glass-card base styles live in glass.css */
+  .glass-card--interactive {
+    transition:
+      transform var(--transition-base),
+      box-shadow var(--transition-base),
+      border-color var(--transition-base);
+  }
+  .glass-card--interactive:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glass-card--interactive:hover {
+      transform: none;
+    }
+  }
+</style>

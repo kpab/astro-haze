@@ -1,0 +1,36 @@
+---
+export interface Props {
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  as?: keyof HTMLElementTagNameMap;
+  class?: string;
+}
+
+const { size = 'lg', as: Tag = 'div', class: className = '' } = Astro.props;
+
+const sizeMap: Record<string, string> = {
+  sm: 'var(--container-3xl)',
+  md: 'var(--container-4xl)',
+  lg: 'var(--container-6xl)',
+  xl: 'var(--container-max)',
+  full: '100%',
+};
+---
+
+<Tag class={`container ${className}`} style={`--container-width: ${sizeMap[size]};`}>
+  <slot />
+</Tag>
+
+<style>
+  .container {
+    width: 100%;
+    max-width: var(--container-width);
+    margin-inline: auto;
+    padding-inline: var(--space-lg);
+  }
+
+  @media (max-width: 640px) {
+    .container {
+      padding-inline: var(--space-md);
+    }
+  }
+</style>

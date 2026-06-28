@@ -1,0 +1,102 @@
+---
+import Container from './Container.astro';
+
+export interface Props {
+  id?: string;
+  title?: string;
+  subtitle?: string;
+  eyebrow?: string;
+  align?: 'left' | 'center';
+  spacing?: 'sm' | 'md' | 'lg';
+  container?: 'sm' | 'md' | 'lg' | 'xl' | 'full' | 'none';
+  class?: string;
+}
+
+const {
+  id,
+  title,
+  subtitle,
+  eyebrow,
+  align = 'center',
+  spacing = 'lg',
+  container = 'lg',
+  class: className = '',
+} = Astro.props;
+
+const spacingMap: Record<string, string> = {
+  sm: 'var(--space-2xl)',
+  md: 'var(--space-3xl)',
+  lg: 'calc(var(--space-3xl) * 1.5)',
+};
+
+const hasHeader = Boolean(eyebrow || title || subtitle);
+---
+
+<section
+  id={id}
+  class={`section section--${align} ${className}`}
+  style={`--section-spacing: ${spacingMap[spacing]};`}
+>
+  {
+    container === 'none' ? (
+      <Fragment>
+        {hasHeader && (
+          <header class="section__header">
+            {eyebrow && <p class="section__eyebrow">{eyebrow}</p>}
+            {title && <h2 class="section__title">{title}</h2>}
+            {subtitle && <p class="section__subtitle">{subtitle}</p>}
+          </header>
+        )}
+        <slot />
+      </Fragment>
+    ) : (
+      <Container size={container}>
+        {hasHeader && (
+          <header class="section__header">
+            {eyebrow && <p class="section__eyebrow">{eyebrow}</p>}
+            {title && <h2 class="section__title">{title}</h2>}
+            {subtitle && <p class="section__subtitle">{subtitle}</p>}
+          </header>
+        )}
+        <slot />
+      </Container>
+    )
+  }
+</section>
+
+<style>
+  .section {
+    padding-block: var(--section-spacing);
+  }
+
+  .section__header {
+    margin-bottom: var(--space-2xl);
+    max-width: 48rem;
+  }
+
+  .section--center .section__header {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .section__eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-accent);
+    margin-bottom: var(--space-sm);
+  }
+
+  .section__title {
+    font-size: var(--text-3xl);
+    line-height: 1.15;
+    margin-bottom: var(--space-md);
+  }
+
+  .section__subtitle {
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+</style>

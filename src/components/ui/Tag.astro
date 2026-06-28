@@ -1,0 +1,66 @@
+---
+export interface Props {
+  name: string;
+  href?: string;
+  size?: 'sm' | 'md';
+  class?: string;
+}
+
+const { name, href, size = 'md', class: className = '' } = Astro.props;
+
+// When no explicit href is given, link to the tag archive by default.
+const target = href ?? `/tags/${encodeURIComponent(name.toLowerCase())}`;
+const classes = ['tag', `tag--${size}`, className].filter(Boolean).join(' ');
+---
+
+<a class={classes} href={target}>
+  <span class="tag__hash" aria-hidden="true">#</span>{name}
+</a>
+
+<style>
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.15em;
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    background: var(--glass-bg);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid var(--glass-border);
+    transition:
+      color var(--transition-fast),
+      border-color var(--transition-fast),
+      background-color var(--transition-fast);
+  }
+
+  .tag--sm {
+    font-size: var(--text-xs);
+    padding: 2px var(--space-sm);
+  }
+
+  .tag:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: var(--color-accent-glass);
+  }
+
+  .tag:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .tag__hash {
+    opacity: 0.6;
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    .tag {
+      background: var(--color-surface);
+    }
+  }
+</style>

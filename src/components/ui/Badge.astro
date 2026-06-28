@@ -1,0 +1,65 @@
+---
+export interface Props {
+  variant?: 'neutral' | 'accent' | 'success' | 'warning' | 'error';
+  size?: 'sm' | 'md';
+  class?: string;
+}
+
+const { variant = 'neutral', size = 'md', class: className = '' } = Astro.props;
+const classes = ['badge', `badge--${variant}`, `badge--${size}`, className]
+  .filter(Boolean)
+  .join(' ');
+---
+
+<span class={classes}>
+  <slot />
+</span>
+
+<style>
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    border: 1px solid var(--glass-border);
+    background: var(--glass-bg);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: var(--color-text);
+  }
+
+  .badge--sm {
+    padding: 1px var(--space-xs);
+  }
+
+  .badge--accent {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+    background: var(--color-accent-glass);
+  }
+  .badge--success {
+    color: var(--color-success);
+    border-color: color-mix(in srgb, var(--color-success) 40%, transparent);
+    background: color-mix(in srgb, var(--color-success) 12%, transparent);
+  }
+  .badge--warning {
+    color: var(--color-warning);
+    border-color: color-mix(in srgb, var(--color-warning) 40%, transparent);
+    background: color-mix(in srgb, var(--color-warning) 12%, transparent);
+  }
+  .badge--error {
+    color: var(--color-error);
+    border-color: color-mix(in srgb, var(--color-error) 40%, transparent);
+    background: color-mix(in srgb, var(--color-error) 12%, transparent);
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    .badge {
+      background: var(--color-surface);
+    }
+  }
+</style>

@@ -1,5 +1,6 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
+import { z } from 'zod';
 
 // Blog collection — Markdown content via the Content Layer glob loader
 const blog = defineCollection({
@@ -34,8 +35,8 @@ const projects = defineCollection({
     featured: z.boolean().default(false),
     links: z
       .object({
-        live: z.string().url().optional(),
-        github: z.string().url().optional(),
+        live: z.url().optional(),
+        github: z.url().optional(),
         case: z.string().optional(),
       })
       .optional(),
