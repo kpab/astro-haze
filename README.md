@@ -2,7 +2,7 @@
 
 > A glassmorphism Astro 7 theme for publishing, portfolios, and polished product launches.
 
-![astro-haze theme screenshot](docs/screenshots/astro-haze-overview.webp)
+![astro-haze — a glassmorphism Astro 7 theme](docs/screenshots/astro-haze-overview.webp)
 
 `astro-haze` is a static, content-first theme with a reusable glass UI system. It
 ships with a paginated blog, portfolio case studies, and an e-commerce landing
@@ -113,9 +113,9 @@ feature visibility, social links, and page options.
 | `url` | `string` | Canonical production origin |
 | `ogImage` | `string` | Default Open Graph image path |
 | `twitterHandle` | `string` | Site or author handle for social metadata |
-| `theme.accentColor` | `string` | Accent value in the configuration contract; keep it synchronized with the CSS accent tokens described below |
-| `theme.defaultColorMode` | `'light' \| 'dark' \| 'system'` | Configured default mode; the current inline startup script falls back to the visitor's system preference |
-| `theme.showThemeToggle` | `boolean` | Theme-toggle preference in the configuration contract; the current base layout renders the toggle |
+| `theme.accentColor` | `string` | Accent value; keep it synchronized with the CSS accent tokens described below |
+| `theme.defaultColorMode` | `'light' \| 'dark' \| 'system'` | Initial color mode when the visitor has no saved preference. `light`/`dark` apply that mode at startup (no flash); `system` follows the OS. Honored by both the inline startup script and the theme toggle |
+| `theme.showThemeToggle` | `boolean` | Renders the floating theme toggle when `true` |
 
 ### Navigation and feature flags
 
@@ -125,11 +125,11 @@ feature visibility, social links, and page options.
 | `features.blog` | `boolean` | Shows or hides the blog entry in the main header |
 | `features.portfolio` | `boolean` | Shows or hides the portfolio entry in the main header |
 | `features.landing` | `boolean` | Shows or hides the landing-page entry in the main header |
-| `features.rss` | `boolean` | Controls RSS discovery metadata; the `/rss.xml` route remains part of the build |
-| `features.sitemap` | `boolean` | Sitemap preference in the configuration contract; sitemap generation is currently enabled in `astro.config.mjs` |
+| `features.rss` | `boolean` | Controls the RSS discovery `<link>`; the `/rss.xml` feed is always generated |
+| `features.sitemap` | `boolean` | Enables the `@astrojs/sitemap` integration in `astro.config.mjs` |
 
-Feature flags control the consumers listed above; they do not remove routes from
-the static build.
+Header navigation entries and the sitemap integration respond to these flags.
+The `/rss.xml` feed and content routes are always part of the static build.
 
 ### Social links
 
@@ -157,9 +157,9 @@ All social fields are optional strings.
 
 | Field | Type | Purpose |
 | --- | --- | --- |
-| `portfolio.projectsPerPage` | `number` | Project-count preference reserved in the configuration contract; the current work index renders the full collection |
-| `portfolio.showTechStack` | `boolean` | Technology-display preference reserved in the configuration contract; the current project views show the stack |
-| `portfolio.showYear` | `boolean` | Year-display preference reserved in the configuration contract; the current project views show the year |
+| `portfolio.projectsPerPage` | `number` | Projects per page on the work archive (`/work`, then `/work/page/N`) |
+| `portfolio.showTechStack` | `boolean` | Shows the technology stack on project cards and project pages |
+| `portfolio.showYear` | `boolean` | Shows the project year on project cards and project pages |
 
 ## Adding content
 
