@@ -1,11 +1,5 @@
 /// <reference path="../.astro/types.d.ts" />
 /// <reference types="astro/client" />
 
-interface ImportMetaEnv {
-  readonly PUBLIC_SITE_TITLE: string;
-  readonly PUBLIC_SITE_DESCRIPTION: string;
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}
+// Site metadata lives in src/site.config.ts, not in PUBLIC_* env vars, so no
+// custom ImportMetaEnv augmentation is needed here.
