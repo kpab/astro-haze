@@ -57,38 +57,55 @@ const defaultMode = siteConfig.theme.defaultColorMode;
     height: 20px;
   }
 
-  /* Default state - system theme */
+  /*
+    Icons track the *selected* preference (data-theme-mode), not the resolved
+    appearance (data-theme). In "system" mode data-theme is light/dark but the
+    monitor icon must still show — keying on data-theme-mode keeps them in sync.
+  */
   .icon-sun,
   .icon-moon {
     opacity: 0;
     transform: scale(0.8) rotate(-180deg);
   }
 
+  /* Fallback before the mode attribute is set: show the system icon. */
   .icon-system {
     opacity: 1;
     transform: scale(1) rotate(0);
   }
 
-  /* Light theme state */
-  [data-theme="light"] .icon-sun {
+  /* System mode */
+  [data-theme-mode="system"] .icon-system {
     opacity: 1;
     transform: scale(1) rotate(0);
   }
 
-  [data-theme="light"] .icon-moon,
-  [data-theme="light"] .icon-system {
+  [data-theme-mode="system"] .icon-sun,
+  [data-theme-mode="system"] .icon-moon {
     opacity: 0;
     transform: scale(0.8) rotate(180deg);
   }
 
-  /* Dark theme state */
-  [data-theme="dark"] .icon-moon {
+  /* Light mode */
+  [data-theme-mode="light"] .icon-sun {
     opacity: 1;
     transform: scale(1) rotate(0);
   }
 
-  [data-theme="dark"] .icon-sun,
-  [data-theme="dark"] .icon-system {
+  [data-theme-mode="light"] .icon-moon,
+  [data-theme-mode="light"] .icon-system {
+    opacity: 0;
+    transform: scale(0.8) rotate(180deg);
+  }
+
+  /* Dark mode */
+  [data-theme-mode="dark"] .icon-moon {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+
+  [data-theme-mode="dark"] .icon-sun,
+  [data-theme-mode="dark"] .icon-system {
     opacity: 0;
     transform: scale(0.8) rotate(180deg);
   }
@@ -114,30 +131,58 @@ const defaultMode = siteConfig.theme.defaultColorMode;
   // Fallback when the visitor has no saved preference, from site.config.
   const defaultMode = toggle?.dataset.defaultMode ?? 'system';
 
+  // localStorage can throw (Safari "block all cookies", private mode, sandboxed
+  // iframes). Wrap every access so a failure degrades gracefully instead of
+  // breaking the toggle.
+  function safeGet(key: string): string | null {
+    try {
+      return localStorage.getItem(key);
+    } catch {
+      return null;
+    }
+  }
+  function safeSet(key: string, value: string) {
+    try {
+      localStorage.setItem(key, value);
+    } catch {
+      /* storage unavailable — preference simply won't persist */
+    }
+  }
+
+  function prefersDark(): boolean {
+    try {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    } catch {
+      return false;
+    }
+  }
+
   function getThemePreference(): string {
-    const stored = localStorage.getItem('theme');
+    const stored = safeGet('theme');
     if (stored && themes.includes(stored)) {
       return stored;
     }
     return themes.includes(defaultMode) ? defaultMode : 'system';
   }
 
-  function applyTheme(theme: string) {
+  // Keep the <meta name="theme-color"> in sync with the resolved appearance so
+  // mobile browser chrome matches the page.
+  function updateThemeColor(resolved: string) {
+    const meta = document.getElementById('theme-color-meta');
+    if (meta) meta.setAttribute('content', resolved === 'dark' ? '#0b0f19' : '#f5f6f9');
+  }
+
+  // `mode` is the selected preference ('system' | 'light' | 'dark'). We persist
+  // it verbatim — including 'system' — so a site whose defaultColorMode is
+  // light/dark doesn't silently revert the visitor's "system" choice on reload.
+  function applyTheme(mode: string) {
     const root = document.documentElement;
+    const resolved = mode === 'system' ? (prefersDark() ? 'dark' : 'light') : mode;
 
-    if (theme === 'system') {
-      root.removeAttribute('data-theme');
-      localStorage.removeItem('theme');
-
-      // Apply system preference
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (prefersDark) {
-        root.setAttribute('data-theme', 'dark');
-      }
-    } else {
-      root.setAttribute('data-theme', theme);
-      localStorage.setItem('theme', theme);
-    }
+    root.setAttribute('data-theme', resolved);
+    root.setAttribute('data-theme-mode', mode);
+    safeSet('theme', mode);
+    updateThemeColor(resolved);
   }
 
   function cycleTheme() {
@@ -148,13 +193,18 @@ const defaultMode = siteConfig.theme.defaultColorMode;
 
     applyTheme(nextTheme);
 
-    // Announce change for screen readers
+    // Announce for screen readers. The live region is inserted empty first, then
+    // its text is set on the next tick — many screen readers only announce
+    // changes to a region that already existed in the DOM.
     const announcement = document.createElement('div');
     announcement.setAttribute('role', 'status');
     announcement.setAttribute('aria-live', 'polite');
     announcement.className = 'sr-only';
-    announcement.textContent = `Theme changed to ${nextTheme}`;
     document.body.appendChild(announcement);
+
+    requestAnimationFrame(() => {
+      announcement.textContent = `Theme changed to ${nextTheme}`;
+    });
 
     setTimeout(() => {
       announcement.remove();
@@ -164,11 +214,14 @@ const defaultMode = siteConfig.theme.defaultColorMode;
   // Set up event listener
   toggle?.addEventListener('click', cycleTheme);
 
-  // Listen for system theme changes
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-    const theme = getThemePreference();
-    if (theme === 'system') {
-      applyTheme('system');
-    }
-  });
+  // Re-resolve when the OS preference changes while in "system" mode.
+  try {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+      if (getThemePreference() === 'system') {
+        applyTheme('system');
+      }
+    });
+  } catch {
+    /* matchMedia unavailable — ignore */
+  }
 </script>

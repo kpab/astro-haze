@@ -34,7 +34,7 @@ const props = Astro.props;
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
-    <meta name="theme-color" content="#0b0f19" />
+    <meta id="theme-color-meta" name="theme-color" content="#0b0f19" />
 
     <!-- SEO: title, description, canonical, Open Graph, Twitter, JSON-LD -->
     <Seo
@@ -46,23 +46,37 @@ const props = Astro.props;
     />
 
     <!-- Theme Script (FOUC Prevention) -->
+    <!--
+      Sets two attributes on <html> before first paint:
+        data-theme       — the *resolved* appearance ('light' | 'dark'), drives the tokens
+        data-theme-mode  — the *selected* preference ('system' | 'light' | 'dark'), drives the toggle icon
+      localStorage is wrapped so a throw (Safari "block all cookies", private mode,
+      sandboxed iframe) can't abort the script and leave the page unthemed.
+    -->
     <script
       is:inline
       set:html={`(function(){
-        var stored = localStorage.getItem('theme');
+        var d = document.documentElement;
+        function safeGet(k){ try { return localStorage.getItem(k); } catch (e) { return null; } }
+        var stored = safeGet('theme');
         var fallback = ${JSON.stringify(siteConfig.theme.defaultColorMode)};
-        var mode = (stored === 'light' || stored === 'dark')
-          ? stored
-          : (fallback === 'light' || fallback === 'dark')
-            ? fallback
-            : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', mode);
+        var mode = (stored === 'light' || stored === 'dark' || stored === 'system') ? stored : fallback;
+        if (mode !== 'light' && mode !== 'dark' && mode !== 'system') mode = 'system';
+        var resolved = mode;
+        if (mode === 'system') {
+          var prefersDark = false;
+          try { prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; } catch (e) {}
+          resolved = prefersDark ? 'dark' : 'light';
+        }
+        d.setAttribute('data-theme', resolved);
+        d.setAttribute('data-theme-mode', mode);
+        var meta = document.getElementById('theme-color-meta');
+        if (meta) meta.setAttribute('content', resolved === 'dark' ? '#0b0f19' : '#f5f6f9');
       })();`}
     />
 
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- The theme ships a system-ui font stack (see tokens.css --font-sans),
+         so there are no web fonts to preconnect or load. -->
   </head>
   <body>
     <!-- Skip to content link -->
