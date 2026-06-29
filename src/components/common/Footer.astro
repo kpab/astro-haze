@@ -89,8 +89,14 @@ const footerLinks = [
           © {currentYear} {siteConfig.name}. All rights reserved.
         </p>
         <p class="credits">
-          Built with <a href="https://astro.build" target="_blank" rel="noopener">Astro</a>
-          · Theme by <a href={siteConfig.social.github} target="_blank" rel="noopener">You</a>
+          Built with <a href="https://astro.build" target="_blank" rel="noopener noreferrer">Astro</a>
+          · Theme by {
+            siteConfig.social.github ? (
+              <a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer">{siteConfig.author}</a>
+            ) : (
+              siteConfig.author
+            )
+          }
         </p>
       </div>
     </div>
