@@ -1,20 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" role="img" aria-label="Astro Haze">
   <defs>
-    <linearGradient id="aurora" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+    <linearGradient id="edge" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#b06cf0"/>
       <stop offset="0.5" stop-color="#5ab6ff"/>
-      <stop offset="1" stop-color="#ff6ab0"/>
+      <stop offset="1" stop-color="#36e0b0"/>
     </linearGradient>
-    <clipPath id="round">
-      <rect x="1" y="1" width="30" height="30" rx="8"/>
-    </clipPath>
+    <radialGradient id="glowP" cx="0.22" cy="0.85" r="0.9">
+      <stop offset="0" stop-color="#b06cf0" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#b06cf0" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowT" cx="0.85" cy="0.2" r="0.9">
+      <stop offset="0" stop-color="#36e0b0" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#36e0b0" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="round"><rect x="1" y="1" width="30" height="30" rx="8"/></clipPath>
   </defs>
   <g clip-path="url(#round)">
-    <rect x="1" y="1" width="30" height="30" fill="url(#aurora)"/>
-    <circle cx="8" cy="24" r="11" fill="#7cf0d0" opacity="0.45"/>
-    <circle cx="26" cy="7" r="9" fill="#c08bff" opacity="0.5"/>
-    <rect x="1" y="1" width="30" height="30" fill="#ffffff" opacity="0.08"/>
-    <path d="M11 9.5h3.1v4.4h3.8V9.5H21v13h-3.1v-5.2h-3.8v5.2H11z" fill="#ffffff"/>
+    <rect x="1" y="1" width="30" height="30" fill="#0b0f19"/>
+    <rect x="1" y="1" width="30" height="30" fill="url(#glowP)"/>
+    <rect x="1" y="1" width="30" height="30" fill="url(#glowT)"/>
+    <rect x="1" y="1" width="30" height="30" fill="#5ab6ff" opacity="0.12"/>
+    <path d="M11 9h3.2v4.4h3.6V9H21v14h-3.2v-5.4h-3.6V23H11z" fill="#ffffff"/>
   </g>
-  <rect x="1.5" y="1.5" width="29" height="29" rx="7.5" fill="none" stroke="#ffffff" stroke-opacity="0.35"/>
+  <rect x="1.5" y="1.5" width="29" height="29" rx="7.5" fill="none" stroke="url(#edge)" stroke-opacity="0.9" stroke-width="1"/>
 </svg>
