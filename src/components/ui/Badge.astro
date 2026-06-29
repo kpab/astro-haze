@@ -26,9 +26,9 @@ const classes = ['badge', `badge--${variant}`, `badge--${size}`, className]
     font-weight: 600;
     letter-spacing: 0.02em;
     border: 1px solid var(--glass-border);
-    background: var(--glass-bg);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    /* Solid glass background (no backdrop-filter): badges sit on top of
+       .glass-card, and a nested blur forces an extra, costly compositor pass. */
+    background: var(--glass-bg-solid);
     color: var(--color-text);
   }
 

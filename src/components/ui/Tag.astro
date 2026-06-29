@@ -34,9 +34,9 @@ const classes = ['tag', `tag--${size}`, className].filter(Boolean).join(' ');
     font-weight: 500;
     color: var(--color-text-muted);
     text-decoration: none;
-    background: var(--glass-bg);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    /* Solid glass background (no backdrop-filter): tags render inside
+       .glass-card, and a nested blur forces an extra, costly compositor pass. */
+    background: var(--glass-bg-solid);
     border: 1px solid var(--glass-border);
     transition:
       color var(--transition-fast),
@@ -62,11 +62,5 @@ const classes = ['tag', `tag--${size}`, className].filter(Boolean).join(' ');
 
   .tag__hash {
     opacity: 0.6;
-  }
-
-  @supports not (backdrop-filter: blur(1px)) {
-    .tag {
-      background: var(--color-surface);
-    }
   }
 </style>
