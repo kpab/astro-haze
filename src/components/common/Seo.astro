@@ -112,5 +112,10 @@ const jsonLd = article
   )
 }
 
-<!-- JSON-LD Structured Data -->
-<script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+<!-- JSON-LD Structured Data. `<` is escaped so a content string containing
+     "</script>" can't break out of the block (stored-XSS guard). -->
+<script
+  type="application/ld+json"
+  is:inline
+  set:html={JSON.stringify(jsonLd).replace(/</g, '\\u003c')}
+/>
