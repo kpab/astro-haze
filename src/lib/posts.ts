@@ -8,9 +8,14 @@ const WORDS_PER_MINUTE = 200;
 /**
  * Estimate reading time (in whole minutes) from a Markdown body's word count.
  * Computed locally so the theme stays free of remark/rehype plugins.
+ *
+ * Returns 0 when there's no body text — notably for `.mdx` entries, whose
+ * `body` is undefined — so callers can hide the estimate rather than print a
+ * misleading "1 min read".
  */
 export function readingTime(body: string | undefined): number {
   const words = (body ?? '').split(/\s+/).filter(Boolean).length;
+  if (words === 0) return 0;
   return Math.max(1, Math.ceil(words / WORDS_PER_MINUTE));
 }
 

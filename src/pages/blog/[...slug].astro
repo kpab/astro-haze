@@ -75,7 +75,7 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
               )
             }
             {
-              siteConfig.blog.showReadingTime && (
+              siteConfig.blog.showReadingTime && minutes > 0 && (
                 <>
                   <span class="separator" aria-hidden="true">·</span>
                   <span>{minutes} min read</span>
