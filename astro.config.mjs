@@ -1,12 +1,15 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import mdx from '@astrojs/mdx';
 import siteConfig from './src/site.config.ts';
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://astro-haze.pages.dev',
-  // Sitemap generation is gated by the `features.sitemap` flag in site.config.
-  integrations: siteConfig.features.sitemap ? [sitemap()] : [],
+  // MDX is always enabled so `.mdx` files in the content collections render
+  // (the blog/projects globs already accept them). Sitemap is gated by the
+  // `features.sitemap` flag in site.config.
+  integrations: [mdx(), ...(siteConfig.features.sitemap ? [sitemap()] : [])],
   output: 'static',
   build: {
     format: 'directory',
