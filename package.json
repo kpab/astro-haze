@@ -27,10 +27,19 @@
   "keywords": [
     "astro",
     "astro-theme",
+    "withastro",
     "glassmorphism",
+    "glass-ui",
     "blog",
     "portfolio",
-    "landing-page"
+    "landing-page",
+    "multipurpose",
+    "dark-mode",
+    "mdx",
+    "seo",
+    "rss",
+    "typescript",
+    "accessible"
   ],
   "author": "kpab <kpablow1122@gmail.com>",
   "license": "MIT",
