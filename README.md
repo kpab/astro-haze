@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🌫️ astro-haze
+# astro-haze
 
 ### A glassmorphism **Astro 7** theme for publishing, portfolios & polished product launches
 
@@ -10,7 +10,7 @@
 [![Node](https://img.shields.io/badge/Node-%E2%89%A5%2022.12-339933?style=flat-square&logo=nodedotjs&logoColor=white)](https://nodejs.org)
 [![License: MIT](https://img.shields.io/badge/License-MIT-A855F7?style=flat-square)](LICENSE)
 
-**[🌐 Live demo](https://kpab.github.io/astro-haze/)** · [Features](#-features) · [Quick start](#-quick-start) · [Configuration](#-site-configuration) · [Content](#-adding-content) · [Deploy](#-deploy-to-github-pages)
+**[Live demo](https://kpab.github.io/astro-haze/)** · [Features](#features) · [Quick start](#quick-start) · [Configuration](#site-configuration) · [Content](#adding-content) · [Deploy](#deploy-to-github-pages)
 
 <img src="docs/screenshots/astro-haze-overview.webp" alt="astro-haze — a glassmorphism Astro 7 theme" width="100%" />
 
@@ -23,21 +23,21 @@
 
 ---
 
-## ✨ Features
+## Features
 
 | | |
 | --- | --- |
-| 🪟 **Glass UI system** | Aurora backgrounds with reusable cards, buttons, badges, tags, sections & containers |
-| 🌗 **Light / dark** | System-aware theme toggle with no-flash startup and synced `theme-color` |
-| 📝 **Blog** | Pagination, tags, table of contents, reading time, share links, prev/next navigation |
-| 🖼️ **Portfolio** | Index with technology filters, case-study pages, and responsive galleries |
-| 🛍️ **Landing page** | Config-driven hero, features, benefits, pricing, gallery, testimonials, FAQ & final CTA |
-| 🧱 **Content Layer** | Astro 7 collections with Zod-validated frontmatter; Markdown **and** MDX (Sätteri engine) |
-| 🔍 **SEO & feeds** | Canonical URLs, Open Graph, Twitter cards, JSON-LD, RSS feed & XML sitemap |
-| ♿ **Accessible** | Landmarks, skip nav, keyboard focus states, WCAG AA-conscious color & interaction |
-| 🎛️ **Respectful motion** | Honors `prefers-reduced-motion` and `prefers-reduced-transparency` |
-| 🚀 **Optimized images** | AVIF/WebP with responsive `srcset` via `astro:assets` |
-| ⚡ **Static & fast** | Minimal client JS — deploys to GitHub Pages or Cloudflare Pages |
+| **Glass UI system** | Aurora backgrounds with reusable cards, buttons, badges, tags, sections & containers |
+| **Light / dark** | System-aware theme toggle with no-flash startup and synced `theme-color` |
+| **Blog** | Pagination, tags, table of contents, reading time, share links, prev/next navigation |
+| **Portfolio** | Index with technology filters, case-study pages, and responsive galleries |
+| **Landing page** | Config-driven hero, features, benefits, pricing, gallery, testimonials, FAQ & final CTA |
+| **Content Layer** | Astro 7 collections with Zod-validated frontmatter; Markdown **and** MDX (Sätteri engine) |
+| **SEO & feeds** | Canonical URLs, Open Graph, Twitter cards, JSON-LD, RSS feed & XML sitemap |
+| **Accessible** | Landmarks, skip nav, keyboard focus states, WCAG AA-conscious color & interaction |
+| **Respectful motion** | Honors `prefers-reduced-motion` and `prefers-reduced-transparency` |
+| **Optimized images** | AVIF/WebP with responsive `srcset` via `astro:assets` |
+| **Static & fast** | Minimal client JS — deploys to GitHub Pages or Cloudflare Pages |
 
 > [!NOTE]
 > Blog hero images and project covers/galleries are validated with Astro's `image()` helper
@@ -48,7 +48,7 @@
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 | Light | Dark |
 | --- | --- |
@@ -57,7 +57,7 @@
 
 ---
 
-## 🚀 Quick start
+## Quick start
 
 > **Requirements:** Node.js 22.12 or newer · npm
 
@@ -89,7 +89,7 @@ npm run build
 
 ---
 
-## 🗂️ Project structure
+## Project structure
 
 ```text
 src/
@@ -118,7 +118,7 @@ src/
 
 ---
 
-## ⚙️ Site configuration
+## Site configuration
 
 Edit [`src/site.config.ts`](src/site.config.ts) for site identity, navigation, feature
 visibility, social links, and page options.
@@ -184,7 +184,7 @@ All social fields are optional strings.
 
 ---
 
-## 📝 Adding content
+## Adding content
 
 Collection definitions and validation rules live in
 [`src/content.config.ts`](src/content.config.ts). Astro reports invalid or missing fields
@@ -312,7 +312,7 @@ Within `hero`, `title`, `subtitle`, `description`, and `cta.primary` are require
 
 ---
 
-## 🎨 Customization
+## Customization
 
 ### Accent color
 
@@ -336,7 +336,7 @@ explicit responsive sizes.
 
 ---
 
-## 🚢 Deploy to GitHub Pages
+## Deploy to GitHub Pages
 
 This repo ships a workflow at [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
 that builds with [`withastro/action`](https://github.com/withastro/action) and publishes to
@@ -365,10 +365,10 @@ To deploy under a different repo, user site, or custom domain, update `site`, `b
 
 ---
 
-## 📄 License
+## License
 
 Released under the [MIT License](LICENSE).
 
 <div align="center">
-<sub>Built with <a href="https://astro.build">Astro</a> · glassmorphism, done tastefully ✨</sub>
+<sub>Built with <a href="https://astro.build">Astro</a> · glassmorphism, done tastefully</sub>
 </div>
