@@ -48,6 +48,15 @@
 
 ---
 
+## 📸 Screenshots
+
+| Light | Dark |
+| --- | --- |
+| <img src="docs/screenshots/astro-haze-home-light.webp" alt="astro-haze home page in light mode" width="100%" /> | <img src="docs/screenshots/astro-haze-landing-dark.webp" alt="astro-haze landing page in dark mode" width="100%" /> |
+| <img src="docs/screenshots/astro-haze-blog-light.webp" alt="astro-haze blog index in light mode" width="100%" /> | <img src="docs/screenshots/astro-haze-portfolio-dark.webp" alt="astro-haze portfolio index in dark mode" width="100%" /> |
+
+---
+
 ## 🚀 Quick start
 
 > **Requirements:** Node.js 22.12 or newer · npm
