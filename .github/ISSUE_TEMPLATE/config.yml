@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Questions & ideas
+    url: https://github.com/kpab/astro-haze/discussions
+    about: Ask questions, share what you built, or discuss ideas in GitHub Discussions.
