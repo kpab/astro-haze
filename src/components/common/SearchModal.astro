@@ -1,0 +1,382 @@
+---
+// Site-wide search modal backed by Pagefind. Opens from any element with a
+// `data-search-open` attribute or the ⌘K / Ctrl+K shortcut. The Pagefind
+// bundle is generated at build time (see the astro-pagefind integration in
+// astro.config.mjs), so it is lazy-loaded on first open — in `astro dev` the
+// prebuilt index from the last `astro build` is served, and a friendly hint
+// is shown when no index exists yet.
+---
+
+<dialog id="search-modal" class="search-modal" aria-label="Site search" data-pagefind-ignore>
+  <div class="search-box">
+    <form class="search-form" role="search">
+      <svg
+        class="search-icon"
+        width="20"
+        height="20"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input
+        id="search-input"
+        type="search"
+        placeholder="Search posts, projects & pages…"
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Search this site"
+      />
+      <button type="button" class="search-close" data-search-close aria-label="Close search">
+        <kbd>Esc</kbd>
+      </button>
+    </form>
+
+    <div class="search-body">
+      <p id="search-status" class="search-status" role="status">
+        Start typing to search the whole site.
+      </p>
+      <ul id="search-results" class="search-results"></ul>
+    </div>
+
+    <footer class="search-footer">
+      <span><kbd>↑</kbd><kbd>↓</kbd> to navigate</span>
+      <span><kbd>Enter</kbd> to open</span>
+      <span><kbd>Esc</kbd> to close</span>
+    </footer>
+  </div>
+</dialog>
+
+<style>
+  .search-modal {
+    /* Centered near the top so results can grow downward. */
+    margin: min(12vh, 8rem) auto auto;
+    width: min(37.5rem, calc(100vw - 2 * var(--space-lg)));
+    padding: 0;
+    color: var(--color-text);
+    background: var(--glass-bg-solid);
+    backdrop-filter: blur(20px) saturate(var(--glass-sat));
+    -webkit-backdrop-filter: blur(20px) saturate(var(--glass-sat));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    box-shadow:
+      var(--glass-shadow),
+      inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+    z-index: var(--z-overlay);
+  }
+
+  .search-modal::backdrop {
+    background: rgba(0, 0, 0, 0.45);
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    .search-modal {
+      background: var(--color-bg);
+    }
+  }
+
+  .search-form {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .search-icon {
+    flex-shrink: 0;
+    color: var(--color-text-muted);
+  }
+
+  #search-input {
+    flex: 1;
+    min-width: 0;
+    padding: var(--space-xs) 0;
+    font-size: var(--text-lg);
+    font-family: var(--font-sans);
+    color: var(--color-text);
+    background: transparent;
+    border: none;
+    outline: none;
+  }
+
+  #search-input::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  /* The dialog input is the obvious focus target; keep the box chrome quiet. */
+  #search-input:focus-visible {
+    outline: none;
+  }
+
+  #search-input::-webkit-search-cancel-button {
+    display: none;
+  }
+
+  .search-close {
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .search-body {
+    max-height: min(50vh, 24rem);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: var(--space-sm);
+  }
+
+  .search-status {
+    margin: 0;
+    padding: var(--space-md);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .search-status[hidden] {
+    display: none;
+  }
+
+  .search-results {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .search-results :global(.search-result) {
+    display: block;
+    padding: var(--space-sm) var(--space-md);
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast);
+  }
+
+  .search-results :global(.search-result:hover),
+  .search-results :global(.search-result:focus-visible) {
+    background: var(--color-accent-glass);
+    outline: none;
+  }
+
+  .search-results :global(.search-result:focus-visible) {
+    box-shadow: inset 0 0 0 2px var(--color-accent);
+  }
+
+  .search-results :global(.search-result-title) {
+    display: block;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+
+  .search-results :global(.search-result-excerpt) {
+    display: block;
+    margin-top: var(--space-xs);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .search-results :global(.search-result-excerpt mark) {
+    background: var(--color-accent-glass);
+    color: var(--color-accent-text);
+    border-radius: var(--radius-sm);
+    padding: 0 0.15em;
+  }
+
+  .search-footer {
+    display: flex;
+    gap: var(--space-lg);
+    padding: var(--space-sm) var(--space-lg);
+    border-top: 1px solid var(--glass-border);
+    font-size: var(--text-xs);
+    color: var(--color-text-muted);
+  }
+
+  kbd {
+    display: inline-block;
+    min-width: 1.4em;
+    padding: 0.1em 0.4em;
+    margin-right: 0.25em;
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    text-align: center;
+    color: var(--color-text-muted);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm);
+  }
+</style>
+
+<script>
+  const dialog = document.getElementById('search-modal') as HTMLDialogElement | null;
+  const input = document.getElementById('search-input') as HTMLInputElement | null;
+  const status = document.getElementById('search-status');
+  const resultsList = document.getElementById('search-results');
+
+  // BASE_URL may or may not carry a trailing slash depending on config;
+  // normalize so concatenation below is predictable (same as lib/url.ts).
+  const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+  const MAX_RESULTS = 8;
+
+  // Pagefind's client bundle only exists after a production build, so it is
+  // imported lazily the first time the modal opens.
+  type Pagefind = {
+    options: (opts: Record<string, unknown>) => Promise<void>;
+    init: () => void;
+    debouncedSearch: (
+      query: string,
+      options?: Record<string, unknown>,
+      debounceMs?: number
+    ) => Promise<{ results: Array<{ data: () => Promise<PagefindDocument> }> } | null>;
+  };
+  type PagefindDocument = {
+    url: string;
+    excerpt: string;
+    meta: { title?: string };
+  };
+
+  let pagefind: Pagefind | null = null;
+  let loadFailed = false;
+
+  // A plain `import()` here gets rewritten by Vite's preload helper when this
+  // script is bundled (and `@vite-ignore` comments don't survive processing),
+  // which leaves an unresolved __VITE_PRELOAD__ placeholder that throws at
+  // runtime. The Function indirection keeps the dynamic import opaque to the
+  // bundler so the browser-native import() reaches the runtime untouched.
+  const dynamicImport = new Function('s', 'return import(s)') as (
+    s: string
+  ) => Promise<unknown>;
+
+  async function loadPagefind(): Promise<Pagefind | null> {
+    if (pagefind || loadFailed) return pagefind;
+    try {
+      pagefind = (await dynamicImport(`${BASE}/pagefind/pagefind.js`)) as Pagefind;
+      // Result URLs in the index are root-relative to the built site, so the
+      // deploy base has to be prepended for project-site hosting.
+      await pagefind.options({ baseUrl: `${BASE}/` });
+      pagefind.init();
+    } catch {
+      loadFailed = true;
+      showStatus(
+        'Search index not found. It is generated at build time — run a production build once, then reload.'
+      );
+    }
+    return pagefind;
+  }
+
+  function showStatus(message: string) {
+    if (!status || !resultsList) return;
+    status.textContent = message;
+    status.hidden = false;
+    resultsList.replaceChildren();
+  }
+
+  function renderResults(docs: PagefindDocument[], query: string) {
+    if (!status || !resultsList) return;
+    if (docs.length === 0) {
+      showStatus(`No results for “${query}”.`);
+      return;
+    }
+    status.hidden = true;
+    resultsList.replaceChildren(
+      ...docs.map((doc) => {
+        const item = document.createElement('li');
+        const link = document.createElement('a');
+        link.className = 'search-result';
+        link.href = doc.url;
+
+        const title = document.createElement('span');
+        title.className = 'search-result-title';
+        title.textContent = doc.meta.title ?? doc.url;
+
+        const excerpt = document.createElement('span');
+        excerpt.className = 'search-result-excerpt';
+        // Pagefind excerpts are HTML with <mark> highlights, produced from
+        // this site's own built pages.
+        excerpt.innerHTML = doc.excerpt;
+
+        link.append(title, excerpt);
+        item.appendChild(link);
+        return item;
+      })
+    );
+  }
+
+  async function runSearch(query: string) {
+    if (!query.trim()) {
+      showStatus('Start typing to search the whole site.');
+      return;
+    }
+    const pf = await loadPagefind();
+    if (!pf) return;
+    // debouncedSearch resolves to null when superseded by newer input.
+    const search = await pf.debouncedSearch(query, {}, 250);
+    if (!search) return;
+    const docs = await Promise.all(search.results.slice(0, MAX_RESULTS).map((r) => r.data()));
+    // The query may have changed (or been cleared) while result data loaded.
+    if (input && input.value !== query) return;
+    renderResults(docs, query);
+  }
+
+  function openModal() {
+    if (!dialog || dialog.open) return;
+    dialog.showModal();
+    document.documentElement.style.overflow = 'hidden';
+    input?.select();
+    loadPagefind();
+  }
+
+  input?.addEventListener('input', (e) => runSearch((e.target as HTMLInputElement).value));
+
+  dialog?.addEventListener('close', () => {
+    document.documentElement.style.overflow = '';
+  });
+
+  // Close when the backdrop (the dialog element itself) is clicked.
+  dialog?.addEventListener('click', (e) => {
+    if (e.target === dialog) dialog.close();
+  });
+
+  dialog
+    ?.querySelector('[data-search-close]')
+    ?.addEventListener('click', () => dialog.close());
+
+  // Roving focus between the input and result links with ↑/↓.
+  dialog?.addEventListener('keydown', (e) => {
+    if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+    e.preventDefault();
+    const links = Array.from(
+      resultsList?.querySelectorAll<HTMLAnchorElement>('.search-result') ?? []
+    );
+    if (!input || links.length === 0) return;
+    const stops: HTMLElement[] = [input, ...links];
+    const current = stops.indexOf(document.activeElement as HTMLElement);
+    const delta = e.key === 'ArrowDown' ? 1 : -1;
+    const next = (current + delta + stops.length) % stops.length;
+    stops[next]?.focus();
+  });
+
+  // Any trigger on the page opens the modal; ⌘K / Ctrl+K toggles it.
+  document.querySelectorAll('[data-search-open]').forEach((el) => {
+    el.addEventListener('click', openModal);
+  });
+
+  window.addEventListener('keydown', (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      if (dialog?.open) {
+        dialog.close();
+      } else {
+        openModal();
+      }
+    }
+  });
+</script>

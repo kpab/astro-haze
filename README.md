@@ -29,6 +29,7 @@
 | | |
 | --- | --- |
 | **Glass UI system** | Aurora backgrounds with reusable cards, buttons, badges, tags, sections & containers |
+| **Site search** | Pagefind-powered static search in a glass modal — open with the header button or <kbd>⌘K</kbd> |
 | **Light / dark** | System-aware theme toggle with no-flash startup and synced `theme-color` |
 | **Blog** | Pagination, tags, table of contents, reading time, share links, prev/next navigation |
 | **Portfolio** | Index with technology filters, case-study pages, and responsive galleries |
@@ -152,9 +153,14 @@ visibility, social links, and page options.
 | `features.landing` | `boolean` | Shows or hides the landing-page entry in the main header |
 | `features.rss` | `boolean` | Controls the RSS discovery `<link>`; the `/rss.xml` feed is always generated |
 | `features.sitemap` | `boolean` | Enables the `@astrojs/sitemap` integration in `astro.config.mjs` |
+| `features.search` | `boolean` | Enables Pagefind search: the `astro-pagefind` integration, the header search button, and the <kbd>⌘K</kbd> modal |
 
 Header navigation entries and the sitemap integration respond to these flags. The `/rss.xml`
 feed and content routes are always part of the static build.
+
+> [!TIP]
+> The search index is generated during `astro build`. In development the last built index
+> is served, so run `npm run build` once before `npm run dev` to try search locally.
 
 ### Social links
 
