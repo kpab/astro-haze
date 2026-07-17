@@ -29,6 +29,7 @@ export interface SiteConfig {
     landing: boolean;
     rss: boolean;
     sitemap: boolean;
+    search: boolean;
   };
 
   // Social links
@@ -87,7 +88,8 @@ const siteConfig: SiteConfig = {
     portfolio: true,
     landing: true,
     rss: true,
-    sitemap: true
+    sitemap: true,
+    search: true
   },
 
   social: {

@@ -1,6 +1,7 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
+import pagefind from 'astro-pagefind';
 import siteConfig from './src/site.config.ts';
 
 // https://astro.build/config
@@ -9,9 +10,15 @@ export default defineConfig({
   site: 'https://kpab.github.io',
   base: '/astro-haze',
   // MDX is always enabled so `.mdx` files in the content collections render
-  // (the blog/projects globs already accept them). Sitemap is gated by the
-  // `features.sitemap` flag in site.config.
-  integrations: [mdx(), ...(siteConfig.features.sitemap ? [sitemap()] : [])],
+  // (the blog/projects globs already accept them). Sitemap and Pagefind are
+  // gated by their `features` flags in site.config. Pagefind indexes the
+  // static output on build and serves the prebuilt index during `astro dev`
+  // (run a build once to generate it).
+  integrations: [
+    mdx(),
+    ...(siteConfig.features.sitemap ? [sitemap()] : []),
+    ...(siteConfig.features.search ? [pagefind()] : [])
+  ],
   output: 'static',
   build: {
     format: 'directory',
