@@ -246,10 +246,19 @@
   let pagefind: Pagefind | null = null;
   let loadFailed = false;
 
+  // A plain `import()` here gets rewritten by Vite's preload helper when this
+  // script is bundled (and `@vite-ignore` comments don't survive processing),
+  // which leaves an unresolved __VITE_PRELOAD__ placeholder that throws at
+  // runtime. The Function indirection keeps the dynamic import opaque to the
+  // bundler so the browser-native import() reaches the runtime untouched.
+  const dynamicImport = new Function('s', 'return import(s)') as (
+    s: string
+  ) => Promise<unknown>;
+
   async function loadPagefind(): Promise<Pagefind | null> {
     if (pagefind || loadFailed) return pagefind;
     try {
-      pagefind = (await import(/* @vite-ignore */ `${BASE}/pagefind/pagefind.js`)) as Pagefind;
+      pagefind = (await dynamicImport(`${BASE}/pagefind/pagefind.js`)) as Pagefind;
       // Result URLs in the index are root-relative to the built site, so the
       // deploy base has to be prepended for project-site hosting.
       await pagefind.options({ baseUrl: `${BASE}/` });
