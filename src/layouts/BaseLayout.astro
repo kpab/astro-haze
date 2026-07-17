@@ -5,6 +5,7 @@ import { withBase } from '@/lib/url';
 import Seo from '@/components/common/Seo.astro';
 import AuroraBackground from '@/components/common/AuroraBackground.astro';
 import ThemeToggle from '@/components/common/ThemeToggle.astro';
+import SearchModal from '@/components/common/SearchModal.astro';
 
 export interface Props {
   title?: string;
@@ -81,7 +82,7 @@ const props = Astro.props;
   </head>
   <body>
     <!-- Skip to content link -->
-    <a href="#main" class="skip-link">Skip to content</a>
+    <a href="#main" class="skip-link" data-pagefind-ignore>Skip to content</a>
 
     <!-- Aurora Background -->
     <AuroraBackground intensity="medium" animated={true} />
@@ -97,6 +98,9 @@ const props = Astro.props;
         </div>
       )
     }
+
+    <!-- Site search (Pagefind) — opened from the header button or ⌘K -->
+    {siteConfig.features.search && <SearchModal />}
   </body>
 </html>
 
