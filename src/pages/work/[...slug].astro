@@ -38,7 +38,7 @@ const projectLinks = [
   },
   project.data.links?.case && {
     label: 'Read case study',
-    href: project.data.links.case,
+    href: withBase(project.data.links.case),
     external: false,
   },
 ].filter((link): link is { label: string; href: string; external: boolean } => Boolean(link));

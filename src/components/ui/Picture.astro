@@ -1,6 +1,7 @@
 ---
 import { Picture as AstroPicture } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import { withBase } from '@/lib/url';
 
 export interface Props {
   src: ImageMetadata | string;
@@ -51,7 +52,7 @@ const resolvedWidths = widths ?? (sizes ? [400, 800, 1200] : undefined);
     />
   ) : (
     <img
-      src={src as string}
+      src={withBase(src as string)}
       alt={alt}
       width={width}
       height={height}
