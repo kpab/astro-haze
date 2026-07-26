@@ -7,10 +7,17 @@ import siteConfig from '@/site.config';
 export async function GET(context: APIContext) {
   const posts = await getPublishedPosts();
 
+  // context.site is astro.config's `site` (no base). @astrojs/rss uses this
+  // for the channel <link>, so the base must be appended here or the feed's
+  // homepage points at the origin root instead of the project site.
+  const site = context.site
+    ? new URL(import.meta.env.BASE_URL, context.site)
+    : siteConfig.url;
+
   return rss({
     title: `${siteConfig.name} — Blog`,
     description: siteConfig.description,
-    site: context.site ?? siteConfig.url,
+    site,
     items: posts.map((post) => ({
       title: post.data.title,
       description: post.data.description,

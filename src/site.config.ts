@@ -3,6 +3,9 @@ export interface SiteConfig {
   title: string;
   description: string;
   author: string;
+  // Fallback only, used when astro.config.mjs's `site` is unavailable
+  // (e.g. context.site during a dev/preview run without it set). The
+  // canonical site + base configuration lives in astro.config.mjs.
   url: string;
   ogImage: string;
   twitterHandle: string;
