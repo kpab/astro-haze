@@ -223,7 +223,10 @@ const footerLinks = siteConfig.footer.links.filter((link) => {
     background: var(--glass-bg);
     border: 1px solid var(--glass-border);
     color: var(--color-text-muted);
-    transition: all var(--transition-fast);
+    transition:
+      background-color var(--transition-fast),
+      color var(--transition-fast),
+      transform var(--transition-fast);
   }
 
   @media (hover: hover) {

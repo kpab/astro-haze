@@ -84,7 +84,10 @@
   padding: var(--space-sm) var(--space-lg);
   color: var(--color-text);
   font-weight: 500;
-  transition: all var(--transition-fast);
+  transition:
+    background-color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
   position: relative;
   overflow: hidden;
   cursor: pointer;

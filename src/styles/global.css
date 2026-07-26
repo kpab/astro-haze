@@ -329,7 +329,9 @@ button {
   width: 24px;
   height: 2px;
   background: currentColor;
-  transition: all var(--transition-fast);
+  transition:
+    transform var(--transition-fast),
+    opacity var(--transition-fast);
 }
 
 .menu-toggle.active span:nth-child(1) {
