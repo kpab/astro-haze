@@ -151,8 +151,13 @@ const classes = [
     }
   }
 
+  .btn:active {
+    transform: translateY(0) scale(0.98);
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .btn:hover {
+    .btn:hover,
+    .btn:active {
       transform: none;
     }
   }
