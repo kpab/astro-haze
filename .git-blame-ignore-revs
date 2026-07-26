@@ -1,0 +1,5 @@
+# Commits listed here are skipped by `git blame` (configure with
+# `git config blame.ignoreRevsFile .git-blame-ignore-revs`).
+
+# style: Prettierで全ファイルを一括整形（#42）
+0b7918bf3b489e5d9bef94278a5db46fab33f420
