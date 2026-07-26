@@ -115,6 +115,9 @@ const rangeEnd = indexOffset + projects.length;
             </div>
           ))}
         </div>
+        {showFilters && (
+          <p class="filter-empty-state" hidden>No projects match this filter.</p>
+        )}
         <Pagination currentPage={currentPage} totalPages={totalPages} basePath="/work" />
       </>
     ) : (
@@ -127,6 +130,8 @@ const rangeEnd = indexOffset + projects.length;
   const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter]'));
   const projects = Array.from(document.querySelectorAll<HTMLElement>('[data-technologies]'));
   const status = document.querySelector<HTMLElement>('.filter-status');
+  const emptyState = document.querySelector<HTMLElement>('.filter-empty-state');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   buttons.forEach((button) => {
     button.addEventListener('click', () => {
@@ -148,8 +153,21 @@ const rangeEnd = indexOffset + projects.length;
         }
         const isVisible = selected === 'all' || technologies.includes(selected);
         project.hidden = !isVisible;
-        if (isVisible) visibleCount += 1;
+        if (isVisible) {
+          visibleCount += 1;
+          if (!prefersReducedMotion) {
+            project.animate(
+              [
+                { opacity: 0, transform: 'translateY(1rem)' },
+                { opacity: 1, transform: 'translateY(0)' },
+              ],
+              { duration: 300, easing: 'ease-out' }
+            );
+          }
+        }
       });
+
+      if (emptyState) emptyState.hidden = visibleCount > 0;
 
       if (status) {
         status.textContent = `${visibleCount} project${visibleCount === 1 ? '' : 's'} shown`;
@@ -288,12 +306,21 @@ const rangeEnd = indexOffset + projects.length;
     grid-column: 1 / -1;
   }
 
-  .empty-state {
+  .empty-state,
+  .filter-empty-state {
     padding: var(--space-3xl);
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-xl);
     color: var(--color-text-muted);
     text-align: center;
+  }
+
+  .filter-empty-state[hidden] {
+    display: none;
+  }
+
+  .filter-empty-state {
+    margin-top: var(--space-xl);
   }
 
   @media (max-width: 768px) {
