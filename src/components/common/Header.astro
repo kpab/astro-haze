@@ -1,6 +1,7 @@
 ---
 import siteConfig from '@/site.config';
 import { withBase } from '@/lib/url';
+import { getEnabledNavItems } from '@/lib/nav';
 
 const currentPath = Astro.url.pathname;
 
@@ -15,13 +16,7 @@ function isActive(href: string): boolean {
   return currentPath === target || currentPath.startsWith(target + '/');
 }
 
-const navItems = siteConfig.nav.main.filter(item => {
-  // Filter out disabled features
-  if (item.href === '/blog' && !siteConfig.features.blog) return false;
-  if (item.href === '/work' && !siteConfig.features.portfolio) return false;
-  if (item.href === '/landing' && !siteConfig.features.landing) return false;
-  return true;
-});
+const navItems = getEnabledNavItems();
 ---
 
 <!-- data-pagefind-ignore keeps site chrome out of the search index -->
