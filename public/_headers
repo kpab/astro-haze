@@ -1,4 +1,8 @@
 # Cloudflare Pages headers — https://developers.cloudflare.com/pages/configuration/headers/
+#
+# Cloudflare Pages / Netlify only. On GitHub Pages this file is served as a
+# plain static file and none of the rules below are applied — the headers
+# and the /_astro/* immutable cache are simply not in effect there.
 
 /*
   X-Content-Type-Options: nosniff

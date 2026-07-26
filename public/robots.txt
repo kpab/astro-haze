@@ -1,3 +1,8 @@
+# Note: on a GitHub Pages project site (https://<user>.github.io/<repo>/),
+# crawlers only ever look for robots.txt at the origin root
+# (https://<user>.github.io/robots.txt), so this file is not read here.
+# Submit the sitemap URL below directly to Google Search Console / Bing
+# Webmaster Tools instead of relying on this file's Sitemap: line.
 User-agent: *
 Allow: /
 

@@ -370,8 +370,14 @@ To deploy under a different repo, user site, or custom domain, update `site`, `b
 (`<user>.github.io`) or a custom domain, set `base: '/'`.
 
 > [!TIP]
-> The `public/_headers` file is for Cloudflare Pages and is ignored by GitHub Pages; it's
-> kept for users deploying there instead.
+> The `public/_headers` file is for Cloudflare Pages / Netlify and is ignored by GitHub Pages
+> (served there as a plain static file, so none of its rules apply); it's kept for users
+> deploying to one of those instead.
+>
+> Likewise, crawlers only fetch `robots.txt` from the origin root
+> (`https://<user>.github.io/robots.txt`), never from a project page's subpath, so
+> `public/robots.txt` is not read on a GitHub Pages project site. Submit the sitemap URL
+> directly to Google Search Console / Bing Webmaster Tools instead of relying on this file.
 
 ---
 
