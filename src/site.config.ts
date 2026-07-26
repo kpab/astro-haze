@@ -140,12 +140,39 @@ const siteConfig: SiteConfig = {
   },
 };
 
+// Conventional region for language-only BCP47 tags (no '-REGION' suffix),
+// used so common cases like 'en' or 'ja' derive a real og:locale value
+// ('en_US', 'ja_JP') instead of duplicating the language code.
+const COMMON_REGIONS: Record<string, string> = {
+  en: 'US',
+  ja: 'JP',
+  zh: 'CN',
+  fr: 'FR',
+  de: 'DE',
+  es: 'ES',
+  pt: 'PT',
+  ko: 'KR',
+  it: 'IT',
+  ru: 'RU',
+  ar: 'SA',
+  nl: 'NL',
+  pl: 'PL',
+  tr: 'TR',
+  vi: 'VN',
+  th: 'TH',
+  id: 'ID',
+  hi: 'IN',
+};
+
 // Derives an og:locale-shaped value ('language_REGION') from a BCP47 lang
-// tag when `ogLocale` isn't set explicitly, e.g. 'en' -> 'en_EN', 'en-GB' ->
-// 'en_GB'. Best-effort only — set `ogLocale` explicitly for exact control.
-function deriveOgLocale(lang: string): string {
+// tag when `ogLocale` isn't set explicitly, e.g. 'en' -> 'en_US', 'en-GB' ->
+// 'en_GB'. Unlisted languages without a region fall back to duplicating the
+// language code (e.g. 'sv' -> 'sv_SV'). Best-effort only — set `ogLocale`
+// explicitly for exact control.
+export function deriveOgLocale(lang: string): string {
   const [language, region] = lang.split('-');
-  return `${language}_${(region ?? language).toUpperCase()}`;
+  const fallbackRegion = COMMON_REGIONS[language.toLowerCase()] ?? language;
+  return `${language}_${(region ?? fallbackRegion).toUpperCase()}`;
 }
 
 export const resolvedOgLocale =
