@@ -2,7 +2,7 @@ import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
 import { getPublishedPosts } from '@/lib/posts';
 import { withBase } from '@/lib/url';
-import siteConfig from '@/site.config';
+import siteConfig, { resolvedOgLocale } from '@/site.config';
 
 export async function GET(context: APIContext) {
   const posts = await getPublishedPosts();
@@ -26,6 +26,6 @@ export async function GET(context: APIContext) {
       categories: post.data.tags,
       author: post.data.author,
     })),
-    customData: `<language>en-us</language>`,
+    customData: `<language>${resolvedOgLocale.toLowerCase().replace('_', '-')}</language>`,
   });
 }

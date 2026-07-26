@@ -1,5 +1,5 @@
 ---
-import siteConfig from '@/site.config';
+import siteConfig, { resolvedOgLocale } from '@/site.config';
 import { withBase } from '@/lib/url';
 
 export interface Props {
@@ -69,7 +69,7 @@ const jsonLd = article
 <meta property="og:url" content={canonicalURL} />
 <meta property="og:site_name" content={siteConfig.name} />
 <meta property="og:image" content={ogImageURL} />
-<meta property="og:locale" content="en_US" />
+<meta property="og:locale" content={resolvedOgLocale} />
 
 <!-- Article metadata -->
 {

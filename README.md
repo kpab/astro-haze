@@ -139,6 +139,8 @@ visibility, social links, and page options.
 | `url` | `string` | Canonical production origin |
 | `ogImage` | `string` | Default Open Graph image path |
 | `twitterHandle` | `string` | Site or author handle for social metadata |
+| `lang` | `string` | BCP47 language tag for `<html lang>` and the RSS `<language>` tag (e.g. `'en'`, `'ja'`) |
+| `ogLocale` | `string` (optional) | `og:locale` value (e.g. `'en_US'`). Derived from `lang` when omitted |
 | `theme.accentColor` | `string` | Accent value; keep it synchronized with the CSS accent tokens described below |
 | `theme.defaultColorMode` | `'light' \| 'dark' \| 'system'` | Initial color mode when the visitor has no saved preference. `light`/`dark` apply that mode at startup (no flash); `system` follows the OS. Honored by both the inline startup script and the theme toggle |
 | `theme.showThemeToggle` | `boolean` | Renders the floating theme toggle when `true` |

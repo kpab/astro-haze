@@ -9,6 +9,11 @@ export interface SiteConfig {
   url: string;
   ogImage: string;
   twitterHandle: string;
+  // BCP47 language tag, used for <html lang> and the RSS <language> tag.
+  lang: string;
+  // og:locale value (e.g. 'en_US'). Defaults to a locale derived from `lang`
+  // when omitted.
+  ogLocale?: string;
 
   // Theme settings
   theme: {
@@ -77,6 +82,8 @@ const siteConfig: SiteConfig = {
   url: 'https://kpab.github.io/astro-haze',
   ogImage: '/og-image.png',
   twitterHandle: '@yourusername',
+  lang: 'en',
+  ogLocale: 'en_US',
 
   theme: {
     accentColor: 'hsl(280, 70%, 60%)',
@@ -132,5 +139,15 @@ const siteConfig: SiteConfig = {
     ]
   }
 };
+
+// Derives an og:locale-shaped value ('language_REGION') from a BCP47 lang
+// tag when `ogLocale` isn't set explicitly, e.g. 'en' -> 'en_EN', 'en-GB' ->
+// 'en_GB'. Best-effort only — set `ogLocale` explicitly for exact control.
+function deriveOgLocale(lang: string): string {
+  const [language, region] = lang.split('-');
+  return `${language}_${(region ?? language).toUpperCase()}`;
+}
+
+export const resolvedOgLocale = siteConfig.ogLocale ?? deriveOgLocale(siteConfig.lang);
 
 export default siteConfig;
