@@ -172,6 +172,15 @@ const defaultMode = siteConfig.theme.defaultColorMode;
     if (meta) meta.setAttribute('content', resolved === 'dark' ? '#0b0f19' : '#f5f6f9');
   }
 
+  // Focusing (not just activating) the button should reveal the current mode,
+  // since the icon alone doesn't convey it to screen reader users.
+  function updateAriaLabel(mode: string) {
+    if (!toggle) return;
+    const nextIndex = (themes.indexOf(mode) + 1) % themes.length;
+    const next = themes[nextIndex];
+    toggle.setAttribute('aria-label', `Theme: ${mode}. Activate to switch to ${next}.`);
+  }
+
   // `mode` is the selected preference ('system' | 'light' | 'dark'). We persist
   // it verbatim — including 'system' — so a site whose defaultColorMode is
   // light/dark doesn't silently revert the visitor's "system" choice on reload.
@@ -183,6 +192,7 @@ const defaultMode = siteConfig.theme.defaultColorMode;
     root.setAttribute('data-theme-mode', mode);
     safeSet('theme', mode);
     updateThemeColor(resolved);
+    updateAriaLabel(mode);
   }
 
   function cycleTheme() {
@@ -210,6 +220,11 @@ const defaultMode = siteConfig.theme.defaultColorMode;
       announcement.remove();
     }, 1000);
   }
+
+  // Reflect the current mode in aria-label on load. BaseLayout's inline
+  // FOUC-prevention script already set data-theme/-theme-mode on <html>
+  // before this runs, but not the button's label.
+  updateAriaLabel(getThemePreference());
 
   // Set up event listener
   toggle?.addEventListener('click', cycleTheme);
