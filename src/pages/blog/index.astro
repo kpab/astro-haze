@@ -14,7 +14,14 @@ const perPage = siteConfig.blog.postsPerPage;
 const totalPages = Math.max(1, Math.ceil(allPosts.length / perPage));
 
 const featured = allPosts.filter((p) => p.data.featured).slice(0, 2);
-const pagePosts = allPosts.slice(0, perPage);
+// Page 1 only — posts already shown in Featured are dropped from this grid
+// so they don't appear twice. The filter runs after slicing to the page-1
+// window (not before) so it never pulls a post forward from page 2, which
+// would duplicate it there instead. Pagination (totalPages, and page 2+ in
+// page/[page].astro) still counts every post, so page 1 may show fewer than
+// `perPage` posts when featured posts fall within its window.
+const featuredIds = new Set(featured.map((p) => p.id));
+const pagePosts = allPosts.slice(0, perPage).filter((p) => !featuredIds.has(p.id));
 ---
 
 <BaseLayout
