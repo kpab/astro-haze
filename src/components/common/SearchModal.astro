@@ -312,6 +312,7 @@
     if (!status || !resultsList) return;
     status.textContent = message;
     status.hidden = false;
+    status.classList.remove('sr-only');
     resultsList.replaceChildren();
   }
 
@@ -321,7 +322,12 @@
       showStatus(`No results for “${query}”.`);
       return;
     }
-    status.hidden = true;
+    // Visible list already conveys the results; the count only needs to
+    // reach screen readers, so it's announced via the live region without
+    // showing a duplicate visible line above the list.
+    status.hidden = false;
+    status.classList.add('sr-only');
+    status.textContent = `${docs.length} result${docs.length === 1 ? '' : 's'} for "${query}".`;
     resultsList.replaceChildren(
       ...docs.map((doc) => {
         const item = document.createElement('li');
