@@ -56,6 +56,14 @@ export interface SiteConfig {
     showTechStack: boolean;
     showYear: boolean;
   };
+
+  // Footer settings
+  footer: {
+    links: Array<{
+      name: string;
+      href: string;
+    }>;
+  };
 }
 
 const siteConfig: SiteConfig = {
@@ -110,6 +118,15 @@ const siteConfig: SiteConfig = {
     projectsPerPage: 9,
     showTechStack: true,
     showYear: true
+  },
+
+  footer: {
+    // Privacy/Terms are intentionally omitted by default — this theme ships
+    // without those pages, so add them here only once the pages exist.
+    links: [
+      { name: 'Sitemap', href: '/sitemap-index.xml' },
+      { name: 'RSS', href: '/rss.xml' }
+    ]
   }
 };
 
