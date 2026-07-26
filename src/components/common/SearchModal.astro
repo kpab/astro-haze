@@ -262,6 +262,8 @@
 </style>
 
 <script>
+  import { lockScroll, unlockScroll } from '@/lib/scrollLock';
+
   const dialog = document.getElementById(
     'search-modal',
   ) as HTMLDialogElement | null;
@@ -391,7 +393,7 @@
   function openModal() {
     if (!dialog || dialog.open) return;
     dialog.showModal();
-    document.documentElement.style.overflow = 'hidden';
+    lockScroll();
     input?.select();
     loadPagefind();
   }
@@ -401,7 +403,7 @@
   );
 
   dialog?.addEventListener('close', () => {
-    document.documentElement.style.overflow = '';
+    unlockScroll();
   });
 
   // Close when the backdrop (the dialog element itself) is clicked.

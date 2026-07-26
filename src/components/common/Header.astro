@@ -168,7 +168,9 @@ const navItems = getEnabledNavItems();
     text-decoration: none;
     font-weight: 500;
     border-radius: var(--radius-md);
-    transition: all var(--transition-fast);
+    transition:
+      color var(--transition-fast),
+      background-color var(--transition-fast);
     position: relative;
   }
 
@@ -209,7 +211,9 @@ const navItems = getEnabledNavItems();
     border: none;
     border-radius: var(--radius-md);
     cursor: pointer;
-    transition: all var(--transition-fast);
+    transition:
+      color var(--transition-fast),
+      background-color var(--transition-fast);
   }
 
   @media (hover: hover) {
@@ -299,6 +303,8 @@ const navItems = getEnabledNavItems();
 </style>
 
 <script>
+  import { lockScroll, unlockScroll } from '@/lib/scrollLock';
+
   // Mobile menu toggle
   const toggle = document.getElementById('menu-toggle');
   const nav = document.getElementById('navigation');
@@ -316,18 +322,20 @@ const navItems = getEnabledNavItems();
   }
 
   function openMenu() {
+    if (nav?.classList.contains('active')) return;
     nav?.classList.add('active');
     toggle?.classList.add('active');
     toggle?.setAttribute('aria-expanded', 'true');
-    document.documentElement.style.overflow = 'hidden';
+    lockScroll();
     syncNavState();
   }
 
   function closeMenu() {
+    if (!nav?.classList.contains('active')) return;
     nav?.classList.remove('active');
     toggle?.classList.remove('active');
     toggle?.setAttribute('aria-expanded', 'false');
-    document.documentElement.style.overflow = '';
+    unlockScroll();
     syncNavState();
   }
 
