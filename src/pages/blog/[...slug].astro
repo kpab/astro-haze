@@ -10,6 +10,7 @@ import Tag from '@/components/ui/Tag.astro';
 import Picture from '@/components/ui/Picture.astro';
 import Toc from '@/components/blog/Toc.astro';
 import { withBase } from '@/lib/url';
+import { formatDate } from '@/lib/date';
 import {
   getPublishedPosts,
   getAdjacentPosts,
@@ -32,9 +33,8 @@ const allPosts = await getPublishedPosts();
 const { newer, older } = getAdjacentPosts(allPosts, post.id);
 
 const minutes = readingTime(post.body);
-const dateOpts = { year: 'numeric', month: 'long', day: 'numeric' } as const;
-const formattedDate = post.data.pubDate.toLocaleDateString('en-US', dateOpts);
-const updatedDate = post.data.updatedDate?.toLocaleDateString('en-US', dateOpts);
+const formattedDate = formatDate(post.data.pubDate);
+const updatedDate = post.data.updatedDate ? formatDate(post.data.updatedDate) : undefined;
 
 const showToc = siteConfig.blog.showToc && headings.length > 0;
 const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
