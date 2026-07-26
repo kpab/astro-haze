@@ -21,7 +21,7 @@ const { cta } = Astro.props;
       <h2>{cta.title}</h2>
       <div class="final-cta__footer">
         <p>{cta.description}</p>
-        <Button href={cta.button.href} external variant="solid" size="lg">
+        <Button href={cta.button.href} variant="solid" size="lg">
           {cta.button.text}
           <span aria-hidden="true">↗</span>
         </Button>

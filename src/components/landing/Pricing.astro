@@ -43,7 +43,7 @@ const { plans } = Astro.props;
           <ul>
             {plan.features.map((feature) => <li><span aria-hidden="true">✓</span>{feature}</li>)}
           </ul>
-          <Button href={plan.cta.href} external variant={plan.highlighted ? 'solid' : 'outline'} fullWidth>
+          <Button href={plan.cta.href} variant={plan.highlighted ? 'solid' : 'outline'} fullWidth>
             {plan.cta.text}
           </Button>
         </GlassCard>

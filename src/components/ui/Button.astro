@@ -6,6 +6,9 @@ export interface Props {
   type?: 'button' | 'submit' | 'reset';
   fullWidth?: boolean;
   disabled?: boolean;
+  // When omitted, external is auto-detected from `href` (absolute http(s)
+  // URLs open in a new tab; anchors/relative paths don't). Pass explicitly
+  // to override.
   external?: boolean;
   class?: string;
   'aria-label'?: string;
@@ -18,10 +21,12 @@ const {
   type = 'button',
   fullWidth = false,
   disabled = false,
-  external = false,
+  external,
   class: className = '',
   ...rest
 } = Astro.props;
+
+const isExternal = external ?? (href?.startsWith('http') ?? false);
 
 const Tag = href ? 'a' : 'button';
 const classes = [
@@ -39,13 +44,14 @@ const classes = [
   class={classes}
   href={href}
   type={href ? undefined : type}
-  rel={external ? 'noopener noreferrer' : undefined}
-  target={external ? '_blank' : undefined}
+  rel={isExternal ? 'noopener noreferrer' : undefined}
+  target={isExternal ? '_blank' : undefined}
   aria-disabled={href && disabled ? 'true' : undefined}
   disabled={!href && disabled ? true : undefined}
   {...rest}
 >
   <slot />
+  {isExternal && <span class="sr-only"> (opens in new tab)</span>}
 </Tag>
 
 <style>
