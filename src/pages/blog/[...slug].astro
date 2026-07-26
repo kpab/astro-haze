@@ -62,7 +62,7 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
     <article class="blog-post">
       <div class="container">
         <GlassPanel variant="solid" padding="xl" className="post-header">
-          <a href={withBase('/blog')} class="post-back">← Back to blog</a>
+          <a href={withBase('/blog/')} class="post-back">← Back to blog</a>
           <h1 class="post-title">{post.data.title}</h1>
 
           <div class="post-meta">
@@ -177,7 +177,7 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
           siteConfig.blog.showRelatedPosts && (newer || older) && (
             <nav class="post-nav" aria-label="More posts">
               {older ? (
-                <GlassCard href={withBase(`/blog/${older.id}`)} class="post-nav__card">
+                <GlassCard href={withBase(`/blog/${older.id}/`)} class="post-nav__card">
                   <span class="post-nav__dir">← Older</span>
                   <span class="post-nav__title">{older.data.title}</span>
                 </GlassCard>
@@ -185,7 +185,7 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
                 <span />
               )}
               {newer ? (
-                <GlassCard href={withBase(`/blog/${newer.id}`)} class="post-nav__card post-nav__card--next">
+                <GlassCard href={withBase(`/blog/${newer.id}/`)} class="post-nav__card post-nav__card--next">
                   <span class="post-nav__dir">Newer →</span>
                   <span class="post-nav__title">{newer.data.title}</span>
                 </GlassCard>

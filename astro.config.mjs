@@ -20,6 +20,10 @@ export default defineConfig({
     ...(siteConfig.features.search ? [pagefind()] : [])
   ],
   output: 'static',
+  // GitHub Pages 301-redirects slash-less directory requests to the
+  // trailing-slash form, so internal links must match to avoid a redirect
+  // hop and a canonical/link mismatch.
+  trailingSlash: 'always',
   build: {
     format: 'directory',
     inlineStylesheets: 'auto'

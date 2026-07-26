@@ -13,7 +13,10 @@ function isActive(href: string): boolean {
   const target = withBase(href);
   const home = withBase('/');
   if (href === '/') return currentPath === home;
-  return currentPath === target || currentPath.startsWith(target + '/');
+  // href may itself end in '/' (trailing-slash routes); normalize before
+  // appending the separator so the prefix check doesn't require '//'.
+  const targetBase = target.endsWith('/') ? target.slice(0, -1) : target;
+  return currentPath === target || currentPath.startsWith(targetBase + '/');
 }
 
 const navItems = getEnabledNavItems();

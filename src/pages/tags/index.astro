@@ -35,7 +35,7 @@ const maxCount = tags.reduce((m, t) => Math.max(m, t.count), 1);
                   <li>
                     <a
                       class="tag-cloud__item"
-                      href={withBase(`/tags/${slug}`)}
+                      href={withBase(`/tags/${slug}/`)}
                       style={`--weight: ${0.85 + (count / maxCount) * 0.6}`}
                     >
                       <span class="tag-cloud__hash">#</span>

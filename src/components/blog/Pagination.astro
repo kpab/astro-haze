@@ -11,7 +11,7 @@ export interface Props {
 const { currentPage, totalPages, basePath = '/blog' } = Astro.props;
 
 const pageUrl = (n: number) =>
-  withBase(n === 1 ? basePath : `${basePath}/page/${n}`);
+  withBase(n === 1 ? `${basePath}/` : `${basePath}/page/${n}/`);
 
 // Compact window of page numbers around the current page.
 const windowSize = 2;

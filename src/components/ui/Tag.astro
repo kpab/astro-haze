@@ -17,7 +17,7 @@ const slug = name
   .trim()
   .replace(/[^a-z0-9]+/g, '-')
   .replace(/^-+|-+$/g, '');
-const target = href ? withBase(href) : withBase(`/tags/${slug}`);
+const target = href ? withBase(href) : withBase(`/tags/${slug}/`);
 const classes = ['tag', `tag--${size}`, className].filter(Boolean).join(' ');
 ---
 

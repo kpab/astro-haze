@@ -12,7 +12,8 @@ const FEATURE_BY_HREF: Record<string, keyof typeof siteConfig.features> = {
 // removes its nav link everywhere instead of only from the main nav.
 export function getEnabledNavItems(): Array<{ name: string; href: string }> {
   return siteConfig.nav.main.filter((item) => {
-    const feature = FEATURE_BY_HREF[item.href];
+    const normalizedHref = item.href.length > 1 ? item.href.replace(/\/$/, '') : item.href;
+    const feature = FEATURE_BY_HREF[normalizedHref];
     return !feature || siteConfig.features[feature];
   });
 }

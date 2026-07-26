@@ -16,7 +16,7 @@ const showcases = [
     type: 'Editorial',
     title: 'Ideas with a place to unfold.',
     description: 'A reading-first blog system with strong rhythm, calm metadata, and focused article pages.',
-    href: '/blog',
+    href: '/blog/',
     cta: 'Enter the journal',
     className: 'showcase--journal',
   },
@@ -25,7 +25,7 @@ const showcases = [
     type: 'Selected work',
     title: 'Case studies that show the thinking.',
     description: 'A portfolio structure for outcomes, process, roles, and the details behind the final frame.',
-    href: '/work',
+    href: '/work/',
     cta: 'Browse selected work',
     className: 'showcase--work',
   },
@@ -34,7 +34,7 @@ const showcases = [
     type: 'Campaign',
     title: 'A landing page built to persuade quietly.',
     description: 'Data-driven product storytelling with benefits, pricing, social proof, FAQ, and external calls to action.',
-    href: '/landing',
+    href: '/landing/',
     cta: 'Open the live demo',
     className: 'showcase--landing',
   },
@@ -158,9 +158,9 @@ const showcases = [
         <p>Start with a structure. Make the atmosphere yours.</p>
         <h2>Pick a page and begin.</h2>
         <div>
-          <Button href={withBase('/blog')} variant="outline" size="lg">Read</Button>
-          <Button href={withBase('/work')} variant="outline" size="lg">Show</Button>
-          <Button href={withBase('/landing')} variant="solid" size="lg">Launch</Button>
+          <Button href={withBase('/blog/')} variant="outline" size="lg">Read</Button>
+          <Button href={withBase('/work/')} variant="outline" size="lg">Show</Button>
+          <Button href={withBase('/landing/')} variant="solid" size="lg">Launch</Button>
         </div>
       </Container>
     </section>
