@@ -25,7 +25,7 @@ const { images, title } = Astro.props;
               src={src}
               alt={`${title} project view ${index + 1}`}
               widths={[400, 800, 1200]}
-              sizes={index % 3 === 0 ? '100vw' : '(min-width: 720px) 50vw, 100vw'}
+              sizes={index % 3 === 0 ? '100vw' : '(min-width: 640px) 50vw, 100vw'}
               class="gallery__image"
             />
             <figcaption>{String(index + 1).padStart(2, '0')} / {title}</figcaption>

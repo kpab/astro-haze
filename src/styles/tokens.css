@@ -1,5 +1,11 @@
 /* Design Tokens - Astro Haze Theme */
 
+/* Breakpoint convention: media query px values across this codebase should
+   use 640 / 768 / 1024, with 900 as an additional large-breakpoint tier for
+   components that need to switch layout later than 768. CSS custom
+   properties cannot be used inside @media conditions, so these are documented
+   here rather than defined as tokens. */
+
 :root {
   /* Light mode tokens */
 

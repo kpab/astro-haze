@@ -25,7 +25,7 @@ const { images } = Astro.props;
             alt={image.alt}
             width={1200}
             height={900}
-            sizes="(max-width: 760px) 100vw, 50vw"
+            sizes="(max-width: 768px) 100vw, 50vw"
             class="gallery__image"
           />
           {image.caption && <figcaption><span>{String(index + 1).padStart(2, '0')}</span>{image.caption}</figcaption>}
@@ -76,7 +76,7 @@ const { images } = Astro.props;
     font-family: var(--font-mono);
   }
 
-  @media (max-width: 760px) {
+  @media (max-width: 768px) {
     .gallery {
       grid-template-columns: 1fr;
     }
