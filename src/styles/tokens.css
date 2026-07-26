@@ -80,6 +80,9 @@
   --z-overlay: 300;
   --z-toast: 500;
 
+  /* Layout */
+  --header-height: 60px;
+
   /* Container */
   --container-3xl: 48rem;
   --container-4xl: 56rem;

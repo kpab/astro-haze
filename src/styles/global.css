@@ -221,7 +221,7 @@ button {
    moves there; the outline is suppressed (the visible scroll is feedback
    enough) and scroll-margin keeps it clear of the sticky header. */
 #main {
-  scroll-margin-top: calc(60px + var(--space-lg));
+  scroll-margin-top: calc(var(--header-height) + var(--space-lg));
 }
 
 #main:focus {

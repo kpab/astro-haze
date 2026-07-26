@@ -210,7 +210,7 @@ const navItems = getEnabledNavItems();
   @media (max-width: 768px) {
     .nav-menu {
       position: fixed;
-      top: 60px;
+      top: var(--header-height);
       left: 0;
       right: 0;
       background: var(--glass-bg-solid);
@@ -266,6 +266,16 @@ const navItems = getEnabledNavItems();
     }
   }
 
+  /* Fallback for browsers without backdrop-filter: the mobile menu needs an
+     opaque background so it stays readable instead of see-through. */
+  @supports not (backdrop-filter: blur(1px)) {
+    @media (max-width: 768px) {
+      .nav-menu {
+        background: var(--color-bg);
+      }
+    }
+  }
+
   /* Focus styles */
   .nav-link:focus-visible,
   .brand:focus-visible,
@@ -296,6 +306,7 @@ const navItems = getEnabledNavItems();
     nav?.classList.add('active');
     toggle?.classList.add('active');
     toggle?.setAttribute('aria-expanded', 'true');
+    document.documentElement.style.overflow = 'hidden';
     syncNavState();
   }
 
@@ -303,6 +314,7 @@ const navItems = getEnabledNavItems();
     nav?.classList.remove('active');
     toggle?.classList.remove('active');
     toggle?.setAttribute('aria-expanded', 'false');
+    document.documentElement.style.overflow = '';
     syncNavState();
   }
 
