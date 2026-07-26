@@ -6,13 +6,18 @@ import Footer from '@/components/common/Footer.astro';
 import Container from '@/components/ui/Container.astro';
 import PostGrid from '@/components/blog/PostGrid.astro';
 import Pagination from '@/components/blog/Pagination.astro';
-import { getPublishedPosts, type Post } from '@/lib/posts';
+import { getPublishedPosts, splitFeatured, type Post } from '@/lib/posts';
 import siteConfig from '@/site.config';
 
 export const getStaticPaths = (async () => {
-  const posts = await getPublishedPosts();
+  const allPosts = await getPublishedPosts();
   const perPage = siteConfig.blog.postsPerPage;
-  const totalPages = Math.max(1, Math.ceil(posts.length / perPage));
+
+  // Must match the same split as blog/index.astro (page 1) — otherwise a
+  // featured post that falls outside page 1's window would still be
+  // paginated here, duplicating it against the Featured section on /blog.
+  const { rest } = splitFeatured(allPosts);
+  const totalPages = Math.max(1, Math.ceil(rest.length / perPage));
 
   // Page 1 lives at /blog (index.astro); generate 2..totalPages here.
   const paths = [];
@@ -20,7 +25,7 @@ export const getStaticPaths = (async () => {
     paths.push({
       params: { page: String(page) },
       props: {
-        posts: posts.slice((page - 1) * perPage, page * perPage),
+        posts: rest.slice((page - 1) * perPage, page * perPage),
         currentPage: page,
         totalPages,
       },

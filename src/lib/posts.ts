@@ -33,6 +33,25 @@ export async function getPublishedPosts(): Promise<Post[]> {
 }
 
 /**
+ * Split off up to `max` featured posts and return the rest as a single pool.
+ * Both the blog index (page 1) and `/blog/page/[page]` must exclude the same
+ * featured posts from their pagination source — filtering only within one
+ * page's slice window still lets a featured post that falls in another
+ * page's window appear twice (once in the Featured section, once in that
+ * page's grid), since featured posts are picked from the full list, not from
+ * whichever page happens to contain them.
+ */
+export function splitFeatured(
+  posts: Post[],
+  max = 2
+): { featured: Post[]; rest: Post[] } {
+  const featured = posts.filter((p) => p.data.featured).slice(0, max);
+  const featuredIds = new Set(featured.map((p) => p.id));
+  const rest = posts.filter((p) => !featuredIds.has(p.id));
+  return { featured, rest };
+}
+
+/**
  * Given a newest-first list, find the chronologically newer/older neighbours
  * of the post with `id` for prev/next navigation.
  */

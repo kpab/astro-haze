@@ -6,22 +6,19 @@ import GlassPanel from '@/components/common/GlassPanel.astro';
 import Container from '@/components/ui/Container.astro';
 import PostGrid from '@/components/blog/PostGrid.astro';
 import Pagination from '@/components/blog/Pagination.astro';
-import { getPublishedPosts } from '@/lib/posts';
+import { getPublishedPosts, splitFeatured } from '@/lib/posts';
 import siteConfig from '@/site.config';
 
 const allPosts = await getPublishedPosts();
 const perPage = siteConfig.blog.postsPerPage;
-const totalPages = Math.max(1, Math.ceil(allPosts.length / perPage));
 
-const featured = allPosts.filter((p) => p.data.featured).slice(0, 2);
-// Page 1 only — posts already shown in Featured are dropped from this grid
-// so they don't appear twice. The filter runs after slicing to the page-1
-// window (not before) so it never pulls a post forward from page 2, which
-// would duplicate it there instead. Pagination (totalPages, and page 2+ in
-// page/[page].astro) still counts every post, so page 1 may show fewer than
-// `perPage` posts when featured posts fall within its window.
-const featuredIds = new Set(featured.map((p) => p.id));
-const pagePosts = allPosts.slice(0, perPage).filter((p) => !featuredIds.has(p.id));
+// Featured posts are pulled out of the pool before pagination, and
+// page/[page].astro does the same split, so a featured post never
+// reappears in a paginated grid regardless of where it falls in the
+// full, date-sorted list.
+const { featured, rest } = splitFeatured(allPosts);
+const totalPages = Math.max(1, Math.ceil(rest.length / perPage));
+const pagePosts = rest.slice(0, perPage);
 ---
 
 <BaseLayout
