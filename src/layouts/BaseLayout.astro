@@ -13,10 +13,12 @@ export interface Props {
   ogImage?: string;
   noIndex?: boolean;
   article?: {
+    type?: 'BlogPosting' | 'CreativeWork';
     publishedTime?: string;
     modifiedTime?: string;
     author?: string;
     tags?: string[];
+    year?: number;
   };
 }
 
