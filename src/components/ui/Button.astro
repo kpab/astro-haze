@@ -23,10 +23,17 @@ const {
   disabled = false,
   external,
   class: className = '',
+  'aria-label': ariaLabel,
   ...rest
 } = Astro.props;
 
 const isExternal = external ?? href?.startsWith('http') ?? false;
+
+// aria-label replaces the accessible name computed from child content, so
+// the visually-hidden "(opens in new tab)" span below would otherwise go
+// unannounced whenever a caller also passes aria-label.
+const resolvedAriaLabel =
+  isExternal && ariaLabel ? `${ariaLabel} (opens in new tab)` : ariaLabel;
 
 const Tag = href ? 'a' : 'button';
 const classes = [
@@ -48,6 +55,7 @@ const classes = [
   target={isExternal ? '_blank' : undefined}
   aria-disabled={href && disabled ? 'true' : undefined}
   disabled={!href && disabled ? true : undefined}
+  aria-label={resolvedAriaLabel}
   {...rest}
 >
   <slot />
