@@ -299,13 +299,14 @@ button {
   display: none;
   flex-direction: column;
   gap: 4px;
-  width: 24px;
-  height: 24px;
+  width: 44px;
+  height: 44px;
+  align-items: center;
   justify-content: center;
 }
 
 .menu-toggle span {
-  width: 100%;
+  width: 24px;
   height: 2px;
   background: currentColor;
   transition: all var(--transition-fast);
