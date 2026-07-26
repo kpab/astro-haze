@@ -27,7 +27,7 @@ jobs:
       # withastro/action installs deps, runs `astro build`, and uploads the
       # Pages artifact. site/base come from astro.config.mjs.
       - name: Build
-        uses: withastro/action@v3
+        uses: withastro/action@v6
         with:
           node-version: 22
 
