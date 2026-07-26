@@ -121,8 +121,10 @@ const formattedDate = formatDate(pubDate);
     transition: transform var(--transition-slow);
   }
 
-  .blog-card:hover .blog-card__image :global(img) {
-    transform: scale(1.05);
+  @media (hover: hover) {
+    .blog-card:hover .blog-card__image :global(img) {
+      transform: scale(1.05);
+    }
   }
 
   .blog-card__featured {

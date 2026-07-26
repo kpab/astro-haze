@@ -255,11 +255,18 @@ const rangeEnd = indexOffset + projects.length;
       background var(--transition-fast);
   }
 
-  .filter:hover,
   .filter.is-active {
     border-color: var(--color-accent);
     color: var(--color-accent);
     background: var(--color-accent-glass);
+  }
+
+  @media (hover: hover) {
+    .filter:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+      background: var(--color-accent-glass);
+    }
   }
 
   .filter:focus-visible {

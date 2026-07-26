@@ -159,9 +159,11 @@ const navItems = getEnabledNavItems();
     position: relative;
   }
 
-  .nav-link:hover {
-    color: var(--color-text);
-    background: var(--glass-bg);
+  @media (hover: hover) {
+    .nav-link:hover {
+      color: var(--color-text);
+      background: var(--glass-bg);
+    }
   }
 
   .nav-link.active {
@@ -197,9 +199,11 @@ const navItems = getEnabledNavItems();
     transition: all var(--transition-fast);
   }
 
-  .search-toggle:hover {
-    color: var(--color-text);
-    background: var(--glass-bg);
+  @media (hover: hover) {
+    .search-toggle:hover {
+      color: var(--color-text);
+      background: var(--glass-bg);
+    }
   }
 
   /* Mobile styles */

@@ -108,23 +108,12 @@ const classes = [
     border-color: var(--glass-border);
     color: var(--color-text);
   }
-  .btn--glass:hover {
-    transform: translateY(-1px);
-    background: var(--color-accent-glass);
-    border-color: var(--color-accent);
-    box-shadow: 0 4px 20px 0 rgba(31, 38, 135, 0.2);
-  }
-
   /* Solid variant — uses the darker accent so near-white label text clears
      WCAG AA contrast in light mode (the brighter accent is ~3.6:1). */
   .btn--solid {
     background: var(--color-accent-dark);
     color: var(--color-text-inverse);
     box-shadow: 0 4px 16px -4px var(--color-accent);
-  }
-  .btn--solid:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 8px 24px -6px var(--color-accent);
   }
 
   /* Outline variant */
@@ -133,18 +122,31 @@ const classes = [
     border-color: var(--color-accent);
     color: var(--color-accent-text);
   }
-  .btn--outline:hover {
-    background: var(--color-accent-glass);
-    transform: translateY(-1px);
-  }
 
   /* Ghost variant */
   .btn--ghost {
     background: transparent;
     color: var(--color-text);
   }
-  .btn--ghost:hover {
-    background: var(--color-surface);
+
+  @media (hover: hover) {
+    .btn--glass:hover {
+      transform: translateY(-1px);
+      background: var(--color-accent-glass);
+      border-color: var(--color-accent);
+      box-shadow: 0 4px 20px 0 rgba(31, 38, 135, 0.2);
+    }
+    .btn--solid:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px -6px var(--color-accent);
+    }
+    .btn--outline:hover {
+      background: var(--color-accent-glass);
+      transform: translateY(-1px);
+    }
+    .btn--ghost:hover {
+      background: var(--color-surface);
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {

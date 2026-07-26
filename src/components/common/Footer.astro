@@ -196,10 +196,12 @@ const footerLinks = siteConfig.footer.links.filter((link) => {
     transition: all var(--transition-fast);
   }
 
-  .social-link:hover {
-    background: var(--color-accent-glass);
-    color: var(--color-accent);
-    transform: translateY(-2px);
+  @media (hover: hover) {
+    .social-link:hover {
+      background: var(--color-accent-glass);
+      color: var(--color-accent);
+      transform: translateY(-2px);
+    }
   }
 
   /* Bottom Bar */
