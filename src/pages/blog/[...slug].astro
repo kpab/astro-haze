@@ -240,10 +240,20 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
     font-weight: 800;
     line-height: 1.2;
     margin-bottom: var(--space-lg);
-    background: linear-gradient(135deg, var(--color-text), var(--color-accent));
+    /* The accent end uses the darker, AA-checked accent (see Button.astro's
+       solid variant) so the gradient edge stays readable on light mode. */
+    background: linear-gradient(135deg, var(--color-text), var(--color-accent-dark));
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
+  }
+
+  @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+    .post-title {
+      background: none;
+      -webkit-text-fill-color: currentColor;
+      color: var(--color-text);
+    }
   }
 
   .post-meta {

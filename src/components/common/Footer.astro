@@ -143,6 +143,14 @@ const footerLinks = siteConfig.footer.links.filter((link) => {
     -webkit-text-fill-color: transparent;
   }
 
+  @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+    .footer-title {
+      background: none;
+      -webkit-text-fill-color: currentColor;
+      color: var(--color-text);
+    }
+  }
+
   .footer-subtitle {
     font-size: var(--text-lg);
     font-weight: 600;

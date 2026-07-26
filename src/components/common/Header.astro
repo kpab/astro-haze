@@ -127,6 +127,14 @@ const navItems = getEnabledNavItems();
     -webkit-text-fill-color: transparent;
   }
 
+  @supports not ((-webkit-background-clip: text) or (background-clip: text)) {
+    .brand-text {
+      /* No explicit color: inherit .brand's color so :hover still applies. */
+      background: none;
+      -webkit-text-fill-color: currentColor;
+    }
+  }
+
   /* Navigation */
   .nav-menu {
     flex: 1;

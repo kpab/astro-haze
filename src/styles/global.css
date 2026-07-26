@@ -206,7 +206,7 @@ button {
   position: absolute;
   top: -100px;
   left: 0;
-  background: var(--color-accent);
+  background: var(--color-accent-dark);
   color: white;
   padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-md);
