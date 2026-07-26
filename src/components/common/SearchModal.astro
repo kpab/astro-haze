@@ -56,7 +56,8 @@
 <style>
   .search-modal {
     /* Centered near the top so results can grow downward. */
-    margin: min(12vh, 8rem) auto auto;
+    margin: min(12vh, 8rem) auto auto; /* fallback */
+    margin: min(12dvh, 8rem) auto auto;
     width: min(37.5rem, calc(100vw - 2 * var(--space-lg)));
     padding: 0;
     color: var(--color-text);
@@ -127,7 +128,8 @@
   }
 
   .search-body {
-    max-height: min(50vh, 24rem);
+    max-height: min(50vh, 24rem); /* fallback */
+    max-height: min(50dvh, 24rem);
     overflow-y: auto;
     overscroll-behavior: contain;
     padding: var(--space-sm);

@@ -204,7 +204,8 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
 
 <style>
   .main-content {
-    min-height: 100vh;
+    min-height: 100vh; /* fallback */
+    min-height: 100dvh;
   }
 
   .blog-post {

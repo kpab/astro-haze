@@ -23,7 +23,8 @@ body {
   line-height: 1.6;
   color: var(--color-text);
   background-color: var(--color-bg);
-  min-height: 100vh;
+  min-height: 100vh; /* fallback */
+  min-height: 100dvh;
   overflow-x: hidden;
   overflow-wrap: break-word;
   -webkit-font-smoothing: antialiased;

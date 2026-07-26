@@ -87,7 +87,8 @@ const { images } = Astro.props;
 
     :global(.gallery__image),
     .gallery__item--1 :global(.gallery__image) {
-      height: min(30rem, 75vh);
+      height: min(30rem, 75vh); /* fallback */
+      height: min(30rem, 75dvh);
     }
   }
 </style>

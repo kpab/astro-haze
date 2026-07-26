@@ -78,7 +78,8 @@ const pagePosts = rest.slice(0, perPage);
 
 <style>
   .main-content {
-    min-height: 100vh;
+    min-height: 100vh; /* fallback */
+    min-height: 100dvh;
   }
 
   .section {

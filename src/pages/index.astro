@@ -176,7 +176,8 @@ const showcases = [
 
   .home-hero {
     position: relative;
-    min-height: min(54rem, calc(100vh - 5rem));
+    min-height: min(54rem, calc(100vh - 5rem)); /* fallback */
+    min-height: min(54rem, calc(100dvh - 5rem));
     display: grid;
     align-items: center;
     padding-block: clamp(5rem, 12vw, 10rem);

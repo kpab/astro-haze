@@ -68,7 +68,8 @@ const { posts, currentPage, totalPages } = Astro.props;
 
 <style>
   .main-content {
-    min-height: 100vh;
+    min-height: 100vh; /* fallback */
+    min-height: 100dvh;
     padding-top: var(--space-2xl);
   }
 

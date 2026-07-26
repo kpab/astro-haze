@@ -57,7 +57,8 @@ const maxCount = tags.reduce((m, t) => Math.max(m, t.count), 1);
 
 <style>
   .main-content {
-    min-height: 100vh;
+    min-height: 100vh; /* fallback */
+    min-height: 100dvh;
     padding-top: var(--space-2xl);
   }
 

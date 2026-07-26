@@ -39,7 +39,8 @@ import { withBase } from '@/lib/url';
 
 <style>
   .main-content {
-    min-height: 60vh;
+    min-height: 60vh; /* fallback */
+    min-height: 60dvh;
     display: flex;
     align-items: center;
   }

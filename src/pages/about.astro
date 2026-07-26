@@ -223,7 +223,8 @@ const stack = [
   }
 
   .about-hero__panel {
-    min-height: min(47rem, calc(100vh - 8rem));
+    min-height: min(47rem, calc(100vh - 8rem)); /* fallback */
+    min-height: min(47rem, calc(100dvh - 8rem));
     display: flex;
     flex-direction: column;
     justify-content: space-between;
