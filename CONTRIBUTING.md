@@ -39,7 +39,7 @@ principles in mind:
   scripts only when there is no reasonable alternative.
 - **Use the design tokens** — colors, spacing, radii, and transitions come from
   `src/styles/tokens.css`. Avoid hard-coded values in components.
-- **Both color modes** — every visual change must look right in light *and* dark mode.
+- **Both color modes** — every visual change must look right in light _and_ dark mode.
 - **Accessibility is non-negotiable** — preserve landmarks, keyboard focus states,
   `prefers-reduced-motion` / `prefers-reduced-transparency` handling, and WCAG AA-conscious
   contrast.

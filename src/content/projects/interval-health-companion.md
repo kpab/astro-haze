@@ -1,23 +1,23 @@
 ---
-title: "Interval Health Companion"
-summary: "A private, low-friction recovery companion that turns clinical plans into a manageable rhythm at home."
-description: "Interval helps patients follow rehabilitation plans, notice meaningful changes, and share concise progress with clinicians."
-cover: "../../assets/images/projects/interval-cover.webp"
-coverAlt: "Interval recovery companion displaying a daily rehabilitation plan"
+title: 'Interval Health Companion'
+summary: 'A private, low-friction recovery companion that turns clinical plans into a manageable rhythm at home.'
+description: 'Interval helps patients follow rehabilitation plans, notice meaningful changes, and share concise progress with clinicians.'
+cover: '../../assets/images/projects/interval-cover.webp'
+coverAlt: 'Interval recovery companion displaying a daily rehabilitation plan'
 images:
-  - "../../assets/images/projects/interval-plan.webp"
-  - "../../assets/images/projects/interval-checkin.webp"
-  - "../../assets/images/projects/interval-progress.webp"
+  - '../../assets/images/projects/interval-plan.webp'
+  - '../../assets/images/projects/interval-checkin.webp'
+  - '../../assets/images/projects/interval-progress.webp'
 tech:
-  - "React"
-  - "TypeScript"
-  - "Supabase"
-  - "Storybook"
-role: "Product design"
+  - 'React'
+  - 'TypeScript'
+  - 'Supabase'
+  - 'Storybook'
+role: 'Product design'
 year: 2024
 featured: false
-client: "Interval Health"
-duration: "20 weeks"
+client: 'Interval Health'
+duration: '20 weeks'
 ---
 
 ## Between appointments

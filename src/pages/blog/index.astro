@@ -65,7 +65,11 @@ const pagePosts = rest.slice(0, perPage);
           ) : (
             <>
               <PostGrid posts={pagePosts} />
-              <Pagination currentPage={1} totalPages={totalPages} basePath="/blog" />
+              <Pagination
+                currentPage={1}
+                totalPages={totalPages}
+                basePath="/blog"
+              />
             </>
           )
         }

@@ -27,8 +27,12 @@ const { features } = Astro.props;
       features.map((feature, index) => (
         <GlassCard padding="lg" radius="xl" class="feature-card">
           <div class="feature-card__top">
-            <span class="feature-card__number">{String(index + 1).padStart(2, '0')}</span>
-            <span class="feature-card__glyph" aria-hidden="true">{feature.icon ?? '✦'}</span>
+            <span class="feature-card__number">
+              {String(index + 1).padStart(2, '0')}
+            </span>
+            <span class="feature-card__glyph" aria-hidden="true">
+              {feature.icon ?? '✦'}
+            </span>
           </div>
           <h3>{feature.title}</h3>
           <p>{feature.description}</p>

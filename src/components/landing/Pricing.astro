@@ -28,11 +28,20 @@ const { plans } = Astro.props;
   <div class="pricing-grid">
     {
       plans.map((plan) => (
-        <GlassCard padding="lg" radius="xl" class:list={['pricing-card', { 'pricing-card--featured': plan.highlighted }]}>
+        <GlassCard
+          padding="lg"
+          radius="xl"
+          class:list={[
+            'pricing-card',
+            { 'pricing-card--featured': plan.highlighted },
+          ]}
+        >
           <div class="pricing-card__heading">
             <div>
               <p class="pricing-card__name">{plan.name}</p>
-              {plan.highlighted && <span class="pricing-card__label">Most considered</span>}
+              {plan.highlighted && (
+                <span class="pricing-card__label">Most considered</span>
+              )}
             </div>
             <p class="pricing-card__price">
               {plan.price}
@@ -41,9 +50,18 @@ const { plans } = Astro.props;
           </div>
           <p class="pricing-card__description">{plan.description}</p>
           <ul>
-            {plan.features.map((feature) => <li><span aria-hidden="true">✓</span>{feature}</li>)}
+            {plan.features.map((feature) => (
+              <li>
+                <span aria-hidden="true">✓</span>
+                {feature}
+              </li>
+            ))}
           </ul>
-          <Button href={plan.cta.href} variant={plan.highlighted ? 'solid' : 'outline'} fullWidth>
+          <Button
+            href={plan.cta.href}
+            variant={plan.highlighted ? 'solid' : 'outline'}
+            fullWidth
+          >
             {plan.cta.text}
           </Button>
         </GlassCard>

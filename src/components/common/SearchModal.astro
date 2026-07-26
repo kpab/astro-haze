@@ -7,7 +7,12 @@
 // is shown when no index exists yet.
 ---
 
-<dialog id="search-modal" class="search-modal" aria-label="Site search" data-pagefind-ignore>
+<dialog
+  id="search-modal"
+  class="search-modal"
+  aria-label="Site search"
+  data-pagefind-ignore
+>
   <div class="search-box">
     <form class="search-form" role="search">
       <svg
@@ -33,7 +38,12 @@
         spellcheck="false"
         aria-label="Search this site"
       />
-      <button type="button" class="search-close" data-search-close aria-label="Close search">
+      <button
+        type="button"
+        class="search-close"
+        data-search-close
+        aria-label="Close search"
+      >
         <kbd>Esc</kbd>
       </button>
     </form>
@@ -252,8 +262,12 @@
 </style>
 
 <script>
-  const dialog = document.getElementById('search-modal') as HTMLDialogElement | null;
-  const input = document.getElementById('search-input') as HTMLInputElement | null;
+  const dialog = document.getElementById(
+    'search-modal',
+  ) as HTMLDialogElement | null;
+  const input = document.getElementById(
+    'search-input',
+  ) as HTMLInputElement | null;
   const status = document.getElementById('search-status');
   const resultsList = document.getElementById('search-results');
 
@@ -270,8 +284,10 @@
     debouncedSearch: (
       query: string,
       options?: Record<string, unknown>,
-      debounceMs?: number
-    ) => Promise<{ results: Array<{ data: () => Promise<PagefindDocument> }> } | null>;
+      debounceMs?: number,
+    ) => Promise<{
+      results: Array<{ data: () => Promise<PagefindDocument> }>;
+    } | null>;
   };
   type PagefindDocument = {
     url: string;
@@ -288,13 +304,15 @@
   // runtime. The Function indirection keeps the dynamic import opaque to the
   // bundler so the browser-native import() reaches the runtime untouched.
   const dynamicImport = new Function('s', 'return import(s)') as (
-    s: string
+    s: string,
   ) => Promise<unknown>;
 
   async function loadPagefind(): Promise<Pagefind | null> {
     if (pagefind || loadFailed) return pagefind;
     try {
-      pagefind = (await dynamicImport(`${BASE}/pagefind/pagefind.js`)) as Pagefind;
+      pagefind = (await dynamicImport(
+        `${BASE}/pagefind/pagefind.js`,
+      )) as Pagefind;
       // Result URLs in the index are root-relative to the built site, so the
       // deploy base has to be prepended for project-site hosting.
       await pagefind.options({ baseUrl: `${BASE}/` });
@@ -302,7 +320,7 @@
     } catch {
       loadFailed = true;
       showStatus(
-        'Search index not found. It is generated at build time — run a production build once, then reload.'
+        'Search index not found. It is generated at build time — run a production build once, then reload.',
       );
     }
     return pagefind;
@@ -348,7 +366,7 @@
         link.append(title, excerpt);
         item.appendChild(link);
         return item;
-      })
+      }),
     );
   }
 
@@ -362,7 +380,9 @@
     // debouncedSearch resolves to null when superseded by newer input.
     const search = await pf.debouncedSearch(query, {}, 250);
     if (!search) return;
-    const docs = await Promise.all(search.results.slice(0, MAX_RESULTS).map((r) => r.data()));
+    const docs = await Promise.all(
+      search.results.slice(0, MAX_RESULTS).map((r) => r.data()),
+    );
     // The query may have changed (or been cleared) while result data loaded.
     if (input && input.value !== query) return;
     renderResults(docs, query);
@@ -376,7 +396,9 @@
     loadPagefind();
   }
 
-  input?.addEventListener('input', (e) => runSearch((e.target as HTMLInputElement).value));
+  input?.addEventListener('input', (e) =>
+    runSearch((e.target as HTMLInputElement).value),
+  );
 
   dialog?.addEventListener('close', () => {
     document.documentElement.style.overflow = '';
@@ -396,7 +418,7 @@
     if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
     e.preventDefault();
     const links = Array.from(
-      resultsList?.querySelectorAll<HTMLAnchorElement>('.search-result') ?? []
+      resultsList?.querySelectorAll<HTMLAnchorElement>('.search-result') ?? [],
     );
     if (!input || links.length === 0) return;
     const stops: HTMLElement[] = [input, ...links];

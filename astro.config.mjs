@@ -17,7 +17,7 @@ export default defineConfig({
   integrations: [
     mdx(),
     ...(siteConfig.features.sitemap ? [sitemap()] : []),
-    ...(siteConfig.features.search ? [pagefind()] : [])
+    ...(siteConfig.features.search ? [pagefind()] : []),
   ],
   output: 'static',
   // GitHub Pages 301-redirects slash-less directory requests to the
@@ -26,26 +26,26 @@ export default defineConfig({
   trailingSlash: 'always',
   build: {
     format: 'directory',
-    inlineStylesheets: 'auto'
+    inlineStylesheets: 'auto',
   },
   vite: {
     build: {
-      cssMinify: true
-    }
+      cssMinify: true,
+    },
   },
   image: {
     service: {
-      entrypoint: 'astro/assets/services/sharp'
+      entrypoint: 'astro/assets/services/sharp',
     },
-    format: ['avif', 'webp']
+    format: ['avif', 'webp'],
   },
   // Markdown is handled by Sätteri (Astro 7 default). GFM — tables, task
   // lists, footnotes — is enabled out of the box, so no config is needed.
   server: {
     port: 3000,
-    host: true
+    host: true,
   },
   devToolbar: {
-    enabled: true
-  }
+    enabled: true,
+  },
 });

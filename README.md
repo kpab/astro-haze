@@ -26,20 +26,20 @@
 
 ## Features
 
-| | |
-| --- | --- |
-| **Glass UI system** | Aurora backgrounds with reusable cards, buttons, badges, tags, sections & containers |
-| **Site search** | Pagefind-powered static search in a glass modal — open with the header button or <kbd>⌘K</kbd> |
-| **Light / dark** | System-aware theme toggle with no-flash startup and synced `theme-color` |
-| **Blog** | Pagination, tags, table of contents, reading time, share links, prev/next navigation |
-| **Portfolio** | Index with technology filters, case-study pages, and responsive galleries |
-| **Landing page** | Config-driven hero, features, benefits, pricing, gallery, testimonials, FAQ & final CTA |
-| **Content Layer** | Astro 7 collections with Zod-validated frontmatter; Markdown **and** MDX (Sätteri engine) |
-| **SEO & feeds** | Canonical URLs, Open Graph, Twitter cards, JSON-LD, RSS feed & XML sitemap |
-| **Accessible** | Landmarks, skip nav, keyboard focus states, WCAG AA-conscious color & interaction |
-| **Respectful motion** | Honors `prefers-reduced-motion` and `prefers-reduced-transparency` |
-| **Optimized images** | AVIF/WebP with responsive `srcset` via `astro:assets` |
-| **Static & fast** | Minimal client JS — deploys to GitHub Pages or Cloudflare Pages |
+|                       |                                                                                                |
+| --------------------- | ---------------------------------------------------------------------------------------------- |
+| **Glass UI system**   | Aurora backgrounds with reusable cards, buttons, badges, tags, sections & containers           |
+| **Site search**       | Pagefind-powered static search in a glass modal — open with the header button or <kbd>⌘K</kbd> |
+| **Light / dark**      | System-aware theme toggle with no-flash startup and synced `theme-color`                       |
+| **Blog**              | Pagination, tags, table of contents, reading time, share links, prev/next navigation           |
+| **Portfolio**         | Index with technology filters, case-study pages, and responsive galleries                      |
+| **Landing page**      | Config-driven hero, features, benefits, pricing, gallery, testimonials, FAQ & final CTA        |
+| **Content Layer**     | Astro 7 collections with Zod-validated frontmatter; Markdown **and** MDX (Sätteri engine)      |
+| **SEO & feeds**       | Canonical URLs, Open Graph, Twitter cards, JSON-LD, RSS feed & XML sitemap                     |
+| **Accessible**        | Landmarks, skip nav, keyboard focus states, WCAG AA-conscious color & interaction              |
+| **Respectful motion** | Honors `prefers-reduced-motion` and `prefers-reduced-transparency`                             |
+| **Optimized images**  | AVIF/WebP with responsive `srcset` via `astro:assets`                                          |
+| **Static & fast**     | Minimal client JS — deploys to GitHub Pages or Cloudflare Pages                                |
 
 > [!NOTE]
 > Blog hero images and project covers/galleries are validated with Astro's `image()` helper
@@ -52,9 +52,9 @@
 
 ## Screenshots
 
-| Light | Dark |
-| --- | --- |
-| <img src="docs/screenshots/astro-haze-home-light.webp" alt="astro-haze home page in light mode" width="100%" /> | <img src="docs/screenshots/astro-haze-landing-dark.webp" alt="astro-haze landing page in dark mode" width="100%" /> |
+| Light                                                                                                            | Dark                                                                                                                     |
+| ---------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| <img src="docs/screenshots/astro-haze-home-light.webp" alt="astro-haze home page in light mode" width="100%" />  | <img src="docs/screenshots/astro-haze-landing-dark.webp" alt="astro-haze landing page in dark mode" width="100%" />      |
 | <img src="docs/screenshots/astro-haze-blog-light.webp" alt="astro-haze blog index in light mode" width="100%" /> | <img src="docs/screenshots/astro-haze-portfolio-dark.webp" alt="astro-haze portfolio index in dark mode" width="100%" /> |
 
 ---
@@ -85,12 +85,12 @@ Create a production build (written to `dist/`):
 npm run build
 ```
 
-| Command | Purpose |
-| --- | --- |
-| `npm run dev` | Start the Astro development server |
-| `npm run build` | Build the production site |
-| `npm run preview` | Preview the production build locally |
-| `npm run check` | Run Astro diagnostics and TypeScript without emitting files |
+| Command           | Purpose                                                     |
+| ----------------- | ----------------------------------------------------------- |
+| `npm run dev`     | Start the Astro development server                          |
+| `npm run build`   | Build the production site                                   |
+| `npm run preview` | Preview the production build locally                        |
+| `npm run check`   | Run Astro diagnostics and TypeScript without emitting files |
 
 ---
 
@@ -130,32 +130,32 @@ visibility, social links, and page options.
 
 ### Identity and theme
 
-| Field | Type | Purpose |
-| --- | --- | --- |
-| `name` | `string` | Short site or brand name used in the header and footer |
-| `title` | `string` | Default full site title |
-| `description` | `string` | Default site description and footer copy |
-| `author` | `string` | Default author identity |
-| `url` | `string` | Canonical production origin |
-| `ogImage` | `string` | Default Open Graph image path |
-| `twitterHandle` | `string` | Site or author handle for social metadata |
-| `lang` | `string` | BCP47 language tag for `<html lang>` and the RSS `<language>` tag (e.g. `'en'`, `'ja'`) |
-| `ogLocale` | `string` (optional) | `og:locale` value (e.g. `'en_US'`). Derived from `lang` when omitted |
-| `theme.accentColor` | `string` | Accent value; keep it synchronized with the CSS accent tokens described below |
+| Field                    | Type                            | Purpose                                                                                                                                                                                                    |
+| ------------------------ | ------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`                   | `string`                        | Short site or brand name used in the header and footer                                                                                                                                                     |
+| `title`                  | `string`                        | Default full site title                                                                                                                                                                                    |
+| `description`            | `string`                        | Default site description and footer copy                                                                                                                                                                   |
+| `author`                 | `string`                        | Default author identity                                                                                                                                                                                    |
+| `url`                    | `string`                        | Canonical production origin                                                                                                                                                                                |
+| `ogImage`                | `string`                        | Default Open Graph image path                                                                                                                                                                              |
+| `twitterHandle`          | `string`                        | Site or author handle for social metadata                                                                                                                                                                  |
+| `lang`                   | `string`                        | BCP47 language tag for `<html lang>` and the RSS `<language>` tag (e.g. `'en'`, `'ja'`)                                                                                                                    |
+| `ogLocale`               | `string` (optional)             | `og:locale` value (e.g. `'en_US'`). Derived from `lang` when omitted                                                                                                                                       |
+| `theme.accentColor`      | `string`                        | Accent value; keep it synchronized with the CSS accent tokens described below                                                                                                                              |
 | `theme.defaultColorMode` | `'light' \| 'dark' \| 'system'` | Initial color mode when the visitor has no saved preference. `light`/`dark` apply that mode at startup (no flash); `system` follows the OS. Honored by both the inline startup script and the theme toggle |
-| `theme.showThemeToggle` | `boolean` | Renders the floating theme toggle when `true` |
+| `theme.showThemeToggle`  | `boolean`                       | Renders the floating theme toggle when `true`                                                                                                                                                              |
 
 ### Navigation and feature flags
 
-| Field | Type | Purpose |
-| --- | --- | --- |
-| `nav.main` | `Array<{ name: string; href: string }>` | Main navigation entries used by the header and footer |
-| `features.blog` | `boolean` | Shows or hides the blog entry in the main header |
-| `features.portfolio` | `boolean` | Shows or hides the portfolio entry in the main header |
-| `features.landing` | `boolean` | Shows or hides the landing-page entry in the main header |
-| `features.rss` | `boolean` | Controls the RSS discovery `<link>`; the `/rss.xml` feed is always generated |
-| `features.sitemap` | `boolean` | Enables the `@astrojs/sitemap` integration in `astro.config.mjs` |
-| `features.search` | `boolean` | Enables Pagefind search: the `astro-pagefind` integration, the header search button, and the <kbd>⌘K</kbd> modal |
+| Field                | Type                                    | Purpose                                                                                                          |
+| -------------------- | --------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `nav.main`           | `Array<{ name: string; href: string }>` | Main navigation entries used by the header and footer                                                            |
+| `features.blog`      | `boolean`                               | Shows or hides the blog entry in the main header                                                                 |
+| `features.portfolio` | `boolean`                               | Shows or hides the portfolio entry in the main header                                                            |
+| `features.landing`   | `boolean`                               | Shows or hides the landing-page entry in the main header                                                         |
+| `features.rss`       | `boolean`                               | Controls the RSS discovery `<link>`; the `/rss.xml` feed is always generated                                     |
+| `features.sitemap`   | `boolean`                               | Enables the `@astrojs/sitemap` integration in `astro.config.mjs`                                                 |
+| `features.search`    | `boolean`                               | Enables Pagefind search: the `astro-pagefind` integration, the header search button, and the <kbd>⌘K</kbd> modal |
 
 Header navigation entries and the sitemap integration respond to these flags. The `/rss.xml`
 feed and content routes are always part of the static build.
@@ -168,31 +168,31 @@ feed and content routes are always part of the static build.
 
 All social fields are optional strings.
 
-| Field | Used for |
-| --- | --- |
-| `social.github` | GitHub link in the footer |
-| `social.twitter` | Twitter/X link in the footer |
-| `social.linkedin` | LinkedIn link in the footer |
+| Field              | Used for                     |
+| ------------------ | ---------------------------- |
+| `social.github`    | GitHub link in the footer    |
+| `social.twitter`   | Twitter/X link in the footer |
+| `social.linkedin`  | LinkedIn link in the footer  |
 | `social.instagram` | Instagram link in the footer |
-| `social.youtube` | YouTube link in the footer |
+| `social.youtube`   | YouTube link in the footer   |
 
 ### Blog options
 
-| Field | Type | Purpose |
-| --- | --- | --- |
-| `blog.postsPerPage` | `number` | Number of posts on each blog archive page |
-| `blog.showToc` | `boolean` | Shows the generated table of contents when headings exist |
-| `blog.showReadingTime` | `boolean` | Shows estimated reading time |
-| `blog.showShareButtons` | `boolean` | Shows article share links |
-| `blog.showRelatedPosts` | `boolean` | Shows previous/next article navigation |
+| Field                   | Type      | Purpose                                                   |
+| ----------------------- | --------- | --------------------------------------------------------- |
+| `blog.postsPerPage`     | `number`  | Number of posts on each blog archive page                 |
+| `blog.showToc`          | `boolean` | Shows the generated table of contents when headings exist |
+| `blog.showReadingTime`  | `boolean` | Shows estimated reading time                              |
+| `blog.showShareButtons` | `boolean` | Shows article share links                                 |
+| `blog.showRelatedPosts` | `boolean` | Shows previous/next article navigation                    |
 
 ### Portfolio options
 
-| Field | Type | Purpose |
-| --- | --- | --- |
-| `portfolio.projectsPerPage` | `number` | Projects per page on the work archive (`/work`, then `/work/page/N`) |
-| `portfolio.showTechStack` | `boolean` | Shows the technology stack on project cards and project pages |
-| `portfolio.showYear` | `boolean` | Shows the project year on project cards and project pages |
+| Field                       | Type      | Purpose                                                              |
+| --------------------------- | --------- | -------------------------------------------------------------------- |
+| `portfolio.projectsPerPage` | `number`  | Projects per page on the work archive (`/work`, then `/work/page/N`) |
+| `portfolio.showTechStack`   | `boolean` | Shows the technology stack on project cards and project pages        |
+| `portfolio.showYear`        | `boolean` | Shows the project year on project cards and project pages            |
 
 ---
 
@@ -208,16 +208,16 @@ Add `.md` or `.mdx` files to `src/content/blog/`:
 
 ```md
 ---
-title: "Designing with atmosphere"
-description: "How to keep glass interfaces readable and useful."
+title: 'Designing with atmosphere'
+description: 'How to keep glass interfaces readable and useful.'
 pubDate: 2026-06-28
 updatedDate: 2026-07-02
-heroImage: "../../assets/images/blog/atmosphere.webp"
-heroImageAlt: "Layered translucent interface panels"
+heroImage: '../../assets/images/blog/atmosphere.webp'
+heroImageAlt: 'Layered translucent interface panels'
 tags:
   - design
   - astro
-author: "Your Name"
+author: 'Your Name'
 draft: false
 featured: true
 ---
@@ -225,18 +225,18 @@ featured: true
 Write the article here.
 ```
 
-| Field | Requirement |
-| --- | --- |
-| `title` | Required string |
-| `description` | Required string |
-| `pubDate` | Required date-coercible value |
-| `updatedDate` | Optional date-coercible value |
-| `heroImage` | Optional local image under `src/assets/` (relative path), optimized via `astro:assets` |
-| `heroImageAlt` | Optional string |
-| `tags` | String array; defaults to `[]` |
-| `author` | String; defaults to `Anonymous` |
-| `draft` | Boolean; defaults to `false` |
-| `featured` | Boolean; defaults to `false` |
+| Field          | Requirement                                                                            |
+| -------------- | -------------------------------------------------------------------------------------- |
+| `title`        | Required string                                                                        |
+| `description`  | Required string                                                                        |
+| `pubDate`      | Required date-coercible value                                                          |
+| `updatedDate`  | Optional date-coercible value                                                          |
+| `heroImage`    | Optional local image under `src/assets/` (relative path), optimized via `astro:assets` |
+| `heroImageAlt` | Optional string                                                                        |
+| `tags`         | String array; defaults to `[]`                                                         |
+| `author`       | String; defaults to `Anonymous`                                                        |
+| `draft`        | Boolean; defaults to `false`                                                           |
+| `featured`     | Boolean; defaults to `false`                                                           |
 
 ### Portfolio projects
 
@@ -244,48 +244,48 @@ Add `.md` or `.mdx` files to `src/content/projects/`:
 
 ```md
 ---
-title: "Northstar"
-summary: "A clear route through complex public services."
-description: "An optional longer summary for metadata and the case-study lead."
-cover: "../../assets/images/projects/northstar-cover.webp"
-coverAlt: "Northstar shown on desktop and mobile"
+title: 'Northstar'
+summary: 'A clear route through complex public services.'
+description: 'An optional longer summary for metadata and the case-study lead.'
+cover: '../../assets/images/projects/northstar-cover.webp'
+coverAlt: 'Northstar shown on desktop and mobile'
 images:
-  - "../../assets/images/projects/northstar-search.webp"
-  - "../../assets/images/projects/northstar-mobile.webp"
+  - '../../assets/images/projects/northstar-search.webp'
+  - '../../assets/images/projects/northstar-mobile.webp'
 tech:
   - Astro
   - TypeScript
-role: "Design engineering"
+role: 'Design engineering'
 year: 2026
 featured: true
 links:
-  live: "https://example.com"
-  github: "https://github.com/example/northstar"
-  case: "/contact"
-client: "Northstar Council"
-duration: "16 weeks"
+  live: 'https://example.com'
+  github: 'https://github.com/example/northstar'
+  case: '/contact'
+client: 'Northstar Council'
+duration: '16 weeks'
 ---
 
 Write the case study here.
 ```
 
-| Field | Requirement |
-| --- | --- |
-| `title` | Required string |
-| `summary` | Required string |
-| `description` | Optional string |
-| `cover` | Required local image under `src/assets/` (relative path), optimized via `astro:assets` |
-| `coverAlt` | Optional string |
-| `images` | Optional array of local images under `src/assets/` (relative paths) |
-| `tech` | Required string array |
-| `role` | Required string |
-| `year` | Required number |
-| `featured` | Boolean; defaults to `false` |
-| `links.live` | Optional valid URL |
-| `links.github` | Optional valid URL |
-| `links.case` | Optional string path or URL |
-| `client` | Optional string |
-| `duration` | Optional string |
+| Field          | Requirement                                                                            |
+| -------------- | -------------------------------------------------------------------------------------- |
+| `title`        | Required string                                                                        |
+| `summary`      | Required string                                                                        |
+| `description`  | Optional string                                                                        |
+| `cover`        | Required local image under `src/assets/` (relative path), optimized via `astro:assets` |
+| `coverAlt`     | Optional string                                                                        |
+| `images`       | Optional array of local images under `src/assets/` (relative paths)                    |
+| `tech`         | Required string array                                                                  |
+| `role`         | Required string                                                                        |
+| `year`         | Required number                                                                        |
+| `featured`     | Boolean; defaults to `false`                                                           |
+| `links.live`   | Optional valid URL                                                                     |
+| `links.github` | Optional valid URL                                                                     |
+| `links.case`   | Optional string path or URL                                                            |
+| `client`       | Optional string                                                                        |
+| `duration`     | Optional string                                                                        |
 
 ### Landing-page data
 
@@ -309,15 +309,15 @@ loads the first entry in this collection. Only `hero` is required:
 
 The complete landing schema accepts these optional sections:
 
-| Section | Shape |
-| --- | --- |
-| `features` | Array of `{ title, description, icon?, image? }` |
-| `benefits` | Array of `{ title, description, icon? }` |
-| `pricing` | Array of `{ name, price, period?, description, features, highlighted?, cta: { text, href } }`; `highlighted` defaults to `false` |
-| `gallery` | Array of `{ src, alt, caption? }` |
-| `testimonials` | Array of `{ name, role, company?, content, avatar?, rating? }`; rating must be from 1 to 5 |
-| `faq` | Array of `{ question, answer }` |
-| `finalCta` | `{ title, description, button: { text, href } }` |
+| Section        | Shape                                                                                                                            |
+| -------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `features`     | Array of `{ title, description, icon?, image? }`                                                                                 |
+| `benefits`     | Array of `{ title, description, icon? }`                                                                                         |
+| `pricing`      | Array of `{ name, price, period?, description, features, highlighted?, cta: { text, href } }`; `highlighted` defaults to `false` |
+| `gallery`      | Array of `{ src, alt, caption? }`                                                                                                |
+| `testimonials` | Array of `{ name, role, company?, content, avatar?, rating? }`; rating must be from 1 to 5                                       |
+| `faq`          | Array of `{ question, answer }`                                                                                                  |
+| `finalCta`     | `{ title, description, button: { text, href } }`                                                                                 |
 
 Within `hero`, `title`, `subtitle`, `description`, and `cta.primary` are required.
 `cta.secondary` and `image` are optional.

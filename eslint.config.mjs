@@ -15,7 +15,10 @@ export default tseslint.config(
     rules: {
       // Astro components commonly destructure unused props for documentation
       // purposes (Props interfaces double as the component's public API).
-      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_' },
+      ],
       // TypeScript's own checker (via `astro check`) already catches
       // undefined identifiers with full knowledge of ambient lib types
       // (e.g. HTMLElementTagNameMap); the core rule doesn't know about
@@ -30,5 +33,5 @@ export default tseslint.config(
     rules: {
       '@typescript-eslint/triple-slash-reference': 'off',
     },
-  }
+  },
 );

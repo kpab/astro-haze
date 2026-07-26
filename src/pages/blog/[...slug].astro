@@ -11,11 +11,7 @@ import Picture from '@/components/ui/Picture.astro';
 import Toc from '@/components/blog/Toc.astro';
 import { withBase } from '@/lib/url';
 import { formatDate } from '@/lib/date';
-import {
-  getPublishedPosts,
-  getAdjacentPosts,
-  readingTime,
-} from '@/lib/posts';
+import { getPublishedPosts, getAdjacentPosts, readingTime } from '@/lib/posts';
 import siteConfig from '@/site.config';
 
 export const getStaticPaths = (async () => {
@@ -34,14 +30,16 @@ const { newer, older } = getAdjacentPosts(allPosts, post.id);
 
 const minutes = readingTime(post.body);
 const formattedDate = formatDate(post.data.pubDate);
-const updatedDate = post.data.updatedDate ? formatDate(post.data.updatedDate) : undefined;
+const updatedDate = post.data.updatedDate
+  ? formatDate(post.data.updatedDate)
+  : undefined;
 
 const showToc = siteConfig.blog.showToc && headings.length > 0;
 const tweetUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-  post.data.title
+  post.data.title,
 )}&url=${encodeURIComponent(Astro.url.href)}`;
 const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
-  Astro.url.href
+  Astro.url.href,
 )}`;
 ---
 
@@ -66,11 +64,15 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
           <h1 class="post-title">{post.data.title}</h1>
 
           <div class="post-meta">
-            <time datetime={post.data.pubDate.toISOString()}>{formattedDate}</time>
+            <time datetime={post.data.pubDate.toISOString()}
+              >{formattedDate}</time
+            >
             {
               updatedDate && (
                 <>
-                  <span class="separator" aria-hidden="true">·</span>
+                  <span class="separator" aria-hidden="true">
+                    ·
+                  </span>
                   <span>Updated {updatedDate}</span>
                 </>
               )
@@ -78,7 +80,9 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
             {
               siteConfig.blog.showReadingTime && minutes > 0 && (
                 <>
-                  <span class="separator" aria-hidden="true">·</span>
+                  <span class="separator" aria-hidden="true">
+                    ·
+                  </span>
                   <span>{minutes} min read</span>
                 </>
               )
@@ -86,7 +90,9 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
             {
               post.data.author && (
                 <>
-                  <span class="separator" aria-hidden="true">·</span>
+                  <span class="separator" aria-hidden="true">
+                    ·
+                  </span>
                   <span>By {post.data.author}</span>
                 </>
               )
@@ -149,7 +155,15 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
                     rel="noopener noreferrer"
                     class="share-button glass-button"
                   >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
                       <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
                     </svg>
                     Share on X
@@ -160,7 +174,15 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
                     rel="noopener noreferrer"
                     class="share-button glass-button"
                   >
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      aria-hidden="true"
+                    >
                       <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
                       <rect x="2" y="9" width="4" height="12" />
                       <circle cx="4" cy="4" r="2" />
@@ -177,7 +199,10 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
           siteConfig.blog.showRelatedPosts && (newer || older) && (
             <nav class="post-nav" aria-label="More posts">
               {older ? (
-                <GlassCard href={withBase(`/blog/${older.id}/`)} class="post-nav__card">
+                <GlassCard
+                  href={withBase(`/blog/${older.id}/`)}
+                  class="post-nav__card"
+                >
                   <span class="post-nav__dir">← Older</span>
                   <span class="post-nav__title">{older.data.title}</span>
                 </GlassCard>
@@ -185,7 +210,10 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
                 <span />
               )}
               {newer ? (
-                <GlassCard href={withBase(`/blog/${newer.id}/`)} class="post-nav__card post-nav__card--next">
+                <GlassCard
+                  href={withBase(`/blog/${newer.id}/`)}
+                  class="post-nav__card post-nav__card--next"
+                >
                   <span class="post-nav__dir">Newer →</span>
                   <span class="post-nav__title">{newer.data.title}</span>
                 </GlassCard>
@@ -242,7 +270,11 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
     margin-bottom: var(--space-lg);
     /* The accent end uses the darker, AA-checked accent (see Button.astro's
        solid variant) so the gradient edge stays readable on light mode. */
-    background: linear-gradient(135deg, var(--color-text), var(--color-accent-dark));
+    background: linear-gradient(
+      135deg,
+      var(--color-text),
+      var(--color-accent-dark)
+    );
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;

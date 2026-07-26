@@ -20,15 +20,24 @@ const { images, title } = Astro.props;
 
       <div class="gallery__grid">
         {images.map((src, index) => (
-          <figure class:list={['gallery__item', { 'gallery__item--wide': index % 3 === 0 }]}>
+          <figure
+            class:list={[
+              'gallery__item',
+              { 'gallery__item--wide': index % 3 === 0 },
+            ]}
+          >
             <Picture
               src={src}
               alt={`${title} project view ${index + 1}`}
               widths={[400, 800, 1200]}
-              sizes={index % 3 === 0 ? '100vw' : '(min-width: 640px) 50vw, 100vw'}
+              sizes={
+                index % 3 === 0 ? '100vw' : '(min-width: 640px) 50vw, 100vw'
+              }
               class="gallery__image"
             />
-            <figcaption>{String(index + 1).padStart(2, '0')} / {title}</figcaption>
+            <figcaption>
+              {String(index + 1).padStart(2, '0')} / {title}
+            </figcaption>
           </figure>
         ))}
       </div>

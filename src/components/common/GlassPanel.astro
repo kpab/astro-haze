@@ -12,7 +12,7 @@ const {
   padding = 'lg',
   radius = 'lg',
   className = '',
-  as: Element = 'div'
+  as: Element = 'div',
 } = Astro.props;
 
 const paddingMap: Record<string, string> = {
@@ -20,7 +20,7 @@ const paddingMap: Record<string, string> = {
   sm: 'var(--space-sm)',
   md: 'var(--space-md)',
   lg: 'var(--space-lg)',
-  xl: 'var(--space-xl)'
+  xl: 'var(--space-xl)',
 };
 
 const radiusMap: Record<string, string> = {
@@ -28,7 +28,7 @@ const radiusMap: Record<string, string> = {
   sm: 'var(--radius-sm)',
   md: 'var(--radius-md)',
   lg: 'var(--radius-lg)',
-  xl: 'var(--radius-xl)'
+  xl: 'var(--radius-xl)',
 };
 
 const paddingValue = paddingMap[padding];
@@ -86,14 +86,13 @@ const radiusValue = radiusMap[radius];
     left: 0;
     right: 0;
     bottom: 0;
-    background-image:
-      repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 35px,
-        rgba(255, 255, 255, 0.01) 35px,
-        rgba(255, 255, 255, 0.01) 70px
-      );
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 35px,
+      rgba(255, 255, 255, 0.01) 35px,
+      rgba(255, 255, 255, 0.01) 70px
+    );
     pointer-events: none;
     opacity: 0.4;
     z-index: 0;
@@ -106,15 +105,15 @@ const radiusValue = radiusMap[radius];
   }
 
   /* Dark mode adjustments */
-  [data-theme="dark"] .glass-panel--default {
+  [data-theme='dark'] .glass-panel--default {
     background: rgba(0, 0, 0, 0.2);
   }
 
-  [data-theme="dark"] .glass-panel--solid {
+  [data-theme='dark'] .glass-panel--solid {
     background: rgba(0, 0, 0, 0.7);
   }
 
-  [data-theme="dark"] .glass-panel--minimal {
+  [data-theme='dark'] .glass-panel--minimal {
     background: rgba(0, 0, 0, 0.1);
     border-color: rgba(255, 255, 255, 0.03);
   }
@@ -143,11 +142,11 @@ const radiusValue = radiusMap[radius];
       background: rgba(255, 255, 255, 0.98);
     }
 
-    [data-theme="dark"] .glass-panel--default {
+    [data-theme='dark'] .glass-panel--default {
       background: rgba(20, 20, 20, 0.95);
     }
 
-    [data-theme="dark"] .glass-panel--solid {
+    [data-theme='dark'] .glass-panel--solid {
       background: rgba(10, 10, 10, 0.98);
     }
   }

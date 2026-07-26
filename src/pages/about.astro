@@ -46,22 +46,26 @@ const stack = [
   {
     name: 'Content Layer',
     category: 'Content',
-    detail: 'Typed, validated collections for articles, projects, and campaign data.',
+    detail:
+      'Typed, validated collections for articles, projects, and campaign data.',
   },
   {
     name: 'Sätteri',
     category: 'Markdown',
-    detail: 'Astro’s modern Markdown pipeline for dependable authoring and output.',
+    detail:
+      'Astro’s modern Markdown pipeline for dependable authoring and output.',
   },
   {
     name: 'Glass system',
     category: 'Interface',
-    detail: 'Focused translucent surfaces, restrained depth, and solid fallbacks.',
+    detail:
+      'Focused translucent surfaces, restrained depth, and solid fallbacks.',
   },
   {
     name: 'Accessible by design',
     category: 'Foundation',
-    detail: 'Semantic structure, visible focus, native controls, and preference-aware motion.',
+    detail:
+      'Semantic structure, visible focus, native controls, and preference-aware motion.',
   },
 ];
 ---
@@ -75,7 +79,12 @@ const stack = [
   <main id="main" tabindex="-1">
     <section class="about-hero">
       <Container size="xl">
-        <GlassPanel variant="solid" padding="xl" radius="xl" className="about-hero__panel">
+        <GlassPanel
+          variant="solid"
+          padding="xl"
+          radius="xl"
+          className="about-hero__panel"
+        >
           <div class="about-hero__meta">
             <span>About the system</span>
             <span>Open source · Astro 7</span>
@@ -92,8 +101,9 @@ const stack = [
                 strong structure should make creative choices easier, not narrower.
               </p>
               <p>
-                It combines editorial hierarchy, typed content, accessible interaction,
-                and carefully limited glass effects into a foundation meant to be changed.
+                It combines editorial hierarchy, typed content, accessible
+                interaction, and carefully limited glass effects into a
+                foundation meant to be changed.
               </p>
             </div>
           </div>
@@ -103,12 +113,19 @@ const stack = [
             <div class="about-hero__actions">
               {
                 siteConfig.social.github && (
-                  <Button href={siteConfig.social.github} external variant="solid" size="lg">
+                  <Button
+                    href={siteConfig.social.github}
+                    external
+                    variant="solid"
+                    size="lg"
+                  >
                     View on GitHub <span aria-hidden="true">↗</span>
                   </Button>
                 )
               }
-              <Button href={withBase('/landing/')} variant="outline" size="lg">See the live demo</Button>
+              <Button href={withBase('/landing/')} variant="outline" size="lg"
+                >See the live demo</Button
+              >
             </div>
           </div>
         </GlassPanel>
@@ -125,14 +142,21 @@ const stack = [
       <div class="format-list">
         {
           formats.map((format) => (
-            <GlassCard href={withBase(format.href)} padding="lg" radius="xl" class="format-card">
+            <GlassCard
+              href={withBase(format.href)}
+              padding="lg"
+              radius="xl"
+              class="format-card"
+            >
               <div class="format-card__meta">
                 <span>{format.number}</span>
                 <span>{format.label}</span>
               </div>
               <h2>{format.title}</h2>
               <p>{format.description}</p>
-              <span class="format-card__link">Explore format <i aria-hidden="true">↗</i></span>
+              <span class="format-card__link">
+                Explore format <i aria-hidden="true">↗</i>
+              </span>
             </GlassCard>
           ))
         }
@@ -149,8 +173,8 @@ const stack = [
         <div class="principle__note">
           <span class="principle__mark" aria-hidden="true">✦</span>
           <p>
-            Glass appears only where it clarifies grouping or depth. Everywhere else,
-            type, spacing, and borders do the quieter work.
+            Glass appears only where it clarifies grouping or depth. Everywhere
+            else, type, spacing, and borders do the quieter work.
           </p>
         </div>
       </Container>
@@ -168,7 +192,9 @@ const stack = [
         {
           stack.map((item, index) => (
             <li>
-              <span class="stack-list__number">{String(index + 1).padStart(2, '0')}</span>
+              <span class="stack-list__number">
+                {String(index + 1).padStart(2, '0')}
+              </span>
               <span class="stack-list__category">{item.category}</span>
               <strong>{item.name}</strong>
               <p>{item.detail}</p>
@@ -186,20 +212,30 @@ const stack = [
         </div>
         <div class="about-cta__aside">
           <p>
-            Use the theme as a starting point for your next publication, portfolio,
-            or campaign—then shape the system around your own voice.
+            Use the theme as a starting point for your next publication,
+            portfolio, or campaign—then shape the system around your own voice.
           </p>
           <div>
             {
               siteConfig.social.github && (
-                <Button href={siteConfig.social.github} external variant="solid" size="lg">
+                <Button
+                  href={siteConfig.social.github}
+                  external
+                  variant="solid"
+                  size="lg"
+                >
                   Get the source <span aria-hidden="true">↗</span>
                 </Button>
               )
             }
             {
               siteConfig.social.twitter && (
-                <Button href={siteConfig.social.twitter} external variant="outline" size="lg">
+                <Button
+                  href={siteConfig.social.twitter}
+                  external
+                  variant="outline"
+                  size="lg"
+                >
                   Follow updates
                 </Button>
               )

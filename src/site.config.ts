@@ -88,7 +88,7 @@ const siteConfig: SiteConfig = {
   theme: {
     accentColor: 'hsl(280, 70%, 60%)',
     defaultColorMode: 'system',
-    showThemeToggle: true
+    showThemeToggle: true,
   },
 
   nav: {
@@ -97,8 +97,8 @@ const siteConfig: SiteConfig = {
       { name: 'Blog', href: '/blog/' },
       { name: 'Portfolio', href: '/work/' },
       { name: 'Landing', href: '/landing/' },
-      { name: 'About', href: '/about/' }
-    ]
+      { name: 'About', href: '/about/' },
+    ],
   },
 
   features: {
@@ -107,13 +107,13 @@ const siteConfig: SiteConfig = {
     landing: true,
     rss: true,
     sitemap: true,
-    search: true
+    search: true,
   },
 
   social: {
     github: 'https://github.com/yourusername',
     twitter: 'https://twitter.com/yourusername',
-    linkedin: 'https://linkedin.com/in/yourusername'
+    linkedin: 'https://linkedin.com/in/yourusername',
   },
 
   blog: {
@@ -121,13 +121,13 @@ const siteConfig: SiteConfig = {
     showToc: true,
     showReadingTime: true,
     showShareButtons: true,
-    showRelatedPosts: true
+    showRelatedPosts: true,
   },
 
   portfolio: {
     projectsPerPage: 9,
     showTechStack: true,
-    showYear: true
+    showYear: true,
   },
 
   footer: {
@@ -135,9 +135,9 @@ const siteConfig: SiteConfig = {
     // without those pages, so add them here only once the pages exist.
     links: [
       { name: 'Sitemap', href: '/sitemap-index.xml' },
-      { name: 'RSS', href: '/rss.xml' }
-    ]
-  }
+      { name: 'RSS', href: '/rss.xml' },
+    ],
+  },
 };
 
 // Derives an og:locale-shaped value ('language_REGION') from a BCP47 lang
@@ -148,6 +148,7 @@ function deriveOgLocale(lang: string): string {
   return `${language}_${(region ?? language).toUpperCase()}`;
 }
 
-export const resolvedOgLocale = siteConfig.ogLocale ?? deriveOgLocale(siteConfig.lang);
+export const resolvedOgLocale =
+  siteConfig.ogLocale ?? deriveOgLocale(siteConfig.lang);
 
 export default siteConfig;

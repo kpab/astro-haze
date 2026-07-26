@@ -18,13 +18,19 @@ if (!entry) {
   throw new Error('Add at least one entry to src/content/landing.');
 }
 
-const { hero, features, benefits, pricing, gallery, testimonials, faq, finalCta } = entry.data;
+const {
+  hero,
+  features,
+  benefits,
+  pricing,
+  gallery,
+  testimonials,
+  faq,
+  finalCta,
+} = entry.data;
 ---
 
-<BaseLayout
-  title={hero.title}
-  description={hero.description}
->
+<BaseLayout title={hero.title} description={hero.description}>
   <Header />
   <main id="main" tabindex="-1">
     <Hero hero={hero} />
@@ -32,7 +38,11 @@ const { hero, features, benefits, pricing, gallery, testimonials, faq, finalCta 
     {benefits && benefits.length > 0 && <Benefits benefits={benefits} />}
     {gallery && gallery.length > 0 && <Gallery images={gallery} />}
     {pricing && pricing.length > 0 && <Pricing plans={pricing} />}
-    {testimonials && testimonials.length > 0 && <Testimonials testimonials={testimonials} />}
+    {
+      testimonials && testimonials.length > 0 && (
+        <Testimonials testimonials={testimonials} />
+      )
+    }
     {faq && faq.length > 0 && <Faq items={faq} />}
     {finalCta && <FinalCta cta={finalCta} />}
   </main>

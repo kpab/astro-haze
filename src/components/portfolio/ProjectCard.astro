@@ -41,7 +41,9 @@ const {
         src={cover}
         alt={coverAlt}
         widths={[400, 800, 1200]}
-        sizes={featured ? '(min-width: 900px) 60vw, 100vw' : '(min-width: 900px) 40vw, 100vw'}
+        sizes={featured
+          ? '(min-width: 900px) 60vw, 100vw'
+          : '(min-width: 900px) 40vw, 100vw'}
         loading={index === 0 ? 'eager' : 'lazy'}
         fetchpriority={index === 0 ? 'high' : undefined}
         class="project__image"
@@ -54,24 +56,35 @@ const {
 
     <div class="project__body">
       <div class="project__meta">
-        {showYear && (
-          <>
-            <span>{year}</span>
-            <span aria-hidden="true">/</span>
-          </>
-        )}
+        {
+          showYear && (
+            <>
+              <span>{year}</span>
+              <span aria-hidden="true">/</span>
+            </>
+          )
+        }
         <span>{role}</span>
       </div>
 
       <h2 class="project__title">{title}</h2>
       <p class="project__summary">{summary}</p>
 
-      <div class:list={['project__footer', { 'project__footer--solo': !showTechStack }]}>
-        {showTechStack && (
-          <ul class="project__tech" aria-label="Technology stack">
-            {tech.slice(0, featured ? 5 : 3).map((item) => <li>{item}</li>)}
-          </ul>
-        )}
+      <div
+        class:list={[
+          'project__footer',
+          { 'project__footer--solo': !showTechStack },
+        ]}
+      >
+        {
+          showTechStack && (
+            <ul class="project__tech" aria-label="Technology stack">
+              {tech.slice(0, featured ? 5 : 3).map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          )
+        }
         <span class="project__arrow" aria-hidden="true">↗</span>
       </div>
     </div>

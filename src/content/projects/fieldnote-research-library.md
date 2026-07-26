@@ -1,25 +1,25 @@
 ---
-title: "Fieldnote Research Library"
-summary: "A living research archive that makes years of interviews, observations, and decisions searchable across product teams."
-description: "Fieldnote connects raw evidence to product decisions without flattening qualitative research into a dashboard."
-cover: "../../assets/images/projects/fieldnote-cover.webp"
-coverAlt: "Fieldnote research library interface with highlighted observations"
+title: 'Fieldnote Research Library'
+summary: 'A living research archive that makes years of interviews, observations, and decisions searchable across product teams.'
+description: 'Fieldnote connects raw evidence to product decisions without flattening qualitative research into a dashboard.'
+cover: '../../assets/images/projects/fieldnote-cover.webp'
+coverAlt: 'Fieldnote research library interface with highlighted observations'
 images:
-  - "../../assets/images/projects/fieldnote-library.webp"
-  - "../../assets/images/projects/fieldnote-evidence.webp"
-  - "../../assets/images/projects/fieldnote-timeline.webp"
+  - '../../assets/images/projects/fieldnote-library.webp'
+  - '../../assets/images/projects/fieldnote-evidence.webp'
+  - '../../assets/images/projects/fieldnote-timeline.webp'
 tech:
-  - "Next.js"
-  - "TypeScript"
-  - "PostgreSQL"
-  - "Meilisearch"
-role: "Design engineering"
+  - 'Next.js'
+  - 'TypeScript'
+  - 'PostgreSQL'
+  - 'Meilisearch'
+role: 'Design engineering'
 year: 2025
 featured: false
 links:
-  github: "https://github.com/example/fieldnote"
-client: "Sable Product Lab"
-duration: "12 weeks"
+  github: 'https://github.com/example/fieldnote'
+client: 'Sable Product Lab'
+duration: '12 weeks'
 ---
 
 ## Research should accumulate

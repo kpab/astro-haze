@@ -36,14 +36,13 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image:
-    repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 35px,
-      rgba(255, 255, 255, 0.01) 35px,
-      rgba(255, 255, 255, 0.01) 70px
-    );
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 35px,
+    rgba(255, 255, 255, 0.01) 35px,
+    rgba(255, 255, 255, 0.01) 70px
+  );
   pointer-events: none;
   opacity: 0.4;
 }

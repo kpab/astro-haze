@@ -22,12 +22,14 @@ import { withBase } from '@/lib/url';
           <p class="notfound__code" aria-hidden="true">404</p>
           <h1 class="notfound__title">Page not found</h1>
           <p class="notfound__text">
-            The page you were looking for doesn't exist or may have moved.
-            Let's get you back on track.
+            The page you were looking for doesn't exist or may have moved. Let's
+            get you back on track.
           </p>
           <div class="notfound__actions">
             <Button href={withBase('/')} variant="solid">Back to home</Button>
-            <Button href={withBase('/blog/')} variant="glass">Browse the blog</Button>
+            <Button href={withBase('/blog/')} variant="glass"
+              >Browse the blog</Button
+            >
           </div>
         </GlassPanel>
       </Container>

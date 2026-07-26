@@ -1,25 +1,25 @@
 ---
-title: "Afterlight Cultural Archive"
-summary: "An atmospheric digital archive where oral histories, objects, and places can be explored without losing their relationships."
-description: "Afterlight pairs a flexible editorial system with a spatial browsing model for a community-held cultural collection."
-cover: "../../assets/images/projects/afterlight-cover.webp"
-coverAlt: "Afterlight archive showing an oral history beside collection photography"
+title: 'Afterlight Cultural Archive'
+summary: 'An atmospheric digital archive where oral histories, objects, and places can be explored without losing their relationships.'
+description: 'Afterlight pairs a flexible editorial system with a spatial browsing model for a community-held cultural collection.'
+cover: '../../assets/images/projects/afterlight-cover.webp'
+coverAlt: 'Afterlight archive showing an oral history beside collection photography'
 images:
-  - "../../assets/images/projects/afterlight-story.webp"
-  - "../../assets/images/projects/afterlight-map.webp"
-  - "../../assets/images/projects/afterlight-collection.webp"
+  - '../../assets/images/projects/afterlight-story.webp'
+  - '../../assets/images/projects/afterlight-map.webp'
+  - '../../assets/images/projects/afterlight-collection.webp'
 tech:
-  - "Astro"
-  - "TypeScript"
-  - "Sanity"
-  - "MapLibre"
-role: "Creative development"
+  - 'Astro'
+  - 'TypeScript'
+  - 'Sanity'
+  - 'MapLibre'
+role: 'Creative development'
 year: 2023
 featured: false
 links:
-  live: "https://example.org"
-client: "Afterlight Foundation"
-duration: "14 weeks"
+  live: 'https://example.org'
+client: 'Afterlight Foundation'
+duration: '14 weeks'
 ---
 
 ## A collection is a network

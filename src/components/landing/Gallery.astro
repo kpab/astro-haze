@@ -28,7 +28,12 @@ const { images } = Astro.props;
             sizes="(max-width: 768px) 100vw, 50vw"
             class="gallery__image"
           />
-          {image.caption && <figcaption><span>{String(index + 1).padStart(2, '0')}</span>{image.caption}</figcaption>}
+          {image.caption && (
+            <figcaption>
+              <span>{String(index + 1).padStart(2, '0')}</span>
+              {image.caption}
+            </figcaption>
+          )}
         </figure>
       ))
     }

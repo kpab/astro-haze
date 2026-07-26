@@ -15,7 +15,8 @@ const showcases = [
     index: '01',
     type: 'Editorial',
     title: 'Ideas with a place to unfold.',
-    description: 'A reading-first blog system with strong rhythm, calm metadata, and focused article pages.',
+    description:
+      'A reading-first blog system with strong rhythm, calm metadata, and focused article pages.',
     href: '/blog/',
     cta: 'Enter the journal',
     className: 'showcase--journal',
@@ -24,7 +25,8 @@ const showcases = [
     index: '02',
     type: 'Selected work',
     title: 'Case studies that show the thinking.',
-    description: 'A portfolio structure for outcomes, process, roles, and the details behind the final frame.',
+    description:
+      'A portfolio structure for outcomes, process, roles, and the details behind the final frame.',
     href: '/work/',
     cta: 'Browse selected work',
     className: 'showcase--work',
@@ -33,7 +35,8 @@ const showcases = [
     index: '03',
     type: 'Campaign',
     title: 'A landing page built to persuade quietly.',
-    description: 'Data-driven product storytelling with benefits, pricing, social proof, FAQ, and external calls to action.',
+    description:
+      'Data-driven product storytelling with benefits, pricing, social proof, FAQ, and external calls to action.',
     href: '/landing/',
     cta: 'Open the live demo',
     className: 'showcase--landing',
@@ -60,14 +63,22 @@ const showcases = [
         </h1>
         <div class="home-hero__footer">
           <p>
-            Astro Haze is a modular showcase for thoughtful writing, selected work, and
-            focused campaigns—fast by default and expressive where it counts.
+            Astro Haze is a modular showcase for thoughtful writing, selected
+            work, and focused campaigns—fast by default and expressive where it
+            counts.
           </p>
           <div class="home-hero__actions">
-            <Button href="#showcase" variant="solid" size="lg">Explore the system</Button>
+            <Button href="#showcase" variant="solid" size="lg"
+              >Explore the system</Button
+            >
             {
               siteConfig.social.github && (
-                <Button href={siteConfig.social.github} external variant="outline" size="lg">
+                <Button
+                  href={siteConfig.social.github}
+                  external
+                  variant="outline"
+                  size="lg"
+                >
                   View source <span aria-hidden="true">↗</span>
                 </Button>
               )
@@ -95,39 +106,66 @@ const showcases = [
               <div class="showcase__copy">
                 <div class="showcase__label">
                   <span>{item.index}</span>
-                  <Badge variant="accent" size="sm">{item.type}</Badge>
+                  <Badge variant="accent" size="sm">
+                    {item.type}
+                  </Badge>
                 </div>
                 <h2>{item.title}</h2>
                 <p>{item.description}</p>
-                <a href={withBase(item.href)}>{item.cta}<span aria-hidden="true"> →</span></a>
+                <a href={withBase(item.href)}>
+                  {item.cta}
+                  <span aria-hidden="true"> →</span>
+                </a>
               </div>
               <GlassCard padding="none" radius="xl" class="showcase__preview">
                 {item.index === '01' && (
                   <div class="preview preview--journal">
-                    <div class="preview__nav"><i></i><span>FIELD / NOTES</span><small>ISSUE 04</small></div>
+                    <div class="preview__nav">
+                      <i />
+                      <span>FIELD / NOTES</span>
+                      <small>ISSUE 04</small>
+                    </div>
                     <div class="preview__editorial">
                       <span>Design practice</span>
                       <h3>Making space for the useful.</h3>
-                      <p>On restraint, rhythm, and the objects that earn a permanent place.</p>
+                      <p>
+                        On restraint, rhythm, and the objects that earn a
+                        permanent place.
+                      </p>
                     </div>
-                    <div class="preview__lines"><i></i><i></i><i></i></div>
+                    <div class="preview__lines">
+                      <i />
+                      <i />
+                      <i />
+                    </div>
                   </div>
                 )}
                 {item.index === '02' && (
                   <div class="preview preview--work">
                     <div class="preview__poster">
                       <span>H / 02</span>
-                      <div class="preview__shape"></div>
-                      <strong>Common<br />Ground</strong>
+                      <div class="preview__shape" />
+                      <strong>
+                        Common
+                        <br />
+                        Ground
+                      </strong>
                     </div>
-                    <div class="preview__caption"><span>Brand system</span><span>2026 ↗</span></div>
+                    <div class="preview__caption">
+                      <span>Brand system</span>
+                      <span>2026 ↗</span>
+                    </div>
                   </div>
                 )}
                 {item.index === '03' && (
                   <div class="preview preview--landing">
                     <span class="preview__edition">EDITION 01</span>
-                    <div class="preview__object" aria-hidden="true"></div>
-                    <h3>Objects for slower,<br />better days.</h3>
+                    <div class="preview__object" aria-hidden="true" />
+                    <h3>
+                      Objects for slower,
+                      <br />
+                      better days.
+                    </h3>
                     <span class="preview__button">VIEW COLLECTION ↗</span>
                   </div>
                 )}
@@ -145,10 +183,26 @@ const showcases = [
           <h2>Built for the work after launch.</h2>
         </div>
         <div class="system-note__grid">
-          <p><strong>Content Layer</strong><span>Typed collections for entries, projects, and campaign data.</span></p>
-          <p><strong>Responsive media</strong><span>AVIF-first local imagery with practical fallbacks.</span></p>
-          <p><strong>Accessible glass</strong><span>Focused effects, robust contrast, and transparency preferences.</span></p>
-          <p><strong>Minimal runtime</strong><span>Server-rendered pages and native interactions wherever possible.</span></p>
+          <p>
+            <strong>Content Layer</strong><span
+              >Typed collections for entries, projects, and campaign data.</span
+            >
+          </p>
+          <p>
+            <strong>Responsive media</strong><span
+              >AVIF-first local imagery with practical fallbacks.</span
+            >
+          </p>
+          <p>
+            <strong>Accessible glass</strong><span
+              >Focused effects, robust contrast, and transparency preferences.</span
+            >
+          </p>
+          <p>
+            <strong>Minimal runtime</strong><span
+              >Server-rendered pages and native interactions wherever possible.</span
+            >
+          </p>
         </div>
       </Container>
     </section>
@@ -158,9 +212,15 @@ const showcases = [
         <p>Start with a structure. Make the atmosphere yours.</p>
         <h2>Pick a page and begin.</h2>
         <div>
-          <Button href={withBase('/blog/')} variant="outline" size="lg">Read</Button>
-          <Button href={withBase('/work/')} variant="outline" size="lg">Show</Button>
-          <Button href={withBase('/landing/')} variant="solid" size="lg">Launch</Button>
+          <Button href={withBase('/blog/')} variant="outline" size="lg"
+            >Read</Button
+          >
+          <Button href={withBase('/work/')} variant="outline" size="lg"
+            >Show</Button
+          >
+          <Button href={withBase('/landing/')} variant="solid" size="lg"
+            >Launch</Button
+          >
         </div>
       </Container>
     </section>
@@ -261,9 +321,18 @@ const showcases = [
     font-weight: 700;
   }
 
-  .home-hero__orbit span:nth-child(1) { top: 3rem; left: 1rem; }
-  .home-hero__orbit span:nth-child(2) { top: 50%; right: -1rem; }
-  .home-hero__orbit span:nth-child(3) { bottom: 1rem; left: 5rem; }
+  .home-hero__orbit span:nth-child(1) {
+    top: 3rem;
+    left: 1rem;
+  }
+  .home-hero__orbit span:nth-child(2) {
+    top: 50%;
+    right: -1rem;
+  }
+  .home-hero__orbit span:nth-child(3) {
+    bottom: 1rem;
+    left: 5rem;
+  }
 
   .showcase-list {
     display: grid;
@@ -383,8 +452,12 @@ const showcases = [
     background: var(--glass-border);
   }
 
-  .preview__lines i:nth-child(2) { width: 74%; }
-  .preview__lines i:nth-child(3) { width: 42%; }
+  .preview__lines i:nth-child(2) {
+    width: 74%;
+  }
+  .preview__lines i:nth-child(3) {
+    width: 42%;
+  }
 
   .preview--work {
     display: grid;
@@ -442,7 +515,11 @@ const showcases = [
     justify-content: space-between;
     padding: var(--space-xl);
     background:
-      radial-gradient(circle at 75% 32%, color-mix(in srgb, var(--aurora-4) 26%, transparent), transparent 36%),
+      radial-gradient(
+        circle at 75% 32%,
+        color-mix(in srgb, var(--aurora-4) 26%, transparent),
+        transparent 36%
+      ),
       color-mix(in srgb, var(--color-surface) 92%, transparent);
   }
 
@@ -551,7 +628,9 @@ const showcases = [
   }
 
   @keyframes slow-spin {
-    to { transform: rotate(360deg); }
+    to {
+      transform: rotate(360deg);
+    }
   }
 
   @media (max-width: 768px) {

@@ -25,10 +25,10 @@ export function readingTime(body: string | undefined): number {
  */
 export async function getPublishedPosts(): Promise<Post[]> {
   const posts = await getCollection('blog', ({ data }) =>
-    import.meta.env.PROD ? data.draft !== true : true
+    import.meta.env.PROD ? data.draft !== true : true,
   );
   return posts.sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
   );
 }
 
@@ -43,7 +43,7 @@ export async function getPublishedPosts(): Promise<Post[]> {
  */
 export function splitFeatured(
   posts: Post[],
-  max = 2
+  max = 2,
 ): { featured: Post[]; rest: Post[] } {
   const featured = posts.filter((p) => p.data.featured).slice(0, max);
   const featuredIds = new Set(featured.map((p) => p.id));
@@ -81,7 +81,7 @@ export function tagSlug(tag: string): string {
  * a `/tags/` route or a duplicate getStaticPaths param.
  */
 export function collectTags(
-  posts: Post[]
+  posts: Post[],
 ): { tag: string; slug: string; count: number }[] {
   const bySlug = new Map<string, { tag: string; count: number }>();
   for (const post of posts) {
@@ -104,6 +104,6 @@ export function collectTags(
 /** Posts carrying any tag that resolves to the given slug. */
 export function postsByTag(posts: Post[], slug: string): Post[] {
   return posts.filter((post) =>
-    post.data.tags.some((t) => tagSlug(t) === slug)
+    post.data.tags.some((t) => tagSlug(t) === slug),
   );
 }

@@ -63,11 +63,11 @@ Beautiful design should be accessible to everyone:
 
 The theme adapts seamlessly across devices:
 
-| Breakpoint | Description |
-|------------|-------------|
-| Mobile | < 768px |
-| Tablet | 768px - 1024px |
-| Desktop | > 1024px |
+| Breakpoint | Description    |
+| ---------- | -------------- |
+| Mobile     | < 768px        |
+| Tablet     | 768px - 1024px |
+| Desktop    | > 1024px       |
 
 ## Color Philosophy
 

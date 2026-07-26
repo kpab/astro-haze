@@ -1,25 +1,25 @@
 ---
-title: "Northstar Civic Platform"
-summary: "A calm, accessible service hub that helps residents find local support without learning how government is organized."
-description: "Northstar turns a fragmented catalogue of city services into a task-focused experience designed for stressful, time-sensitive moments."
-cover: "../../assets/images/projects/northstar-cover.webp"
-coverAlt: "Northstar service finder shown across desktop and mobile screens"
+title: 'Northstar Civic Platform'
+summary: 'A calm, accessible service hub that helps residents find local support without learning how government is organized.'
+description: 'Northstar turns a fragmented catalogue of city services into a task-focused experience designed for stressful, time-sensitive moments.'
+cover: '../../assets/images/projects/northstar-cover.webp'
+coverAlt: 'Northstar service finder shown across desktop and mobile screens'
 images:
-  - "../../assets/images/projects/northstar-search.webp"
-  - "../../assets/images/projects/northstar-mobile.webp"
-  - "../../assets/images/projects/northstar-directory.webp"
+  - '../../assets/images/projects/northstar-search.webp'
+  - '../../assets/images/projects/northstar-mobile.webp'
+  - '../../assets/images/projects/northstar-directory.webp'
 tech:
-  - "Astro"
-  - "TypeScript"
-  - "Contentful"
-  - "Playwright"
-role: "Product design & frontend"
+  - 'Astro'
+  - 'TypeScript'
+  - 'Contentful'
+  - 'Playwright'
+role: 'Product design & frontend'
 year: 2026
 featured: true
 links:
-  live: "https://example.com"
-client: "Northstar Council"
-duration: "16 weeks"
+  live: 'https://example.com'
+client: 'Northstar Council'
+duration: '16 weeks'
 ---
 
 ## The constraint

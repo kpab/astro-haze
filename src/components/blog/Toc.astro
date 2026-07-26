@@ -8,7 +8,9 @@ export interface Props {
 }
 
 const { headings, minDepth = 2, maxDepth = 3 } = Astro.props;
-const items = headings.filter((h) => h.depth >= minDepth && h.depth <= maxDepth);
+const items = headings.filter(
+  (h) => h.depth >= minDepth && h.depth <= maxDepth,
+);
 ---
 
 {
@@ -31,7 +33,7 @@ const items = headings.filter((h) => h.depth >= minDepth && h.depth <= maxDepth)
 <script>
   // Scrollspy: highlight the TOC entry for the heading currently in view.
   const links = Array.from(
-    document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]')
+    document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]'),
   );
   if (links.length > 0 && 'IntersectionObserver' in window) {
     const bySlug = new Map(links.map((l) => [l.dataset.tocLink, l]));
@@ -44,7 +46,7 @@ const items = headings.filter((h) => h.depth >= minDepth && h.depth <= maxDepth)
           }
         }
       },
-      { rootMargin: '0px 0px -75% 0px', threshold: 0 }
+      { rootMargin: '0px 0px -75% 0px', threshold: 0 },
     );
     for (const link of links) {
       const id = link.dataset.tocLink;

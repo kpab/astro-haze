@@ -7,50 +7,55 @@ import { z } from 'zod';
 // srcset). Frontmatter paths are resolved relative to the Markdown file.
 const blog = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/blog' }),
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.coerce.date(),
-    updatedDate: z.coerce.date().optional(),
-    heroImage: image().optional(),
-    heroImageAlt: z.string().optional(),
-    tags: z.array(z.string()).default([]),
-    author: z.string().default('Anonymous'),
-    draft: z.boolean().default(false),
-    featured: z.boolean().default(false),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string(),
+      pubDate: z.coerce.date(),
+      updatedDate: z.coerce.date().optional(),
+      heroImage: image().optional(),
+      heroImageAlt: z.string().optional(),
+      tags: z.array(z.string()).default([]),
+      author: z.string().default('Anonymous'),
+      draft: z.boolean().default(false),
+      featured: z.boolean().default(false),
+    }),
 });
 
 // Portfolio / Projects collection — Markdown content. Cover and gallery
 // images go through astro:assets via `image()`.
 const projects = defineCollection({
   loader: glob({ pattern: '**/*.{md,mdx}', base: './src/content/projects' }),
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    summary: z.string(),
-    description: z.string().optional(),
-    cover: image(),
-    coverAlt: z.string().optional(),
-    images: z.array(image()).optional(),
-    tech: z.array(z.string()),
-    role: z.string(),
-    year: z.number(),
-    featured: z.boolean().default(false),
-    links: z
-      .object({
-        live: z.url().optional(),
-        github: z.url().optional(),
-        case: z.string().optional(),
-      })
-      .optional(),
-    client: z.string().optional(),
-    duration: z.string().optional(),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      summary: z.string(),
+      description: z.string().optional(),
+      cover: image(),
+      coverAlt: z.string().optional(),
+      images: z.array(image()).optional(),
+      tech: z.array(z.string()),
+      role: z.string(),
+      year: z.number(),
+      featured: z.boolean().default(false),
+      links: z
+        .object({
+          live: z.url().optional(),
+          github: z.url().optional(),
+          case: z.string().optional(),
+        })
+        .optional(),
+      client: z.string().optional(),
+      duration: z.string().optional(),
+    }),
 });
 
 // Landing page sections — data (JSON/YAML) via the Content Layer glob loader
 const landing = defineCollection({
-  loader: glob({ pattern: '**/*.{json,yaml,yml}', base: './src/content/landing' }),
+  loader: glob({
+    pattern: '**/*.{json,yaml,yml}',
+    base: './src/content/landing',
+  }),
   schema: z.object({
     hero: z.object({
       title: z.string(),
@@ -69,7 +74,7 @@ const landing = defineCollection({
           description: z.string(),
           icon: z.string().optional(),
           image: z.string().optional(),
-        })
+        }),
       )
       .optional(),
     benefits: z
@@ -78,7 +83,7 @@ const landing = defineCollection({
           title: z.string(),
           description: z.string(),
           icon: z.string().optional(),
-        })
+        }),
       )
       .optional(),
     pricing: z
@@ -91,7 +96,7 @@ const landing = defineCollection({
           features: z.array(z.string()),
           highlighted: z.boolean().default(false),
           cta: z.object({ text: z.string(), href: z.string() }),
-        })
+        }),
       )
       .optional(),
     gallery: z
@@ -100,7 +105,7 @@ const landing = defineCollection({
           src: z.string(),
           alt: z.string(),
           caption: z.string().optional(),
-        })
+        }),
       )
       .optional(),
     testimonials: z
@@ -112,7 +117,7 @@ const landing = defineCollection({
           content: z.string(),
           avatar: z.string().optional(),
           rating: z.number().min(1).max(5).optional(),
-        })
+        }),
       )
       .optional(),
     faq: z

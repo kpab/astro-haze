@@ -46,17 +46,19 @@ const navItems = getEnabledNavItems();
     <!-- Navigation -->
     <nav id="navigation" class="nav-menu" aria-label="Main navigation">
       <ul class="nav-list">
-        {navItems.map((item) => (
-          <li class="nav-item">
-            <a
-              href={withBase(item.href)}
-              class={`nav-link ${isActive(item.href) ? 'active' : ''}`}
-              aria-current={isActive(item.href) ? 'page' : undefined}
-            >
-              {item.name}
-            </a>
-          </li>
-        ))}
+        {
+          navItems.map((item) => (
+            <li class="nav-item">
+              <a
+                href={withBase(item.href)}
+                class={`nav-link ${isActive(item.href) ? 'active' : ''}`}
+                aria-current={isActive(item.href) ? 'page' : undefined}
+              >
+                {item.name}
+              </a>
+            </li>
+          ))
+        }
       </ul>
     </nav>
 

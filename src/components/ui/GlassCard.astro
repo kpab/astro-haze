@@ -37,7 +37,11 @@ const radiusMap: Record<string, string> = {
   xl: 'var(--radius-xl)',
 };
 
-const classes = ['glass-card', isInteractive && 'glass-card--interactive', className]
+const classes = [
+  'glass-card',
+  isInteractive && 'glass-card--interactive',
+  className,
+]
   .filter(Boolean)
   .join(' ');
 ---

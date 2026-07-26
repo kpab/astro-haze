@@ -73,7 +73,11 @@
       "name": "Archive",
       "price": "$180",
       "description": "The complete first edition, collected together.",
-      "features": ["Complete six-object set", "Numbered archive card", "Studio consultation"],
+      "features": [
+        "Complete six-object set",
+        "Numbered archive card",
+        "Studio consultation"
+      ],
       "highlighted": false,
       "cta": {
         "text": "View Archive edition",

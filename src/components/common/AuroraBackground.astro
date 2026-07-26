@@ -9,7 +9,7 @@ const { intensity = 'medium', animated = true } = Astro.props;
 const opacityMap = {
   low: '0.3',
   medium: '0.5',
-  high: '0.7'
+  high: '0.7',
 };
 
 const opacity = opacityMap[intensity];
@@ -91,7 +91,8 @@ const opacity = opacityMap[intensity];
   }
 
   @keyframes float {
-    0%, 100% {
+    0%,
+    100% {
       transform: translate(0, 0) rotate(0deg) scale(1);
     }
     25% {
@@ -139,7 +140,7 @@ const opacity = opacityMap[intensity];
   }
 
   /* Dark mode adjustments */
-  [data-theme="dark"] .aurora-background {
+  [data-theme='dark'] .aurora-background {
     opacity: calc(var(--opacity) * 0.6);
   }
 

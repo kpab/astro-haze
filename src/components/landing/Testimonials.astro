@@ -15,7 +15,12 @@ export interface Props {
 const { testimonials } = Astro.props;
 ---
 
-<Section id="stories" eyebrow="Field reports" title="Kept, used, recommended." container="xl">
+<Section
+  id="stories"
+  eyebrow="Field reports"
+  title="Kept, used, recommended."
+  container="xl"
+>
   <div class="testimonials">
     {
       testimonials.map((testimonial, index) => (
@@ -23,7 +28,10 @@ const { testimonials } = Astro.props;
           <div class="testimonial__meta">
             <span>{String(index + 1).padStart(2, '0')}</span>
             {testimonial.rating && (
-              <span class="testimonial__rating" aria-label={`${testimonial.rating} out of 5 stars`}>
+              <span
+                class="testimonial__rating"
+                aria-label={`${testimonial.rating} out of 5 stars`}
+              >
                 {'★'.repeat(testimonial.rating)}
               </span>
             )}
@@ -31,11 +39,18 @@ const { testimonials } = Astro.props;
           <blockquote>“{testimonial.content}”</blockquote>
           <figcaption>
             <span class="testimonial__initials" aria-hidden="true">
-              {testimonial.name.split(' ').map((part) => part[0]).join('').slice(0, 2)}
+              {testimonial.name
+                .split(' ')
+                .map((part) => part[0])
+                .join('')
+                .slice(0, 2)}
             </span>
             <span>
               <strong>{testimonial.name}</strong>
-              <small>{testimonial.role}{testimonial.company ? `, ${testimonial.company}` : ''}</small>
+              <small>
+                {testimonial.role}
+                {testimonial.company ? `, ${testimonial.company}` : ''}
+              </small>
             </span>
           </figcaption>
         </figure>

@@ -26,7 +26,7 @@ const {
   ...rest
 } = Astro.props;
 
-const isExternal = external ?? (href?.startsWith('http') ?? false);
+const isExternal = external ?? href?.startsWith('http') ?? false;
 
 const Tag = href ? 'a' : 'button';
 const classes = [

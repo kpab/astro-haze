@@ -16,7 +16,10 @@ const sizeMap: Record<string, string> = {
 };
 ---
 
-<Tag class={`container ${className}`} style={`--container-width: ${sizeMap[size]};`}>
+<Tag
+  class={`container ${className}`}
+  style={`--container-width: ${sizeMap[size]};`}
+>
   <slot />
 </Tag>
 

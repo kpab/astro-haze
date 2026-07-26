@@ -42,7 +42,11 @@ const { cta } = Astro.props;
     border: 1px solid var(--glass-border);
     border-radius: clamp(1.5rem, 4vw, 3rem);
     background:
-      radial-gradient(circle at 85% 10%, color-mix(in srgb, var(--aurora-2) 30%, transparent), transparent 35%),
+      radial-gradient(
+        circle at 85% 10%,
+        color-mix(in srgb, var(--aurora-2) 30%, transparent),
+        transparent 35%
+      ),
       color-mix(in srgb, var(--color-surface) 80%, transparent);
   }
 

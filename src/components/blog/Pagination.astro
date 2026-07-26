@@ -27,11 +27,19 @@ const nextUrl = currentPage < totalPages ? pageUrl(currentPage + 1) : undefined;
   totalPages > 1 && (
     <nav class="pagination" aria-label="Pagination">
       {prevUrl ? (
-        <a class="pagination__edge" href={prevUrl} rel="prev" aria-label="Previous page">
+        <a
+          class="pagination__edge"
+          href={prevUrl}
+          rel="prev"
+          aria-label="Previous page"
+        >
           ← Prev
         </a>
       ) : (
-        <span class="pagination__edge pagination__edge--disabled" aria-hidden="true">
+        <span
+          class="pagination__edge pagination__edge--disabled"
+          aria-hidden="true"
+        >
           ← Prev
         </span>
       )}
@@ -44,14 +52,21 @@ const nextUrl = currentPage < totalPages ? pageUrl(currentPage + 1) : undefined;
                 1
               </a>
             </li>
-            {start > 2 && <li class="pagination__ellipsis" aria-hidden="true">…</li>}
+            {start > 2 && (
+              <li class="pagination__ellipsis" aria-hidden="true">
+                …
+              </li>
+            )}
           </>
         )}
 
         {pages.map((n) => (
           <li>
             {n === currentPage ? (
-              <span class="pagination__num pagination__num--current" aria-current="page">
+              <span
+                class="pagination__num pagination__num--current"
+                aria-current="page"
+              >
                 {n}
               </span>
             ) : (
@@ -79,11 +94,19 @@ const nextUrl = currentPage < totalPages ? pageUrl(currentPage + 1) : undefined;
       </ul>
 
       {nextUrl ? (
-        <a class="pagination__edge" href={nextUrl} rel="next" aria-label="Next page">
+        <a
+          class="pagination__edge"
+          href={nextUrl}
+          rel="next"
+          aria-label="Next page"
+        >
           Next →
         </a>
       ) : (
-        <span class="pagination__edge pagination__edge--disabled" aria-hidden="true">
+        <span
+          class="pagination__edge pagination__edge--disabled"
+          aria-hidden="true"
+        >
           Next →
         </span>
       )}
