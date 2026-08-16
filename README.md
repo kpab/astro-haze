@@ -41,7 +41,7 @@
 | **Portfolio**         | Index with technology filters, case-study pages, and responsive galleries                      |
 | **Landing page**      | Config-driven hero, features, benefits, pricing, gallery, testimonials, FAQ & final CTA        |
 | **Content Layer**     | Astro 7 collections with Zod-validated frontmatter; Markdown **and** MDX (Sätteri engine)      |
-| **SEO & feeds**       | Canonical URLs, Open Graph, Twitter cards, JSON-LD, RSS feed & XML sitemap                     |
+| **SEO & feeds**       | Canonical URLs, Open Graph, Twitter cards, JSON-LD, full-text RSS & XML sitemap with `lastmod` |
 | **Accessible**        | Landmarks, skip nav, keyboard focus states, WCAG AA-conscious color & interaction              |
 | **Respectful motion** | Honors `prefers-reduced-motion` and `prefers-reduced-transparency`                             |
 | **Optimized images**  | AVIF/WebP with responsive `srcset` via `astro:assets`                                          |
@@ -165,6 +165,11 @@ visibility, social links, and page options.
 
 Header navigation entries and the sitemap integration respond to these flags. The `/rss.xml`
 feed and content routes are always part of the static build.
+
+The feed carries each post's full body in `<content:encoded>`, sanitized down to the tags a
+reader can render and with every image and link rewritten to an absolute URL. The sitemap
+gives blog entries a `<lastmod>` of `updatedDate ?? pubDate`; other routes carry none, since
+nothing in their frontmatter records when they changed.
 
 > [!TIP]
 > The search index is generated during `astro build`. In development the last built index
