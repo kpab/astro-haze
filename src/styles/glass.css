@@ -1,10 +1,18 @@
 /* Glass Morphism Effects - Core System */
 
+/* Declaration order matters here, and not for the usual cascade reason: the CSS
+   pipeline collapses `backdrop-filter` and `-webkit-backdrop-filter` into one
+   declaration and keeps whichever was written last. Only one of the two ever
+   reaches the browser, so the standard property goes second — the prefixed one
+   alone leaves current Chrome with no blur at all. Safari below 18 then has no
+   backdrop-filter to match and picks up the `@supports not` fallback at the
+   bottom of this file. */
+
 /* Base glass mixin */
 .glass {
   background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
   transition:
@@ -17,8 +25,8 @@
 /* Glass panel component */
 .glass-panel {
   background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   box-shadow:
@@ -50,8 +58,8 @@
 /* Interactive glass card */
 .glass-card {
   background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-sat));
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--glass-shadow);
@@ -77,8 +85,8 @@
 /* Glass button */
 .glass-button {
   background: var(--glass-bg);
-  backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-sat));
   -webkit-backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-sat));
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   padding: var(--space-sm) var(--space-lg);
@@ -128,8 +136,8 @@
 /* Glass navigation bar */
 .glass-nav {
   background: var(--glass-bg-solid);
-  backdrop-filter: blur(var(--glass-blur-lg)) saturate(var(--glass-sat));
   -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur-lg)) saturate(var(--glass-sat));
   border-bottom: 1px solid var(--glass-border);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   position: sticky;
