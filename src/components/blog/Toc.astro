@@ -31,13 +31,24 @@ const items = headings.filter(
 }
 
 <script>
+  import { onPage } from '@/lib/lifecycle';
+
   // Scrollspy: highlight the TOC entry for the heading currently in view.
-  const links = Array.from(
-    document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]'),
-  );
-  if (links.length > 0 && 'IntersectionObserver' in window) {
+  // The observer is torn down and rebuilt per page — left alone it would keep
+  // watching headings that the navigation detached.
+  let observer: IntersectionObserver | null = null;
+
+  onPage(() => {
+    observer?.disconnect();
+    observer = null;
+
+    const links = Array.from(
+      document.querySelectorAll<HTMLAnchorElement>('[data-toc-link]'),
+    );
+    if (links.length === 0 || !('IntersectionObserver' in window)) return;
+
     const bySlug = new Map(links.map((l) => [l.dataset.tocLink, l]));
-    const observer = new IntersectionObserver(
+    observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
           if (entry.isIntersecting) {
@@ -53,7 +64,7 @@ const items = headings.filter(
       const heading = id ? document.getElementById(id) : null;
       if (heading) observer.observe(heading);
     }
-  }
+  });
 </script>
 
 <style>

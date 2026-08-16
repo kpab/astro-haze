@@ -264,15 +264,15 @@
 
 <script>
   import { lockScroll, unlockScroll } from '@/lib/scrollLock';
+  import { onPage, onLeave } from '@/lib/lifecycle';
 
-  const dialog = document.getElementById(
-    'search-modal',
-  ) as HTMLDialogElement | null;
-  const input = document.getElementById(
-    'search-input',
-  ) as HTMLInputElement | null;
-  const status = document.getElementById('search-status');
-  const resultsList = document.getElementById('search-results');
+  // The modal is part of the swapped body, so these are re-queried per page.
+  // `pagefind` below deliberately is not: the index is expensive to load and
+  // stays valid for the whole session.
+  let dialog: HTMLDialogElement | null = null;
+  let input: HTMLInputElement | null = null;
+  let status: HTMLElement | null = null;
+  let resultsList: HTMLElement | null = null;
 
   // BASE_URL may or may not carry a trailing slash depending on config;
   // normalize so concatenation below is predictable (same as lib/url.ts).
@@ -399,25 +399,46 @@
     loadPagefind();
   }
 
-  input?.addEventListener('input', (e) =>
-    runSearch((e.target as HTMLInputElement).value),
-  );
+  onPage(() => {
+    dialog = document.getElementById(
+      'search-modal',
+    ) as HTMLDialogElement | null;
+    input = document.getElementById('search-input') as HTMLInputElement | null;
+    status = document.getElementById('search-status');
+    resultsList = document.getElementById('search-results');
 
-  dialog?.addEventListener('close', () => {
-    unlockScroll();
+    input?.addEventListener('input', (e) =>
+      runSearch((e.target as HTMLInputElement).value),
+    );
+
+    dialog?.addEventListener('close', () => {
+      unlockScroll();
+    });
+
+    // Close when the backdrop (the dialog element itself) is clicked.
+    dialog?.addEventListener('click', (e) => {
+      if (e.target === dialog) dialog?.close();
+    });
+
+    dialog
+      ?.querySelector('[data-search-close]')
+      ?.addEventListener('click', () => dialog?.close());
+
+    // Any trigger on the page opens the modal.
+    document.querySelectorAll('[data-search-open]').forEach((el) => {
+      el.addEventListener('click', openModal);
+    });
   });
 
-  // Close when the backdrop (the dialog element itself) is clicked.
-  dialog?.addEventListener('click', (e) => {
-    if (e.target === dialog) dialog.close();
-  });
+  // A dialog left open through a navigation takes its scroll lock — which
+  // lives on <html> — with it to the next page.
+  onLeave(() => dialog?.close());
 
-  dialog
-    ?.querySelector('[data-search-close]')
-    ?.addEventListener('click', () => dialog.close());
-
-  // Roving focus between the input and result links with ↑/↓.
-  dialog?.addEventListener('keydown', (e) => {
+  // Roving focus between the input and result links with ↑/↓. Bound on
+  // `document` so it survives the swap; it does nothing unless the modal is
+  // open, which is the only time the dialog holds focus.
+  document.addEventListener('keydown', (e) => {
+    if (!dialog?.open) return;
     if (e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
     e.preventDefault();
     const links = Array.from(
@@ -431,11 +452,7 @@
     stops[next]?.focus();
   });
 
-  // Any trigger on the page opens the modal; ⌘K / Ctrl+K toggles it.
-  document.querySelectorAll('[data-search-open]').forEach((el) => {
-    el.addEventListener('click', openModal);
-  });
-
+  // ⌘K / Ctrl+K toggles the modal from anywhere.
   window.addEventListener('keydown', (e) => {
     if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
       e.preventDefault();

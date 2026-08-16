@@ -305,10 +305,11 @@ const navItems = getEnabledNavItems();
 
 <script>
   import { lockScroll, unlockScroll } from '@/lib/scrollLock';
+  import { onPage, onLeave } from '@/lib/lifecycle';
 
-  // Mobile menu toggle
-  const toggle = document.getElementById('menu-toggle');
-  const nav = document.getElementById('navigation');
+  // Re-queried on every navigation; the old elements go away with the swap.
+  let toggle: HTMLElement | null = null;
+  let nav: HTMLElement | null = null;
   const mobile = window.matchMedia('(max-width: 768px)');
 
   // The menu collapses behind a hamburger only at ≤768px. When it's collapsed
@@ -340,13 +341,27 @@ const navItems = getEnabledNavItems();
     syncNavState();
   }
 
-  toggle?.addEventListener('click', () => {
-    if (nav?.classList.contains('active')) {
-      closeMenu();
-    } else {
-      openMenu();
-    }
+  onPage(() => {
+    toggle = document.getElementById('menu-toggle');
+    nav = document.getElementById('navigation');
+
+    toggle?.addEventListener('click', () => {
+      if (nav?.classList.contains('active')) {
+        closeMenu();
+      } else {
+        openMenu();
+      }
+    });
+
+    syncNavState();
   });
+
+  // The scroll lock lives on <html>, which survives the swap: leaving the menu
+  // open through a navigation would lock scrolling on the page you land on.
+  onLeave(closeMenu);
+
+  // Listeners below are on objects that outlive the swap, so they are
+  // registered once and read whichever elements are current.
 
   // Close menu when clicking outside
   document.addEventListener('click', (e) => {
@@ -364,9 +379,9 @@ const navItems = getEnabledNavItems();
     }
   });
 
-  // Keep inert/aria-hidden correct across viewport changes (and on load).
+  // Keep inert/aria-hidden correct across viewport changes.
   mobile.addEventListener('change', () => {
     closeMenu();
+    syncNavState();
   });
-  syncNavState();
 </script>

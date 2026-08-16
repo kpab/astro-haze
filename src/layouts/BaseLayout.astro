@@ -2,6 +2,7 @@
 import '@/styles/global.css';
 import siteConfig from '@/site.config';
 import { withBase } from '@/lib/url';
+import { ClientRouter } from 'astro:transitions';
 import Seo from '@/components/common/Seo.astro';
 import AuroraBackground from '@/components/common/AuroraBackground.astro';
 import ThemeToggle from '@/components/common/ThemeToggle.astro';
@@ -31,6 +32,13 @@ const props = Astro.props;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="generator" content={Astro.generator} />
+
+    <!-- Client-side routing. Astro falls back to a normal navigation where the
+         View Transitions API is missing, and skips the animation entirely under
+         prefers-reduced-motion, so this costs nothing where it isn't wanted.
+         Component scripts re-initialise on `astro:page-load`; see the note in
+         src/lib/lifecycle.ts. -->
+    <ClientRouter />
 
     <!-- Favicon & app icons -->
     <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
