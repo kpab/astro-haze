@@ -13,6 +13,8 @@ export interface Props {
   heroImageAlt?: string;
   tags?: string[];
   href: string;
+  /** Entry id, used to pair this card's image with the post's hero image. */
+  slug: string;
   readingTime?: number;
   featured?: boolean;
   class?: string;
@@ -26,6 +28,7 @@ const {
   heroImageAlt,
   tags = [],
   href,
+  slug,
   readingTime,
   featured = false,
   class: className = '',
@@ -43,7 +46,7 @@ const formattedDate = formatDate(pubDate);
         tabindex="-1"
         aria-hidden="true"
       >
-        <div class="blog-card__image">
+        <div class="blog-card__image" transition:name={`post-image-${slug}`}>
           <Picture
             src={heroImage}
             alt={heroImageAlt ?? title}

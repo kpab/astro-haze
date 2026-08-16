@@ -29,6 +29,7 @@ const showReadingTime = siteConfig.blog.showReadingTime;
           heroImageAlt={post.data.heroImageAlt}
           tags={post.data.tags}
           href={withBase(`/blog/${post.id}/`)}
+          slug={post.id}
           readingTime={showReadingTime ? readingTime(post.body) : undefined}
           featured={post.data.featured}
         />
