@@ -19,14 +19,14 @@
     "@astrojs/mdx": "^7.0.5",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
-    "astro": "^7.2.0",
+    "astro": "^7.2.1",
     "astro-pagefind": "^2.0.1",
     "zod": "^4.4.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@eslint/js": "^9.39.5",
-    "@types/node": "^26.1.2",
+    "@types/node": "^26.2.0",
     "eslint": "^9.39.5",
     "eslint-plugin-astro": "^1.7.0",
     "eslint-plugin-jsx-a11y": "^6.10.2",
@@ -34,7 +34,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "sharp": "^0.35.3",
     "typescript": "^5.5.0",
-    "typescript-eslint": "^8.66.0"
+    "typescript-eslint": "^8.67.0"
   },
   "keywords": [
     "astro",
