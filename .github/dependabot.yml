@@ -9,6 +9,19 @@ updates:
         update-types:
           - 'minor'
           - 'patch'
+      # The lint stack only resolves as a set: eslint-plugin-astro pins both
+      # eslint and eslint-plugin-jsx-a11y, so a major bump of any one of them
+      # on its own fails peer resolution. Grouping them means one pull request
+      # that either goes green together or stays red together.
+      eslint-major:
+        patterns:
+          - 'eslint'
+          - 'eslint-*'
+          - '@eslint/*'
+          - 'typescript-eslint'
+          - '@typescript-eslint/*'
+        update-types:
+          - 'major'
 
   - package-ecosystem: 'github-actions'
     directory: '/'
