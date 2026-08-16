@@ -1,7 +1,9 @@
 import rss from '@astrojs/rss';
 import type { APIContext } from 'astro';
 import { experimental_AstroContainer as AstroContainer } from 'astro/container';
+import { loadRenderers } from 'astro:container';
 import { render } from 'astro:content';
+import { getContainerRenderer as mdxContainerRenderer } from '@astrojs/mdx/container-renderer';
 import sanitizeHtml from 'sanitize-html';
 import { getPublishedPosts } from '@/lib/posts';
 import { withBase } from '@/lib/url';
@@ -117,7 +119,13 @@ export async function GET(context: APIContext) {
   // The stored `rendered.html` still holds astro:assets placeholders for images
   // in the body, so rendering the entry's Content component is what produces
   // the same optimized markup the page itself serves.
-  const container = await AstroContainer.create();
+  //
+  // The MDX renderer has to be handed over explicitly: a bare container knows
+  // how to render `.md` but throws NoMatchingRenderer on the first `.mdx` post,
+  // and the blog glob accepts both.
+  const container = await AstroContainer.create({
+    renderers: await loadRenderers([mdxContainerRenderer()]),
+  });
 
   const items = await Promise.all(
     posts.map(async (post) => {
