@@ -141,13 +141,25 @@ const footerLinks = siteConfig.footer.links.filter((link) => {
   .footer-container {
     max-width: var(--container-max);
     margin: 0 auto;
+    /* The grid inside queries this, not the viewport. */
+    container-type: inline-size;
   }
 
   .footer-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    /* min() stops a 250px track from outgrowing a narrower container. */
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr));
     gap: var(--space-2xl);
     margin-bottom: var(--space-xl);
+  }
+
+  /* Was a viewport query: the footer columns depend on the footer's own width,
+     which is capped well below the window on a wide screen. */
+  @container (max-width: 768px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-xl);
+    }
   }
 
   .footer-section {
@@ -270,11 +282,6 @@ const footerLinks = siteConfig.footer.links.filter((link) => {
 
   /* Mobile Styles */
   @media (max-width: 768px) {
-    .footer-grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-xl);
-    }
-
     .footer-bottom {
       flex-direction: column;
       text-align: center;
