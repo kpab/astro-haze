@@ -16,39 +16,51 @@ const { posts, columns = 'auto' } = Astro.props;
 const showReadingTime = siteConfig.blog.showReadingTime;
 ---
 
-<div class={`posts-grid posts-grid--${columns}`}>
-  {
-    posts.map((post) => (
-      <BlogCard
-        title={post.data.title}
-        description={post.data.description}
-        pubDate={post.data.pubDate}
-        heroImage={post.data.heroImage}
-        heroImageAlt={post.data.heroImageAlt}
-        tags={post.data.tags}
-        href={withBase(`/blog/${post.id}/`)}
-        readingTime={showReadingTime ? readingTime(post.body) : undefined}
-        featured={post.data.featured}
-      />
-    ))
-  }
+<div class="posts-grid-shell">
+  <div class={`posts-grid posts-grid--${columns}`}>
+    {
+      posts.map((post) => (
+        <BlogCard
+          title={post.data.title}
+          description={post.data.description}
+          pubDate={post.data.pubDate}
+          heroImage={post.data.heroImage}
+          heroImageAlt={post.data.heroImageAlt}
+          tags={post.data.tags}
+          href={withBase(`/blog/${post.id}/`)}
+          readingTime={showReadingTime ? readingTime(post.body) : undefined}
+          featured={post.data.featured}
+        />
+      ))
+    }
+  </div>
 </div>
 
 <style>
+  /* The grid can't query itself, so the shell is the container and the grid
+     inside it reacts to how much room it was actually given. */
+  .posts-grid-shell {
+    container-type: inline-size;
+  }
+
   .posts-grid {
     display: grid;
     gap: var(--space-xl);
   }
 
+  /* min() keeps a track from demanding more than the container has, which is
+     what used to push the grid wider than its column on narrow screens. */
   .posts-grid--auto {
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
   }
 
   .posts-grid--two {
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 350px), 1fr));
   }
 
-  @media (max-width: 640px) {
+  /* Was a viewport query; the grid is just as narrow inside a 640px column on
+     a desktop, and now it collapses there too. */
+  @container (max-width: 640px) {
     .posts-grid {
       grid-template-columns: 1fr;
     }

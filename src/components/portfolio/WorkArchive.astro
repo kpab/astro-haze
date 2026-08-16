@@ -111,33 +111,37 @@ const rangeEnd = indexOffset + projects.length;
     {
       projects.length > 0 ? (
         <>
-          <div class="project-grid">
-            {projects.map((project, index) => (
-              <div
-                class:list={[
-                  'project-shell',
-                  { 'project-shell--featured': project.data.featured },
-                ]}
-                data-technologies={
-                  showTechStack ? JSON.stringify(project.data.tech) : undefined
-                }
-              >
-                <ProjectCard
-                  title={project.data.title}
-                  summary={project.data.summary}
-                  cover={project.data.cover}
-                  coverAlt={project.data.coverAlt}
-                  tech={project.data.tech}
-                  role={project.data.role}
-                  year={project.data.year}
-                  href={withBase(`/work/${project.id}/`)}
-                  index={indexOffset + index + 1}
-                  featured={project.data.featured}
-                  showTechStack={showTechStack}
-                  showYear={showYear}
-                />
-              </div>
-            ))}
+          <div class="project-grid-shell">
+            <div class="project-grid">
+              {projects.map((project, index) => (
+                <div
+                  class:list={[
+                    'project-shell',
+                    { 'project-shell--featured': project.data.featured },
+                  ]}
+                  data-technologies={
+                    showTechStack
+                      ? JSON.stringify(project.data.tech)
+                      : undefined
+                  }
+                >
+                  <ProjectCard
+                    title={project.data.title}
+                    summary={project.data.summary}
+                    cover={project.data.cover}
+                    coverAlt={project.data.coverAlt}
+                    tech={project.data.tech}
+                    role={project.data.role}
+                    year={project.data.year}
+                    href={withBase(`/work/${project.id}/`)}
+                    index={indexOffset + index + 1}
+                    featured={project.data.featured}
+                    showTechStack={showTechStack}
+                    showYear={showYear}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
           {showFilters && (
             <p class="filter-empty-state" hidden>
@@ -333,10 +337,27 @@ const rangeEnd = indexOffset + projects.length;
     outline-offset: 2px;
   }
 
+  /* The grid can't query its own width, so the shell is the container. */
+  .project-grid-shell {
+    container-type: inline-size;
+  }
+
   .project-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--space-xl);
+  }
+
+  /* Was a viewport query: two project columns need room from the container,
+     not from the window. */
+  @container (max-width: 768px) {
+    .project-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .project-shell--featured {
+      grid-column: auto;
+    }
   }
 
   .project-shell[hidden] {
@@ -384,14 +405,6 @@ const rangeEnd = indexOffset + projects.length;
     .filters {
       justify-content: flex-start;
       margin-top: var(--space-xl);
-    }
-
-    .project-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .project-shell--featured {
-      grid-column: auto;
     }
   }
 
