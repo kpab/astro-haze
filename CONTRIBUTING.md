@@ -47,7 +47,7 @@ principles in mind:
 
 ## Pull requests
 
-1. Branch from `master` and keep each PR focused on a single topic.
+1. Branch from `main` and keep each PR focused on a single topic.
 2. Follow [Conventional Commits](https://www.conventionalcommits.org/): a `type: summary`
    subject line (`feat:`, `fix:`, `docs:`, `chore:`, `build:`, `refactor:`, `style:`, `test:`,
    `ci:`), lower-case, imperative mood. This repo uses

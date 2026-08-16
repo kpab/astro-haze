@@ -366,10 +366,10 @@ explicit responsive sizes.
 
 This repo ships a workflow at [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
 that builds with [`withastro/action`](https://github.com/withastro/action) and publishes to
-GitHub Pages on every push to `master`.
+GitHub Pages on every push to `main`.
 
 1. In the repository **Settings → Pages**, set **Source** to **GitHub Actions**.
-2. Push to `master` (or run the workflow manually from the **Actions** tab).
+2. Push to `main` (or run the workflow manually from the **Actions** tab).
 
 The site is configured for a **project page** in `astro.config.mjs`:
 
