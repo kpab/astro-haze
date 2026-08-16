@@ -112,7 +112,10 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
 
         {
           post.data.heroImage && (
-            <div class="post-hero-image">
+            <div
+              class="post-hero-image"
+              transition:name={`post-image-${post.id}`}
+            >
               <Picture
                 src={post.data.heroImage}
                 alt={post.data.heroImageAlt ?? post.data.title}

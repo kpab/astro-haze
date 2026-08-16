@@ -71,7 +71,10 @@ const projectLinks = [
             <p class="case-hero__summary">{project.data.summary}</p>
           </div>
 
-          <div class="case-hero__image">
+          <div
+            class="case-hero__image"
+            transition:name={`project-image-${project.id}`}
+          >
             <Picture
               src={project.data.cover}
               alt={project.data.coverAlt ?? project.data.title}

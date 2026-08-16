@@ -12,6 +12,8 @@ export interface Props {
   role: string;
   year: number;
   href: string;
+  /** Entry id, used to pair this card's cover with the case study's hero. */
+  slug: string;
   index: number;
   featured?: boolean;
   showTechStack?: boolean;
@@ -27,6 +29,7 @@ const {
   role,
   year,
   href,
+  slug,
   index,
   featured = false,
   showTechStack = true,
@@ -36,7 +39,7 @@ const {
 
 <article class:list={['project', { 'project--featured': featured }]}>
   <GlassCard href={href} padding="none" radius="xl" class="project__card">
-    <div class="project__visual">
+    <div class="project__visual" transition:name={`project-image-${slug}`}>
       <Picture
         src={cover}
         alt={coverAlt}
