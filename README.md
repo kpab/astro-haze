@@ -331,20 +331,24 @@ The complete landing schema accepts these optional sections:
 
 | Section        | Shape                                                                                                                            |
 | -------------- | -------------------------------------------------------------------------------------------------------------------------------- |
-| `features`     | Array of `{ title, description, icon?, image? }`                                                                                 |
+| `features`     | Array of `{ title, description, icon? }`                                                                                         |
 | `benefits`     | Array of `{ title, description, icon? }`                                                                                         |
 | `pricing`      | Array of `{ name, price, period?, description, features, highlighted?, cta: { text, href } }`; `highlighted` defaults to `false` |
 | `gallery`      | Array of `{ src, alt, caption? }`                                                                                                |
-| `testimonials` | Array of `{ name, role, company?, content, avatar?, rating? }`; rating must be from 1 to 5                                       |
+| `testimonials` | Array of `{ name, role, company?, content, rating? }`; rating must be from 1 to 5                                                |
 | `faq`          | Array of `{ question, answer }`                                                                                                  |
 | `finalCta`     | `{ title, description, button: { text, href } }`                                                                                 |
 
 Within `hero`, `title`, `subtitle`, `description`, and `cta.primary` are required.
-`cta.secondary` and `image` are optional. Image fields (`hero.image`, `features[].image`,
-`gallery[].src`, `testimonials[].avatar`) must be a URL (`http…`) or a path — either
-root-relative (`/…`, typically under `public/`) or relative to the page. Link fields
-(`cta.*.href`, `pricing[].cta.href`, `finalCta.button.href`) additionally accept anchors
-(`#…`) and `mailto:`/`tel:` links. Both reject other URL schemes such as `javascript:`.
+`cta.secondary` and `image` are optional. Image fields (`hero.image`, `gallery[].src`) must
+be a URL (`http…`) or a path — either root-relative (`/…`, typically under `public/`) or
+relative to the page. Link fields (`cta.*.href`, `pricing[].cta.href`,
+`finalCta.button.href`) additionally accept anchors (`#…`) and `mailto:`/`tel:` links. Both
+reject other URL schemes such as `javascript:`.
+
+Feature cards are identified by a number and the `icon` glyph, and testimonials by the
+speaker's initials, so neither section takes an image. Adding one later is an additive
+change: a new optional field costs existing content nothing.
 
 ---
 
