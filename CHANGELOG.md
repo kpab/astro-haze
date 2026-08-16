@@ -5,6 +5,18 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0](https://github.com/kpab/astro-haze/compare/v1.2.1...v1.3.0) (2026-08-16)
+
+
+### Features
+
+* **content:** strengthen schema validation and add per-image gallery alt ([#63](https://github.com/kpab/astro-haze/issues/63)) ([fbe2c90](https://github.com/kpab/astro-haze/commit/fbe2c90b4e7655d4906f69f02f96d0a45f70eccf))
+
+
+### Bug Fixes
+
+* **a11y:** detect external case-study links instead of assuming internal ([cb0fd66](https://github.com/kpab/astro-haze/commit/cb0fd662aed8b5dddaaf0da23595f9cd356c55bf))
+
 ## [1.2.0] - 2026-07-26
 
 ### Added
