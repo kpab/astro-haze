@@ -213,6 +213,11 @@ Collection definitions and validation rules live in
 [`src/content.config.ts`](src/content.config.ts). Astro reports invalid or missing fields
 during development and builds.
 
+Links and images written in a Markdown body may use a root-relative path (`/work/`): the
+configured `base` is applied to them at build time, so they keep working on a project site
+served from a subpath. Raw HTML blocks inside `.md`, and JSX elements inside `.mdx`, are
+passed through untouched — use a relative path or the full URL there.
+
 ### Blog posts
 
 Add `.md` or `.mdx` files to `src/content/blog/`:
