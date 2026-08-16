@@ -122,8 +122,9 @@ const classes = [
   /* Glass variant */
   .btn--glass {
     background: var(--glass-bg);
-    backdrop-filter: blur(8px) saturate(var(--glass-sat));
-    -webkit-backdrop-filter: blur(8px) saturate(var(--glass-sat));
+    backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-sat));
+    -webkit-backdrop-filter: blur(var(--glass-blur-sm))
+      saturate(var(--glass-sat));
     border-color: var(--glass-border);
     color: var(--color-text);
   }

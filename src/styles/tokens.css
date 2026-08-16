@@ -12,7 +12,13 @@
   /* Glass effect */
   --glass-bg: rgba(255, 255, 255, 0.08);
   --glass-bg-solid: rgba(255, 255, 255, 0.7);
+  /* Blur steps. Only --glass-blur deepens in dark mode; the others describe a
+     surface's weight (a chip vs. the nav bar), which the theme doesn't change.
+     All of them drop to 0 under prefers-reduced-transparency below. */
+  --glass-blur-xs: 4px;
+  --glass-blur-sm: 8px;
   --glass-blur: 12px;
+  --glass-blur-lg: 20px;
   --glass-border: rgba(255, 255, 255, 0.18);
   --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
   --glass-sat: 180%;
@@ -131,14 +137,20 @@
   :root {
     --glass-bg: rgba(255, 255, 255, 0.95);
     --glass-bg-solid: rgba(255, 255, 255, 0.98);
+    --glass-blur-xs: 0px;
+    --glass-blur-sm: 0px;
     --glass-blur: 0px;
+    --glass-blur-lg: 0px;
     --glass-border: rgba(0, 0, 0, 0.1);
   }
 
   [data-theme='dark'] {
     --glass-bg: rgba(20, 20, 20, 0.95);
     --glass-bg-solid: rgba(10, 10, 10, 0.98);
+    --glass-blur-xs: 0px;
+    --glass-blur-sm: 0px;
     --glass-blur: 0px;
+    --glass-blur-lg: 0px;
     --glass-border: rgba(255, 255, 255, 0.1);
   }
 }

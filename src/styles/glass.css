@@ -77,8 +77,8 @@
 /* Glass button */
 .glass-button {
   background: var(--glass-bg);
-  backdrop-filter: blur(8px) saturate(var(--glass-sat));
-  -webkit-backdrop-filter: blur(8px) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-sat));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm)) saturate(var(--glass-sat));
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   padding: var(--space-sm) var(--space-lg);
@@ -128,8 +128,8 @@
 /* Glass navigation bar */
 .glass-nav {
   background: var(--glass-bg-solid);
-  backdrop-filter: blur(20px) saturate(var(--glass-sat));
-  -webkit-backdrop-filter: blur(20px) saturate(var(--glass-sat));
+  backdrop-filter: blur(var(--glass-blur-lg)) saturate(var(--glass-sat));
+  -webkit-backdrop-filter: blur(var(--glass-blur-lg)) saturate(var(--glass-sat));
   border-bottom: 1px solid var(--glass-border);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   position: sticky;

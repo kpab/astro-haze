@@ -104,8 +104,8 @@ pre {
   font-family: var(--font-mono);
   font-size: var(--text-sm);
   background: var(--glass-bg-solid);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(var(--glass-blur-sm));
+  -webkit-backdrop-filter: blur(var(--glass-blur-sm));
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
   padding: var(--space-md);
