@@ -156,12 +156,12 @@ const defaultMode = siteConfig.theme.defaultColorMode;
 </style>
 
 <script>
-  // Theme toggle functionality
-  const toggle = document.getElementById('theme-toggle');
-  const themes = ['system', 'light', 'dark'];
+  import { onPage } from '@/lib/lifecycle';
 
-  // Fallback when the visitor has no saved preference, from site.config.
-  const defaultMode = toggle?.dataset.defaultMode ?? 'system';
+  // Theme toggle functionality. The button is re-queried on every navigation.
+  let toggle: HTMLElement | null = null;
+  let defaultMode = 'system';
+  const themes = ['system', 'light', 'dark'];
 
   // localStorage can throw (Safari "block all cookies", private mode, sandboxed
   // iframes). Wrap every access so a failure degrades gracefully instead of
@@ -258,13 +258,25 @@ const defaultMode = siteConfig.theme.defaultColorMode;
     }, 1000);
   }
 
-  // Reflect the current mode in aria-label on load. BaseLayout's inline
-  // FOUC-prevention script already set data-theme/-theme-mode on <html>
-  // before this runs, but not the button's label.
-  updateAriaLabel(getThemePreference());
+  onPage(() => {
+    toggle = document.getElementById('theme-toggle');
+    // Fallback when the visitor has no saved preference, from site.config.
+    defaultMode = toggle?.dataset.defaultMode ?? 'system';
 
-  // Set up event listener
-  toggle?.addEventListener('click', cycleTheme);
+    // Reflect the current mode in aria-label. BaseLayout's inline
+    // FOUC-prevention script already set data-theme/-theme-mode on <html>
+    // before this runs, but not the button's label.
+    updateAriaLabel(getThemePreference());
+    toggle?.addEventListener('click', cycleTheme);
+  });
+
+  // A client-side navigation copies the incoming document's <html> attributes
+  // over the live ones, and the static HTML carries no data-theme — only the
+  // inline script sets it, and that script does not run again. Without this the
+  // page would flash back to the default appearance on every navigation.
+  document.addEventListener('astro:after-swap', () => {
+    applyTheme(getThemePreference());
+  });
 
   // Re-resolve when the OS preference changes while in "system" mode.
   try {

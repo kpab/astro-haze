@@ -165,59 +165,71 @@ const rangeEnd = indexOffset + projects.length;
 </section>
 
 <script>
-  const buttons = Array.from(
-    document.querySelectorAll<HTMLButtonElement>('[data-filter]'),
-  );
-  const projects = Array.from(
-    document.querySelectorAll<HTMLElement>('[data-technologies]'),
-  );
-  const status = document.querySelector<HTMLElement>('.filter-status');
-  const emptyState = document.querySelector<HTMLElement>('.filter-empty-state');
-  const prefersReducedMotion = window.matchMedia(
-    '(prefers-reduced-motion: reduce)',
-  ).matches;
+  import { onPage } from '@/lib/lifecycle';
 
-  buttons.forEach((button) => {
-    button.addEventListener('click', () => {
-      const selected = button.dataset.filter ?? 'all';
-      let visibleCount = 0;
+  // The filter runs over the cards on the current page, so every element here
+  // is looked up again after a navigation — leaving /work/ and coming back
+  // would otherwise land on a page whose filter buttons do nothing.
+  onPage(() => {
+    const buttons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('[data-filter]'),
+    );
+    if (buttons.length === 0) return;
 
-      buttons.forEach((item) => {
-        const isSelected = item === button;
-        item.classList.toggle('is-active', isSelected);
-        item.setAttribute('aria-pressed', String(isSelected));
-      });
+    const projects = Array.from(
+      document.querySelectorAll<HTMLElement>('[data-technologies]'),
+    );
+    const status = document.querySelector<HTMLElement>('.filter-status');
+    const emptyState = document.querySelector<HTMLElement>(
+      '.filter-empty-state',
+    );
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches;
 
-      projects.forEach((project) => {
-        let technologies: string[] = [];
-        try {
-          technologies = JSON.parse(
-            project.dataset.technologies ?? '[]',
-          ) as string[];
-        } catch {
-          technologies = [];
-        }
-        const isVisible = selected === 'all' || technologies.includes(selected);
-        project.hidden = !isVisible;
-        if (isVisible) {
-          visibleCount += 1;
-          if (!prefersReducedMotion) {
-            project.animate(
-              [
-                { opacity: 0, transform: 'translateY(1rem)' },
-                { opacity: 1, transform: 'translateY(0)' },
-              ],
-              { duration: 300, easing: 'ease-out' },
-            );
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const selected = button.dataset.filter ?? 'all';
+        let visibleCount = 0;
+
+        buttons.forEach((item) => {
+          const isSelected = item === button;
+          item.classList.toggle('is-active', isSelected);
+          item.setAttribute('aria-pressed', String(isSelected));
+        });
+
+        projects.forEach((project) => {
+          let technologies: string[] = [];
+          try {
+            technologies = JSON.parse(
+              project.dataset.technologies ?? '[]',
+            ) as string[];
+          } catch {
+            technologies = [];
           }
+          const isVisible =
+            selected === 'all' || technologies.includes(selected);
+          project.hidden = !isVisible;
+          if (isVisible) {
+            visibleCount += 1;
+            if (!prefersReducedMotion) {
+              project.animate(
+                [
+                  { opacity: 0, transform: 'translateY(1rem)' },
+                  { opacity: 1, transform: 'translateY(0)' },
+                ],
+                { duration: 300, easing: 'ease-out' },
+              );
+            }
+          }
+        });
+
+        if (emptyState) emptyState.hidden = visibleCount > 0;
+
+        if (status) {
+          status.textContent = `${visibleCount} project${visibleCount === 1 ? '' : 's'} shown`;
         }
       });
-
-      if (emptyState) emptyState.hidden = visibleCount > 0;
-
-      if (status) {
-        status.textContent = `${visibleCount} project${visibleCount === 1 ? '' : 's'} shown`;
-      }
     });
   });
 </script>

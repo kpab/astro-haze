@@ -168,11 +168,17 @@ const opacity = opacityMap[intensity];
 </style>
 
 <script>
-  // Pause aurora animation when the tab is backgrounded.
-  const aurora = document.querySelector('.aurora-background');
-  if (aurora) {
-    const sync = () => aurora.classList.toggle('is-paused', document.hidden);
-    document.addEventListener('visibilitychange', sync);
-    sync();
+  import { onPage } from '@/lib/lifecycle';
+
+  // Pause aurora animation when the tab is backgrounded. The element is
+  // replaced on navigation, so it is looked up when the state is applied
+  // rather than captured once.
+  function sync() {
+    document
+      .querySelector('.aurora-background')
+      ?.classList.toggle('is-paused', document.hidden);
   }
+
+  document.addEventListener('visibilitychange', sync);
+  onPage(sync);
 </script>
