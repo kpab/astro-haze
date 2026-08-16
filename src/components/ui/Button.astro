@@ -1,4 +1,6 @@
 ---
+import { classifyHref } from '@/lib/url';
+
 export interface Props {
   href?: string;
   variant?: 'glass' | 'solid' | 'outline' | 'ghost';
@@ -27,7 +29,8 @@ const {
   ...rest
 } = Astro.props;
 
-const isExternal = external ?? href?.startsWith('http') ?? false;
+const isExternal =
+  external ?? (href ? classifyHref(href) === 'external' : false);
 
 // aria-label replaces the accessible name computed from child content, so
 // the visually-hidden "(opens in new tab)" span below would otherwise go
