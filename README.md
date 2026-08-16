@@ -257,7 +257,8 @@ cover: '../../assets/images/projects/northstar-cover.webp'
 coverAlt: 'Northstar shown on desktop and mobile'
 images:
   - '../../assets/images/projects/northstar-search.webp'
-  - '../../assets/images/projects/northstar-mobile.webp'
+  - src: '../../assets/images/projects/northstar-mobile.webp'
+    alt: 'Northstar mobile view with the service directory open'
 tech:
   - Astro
   - TypeScript
@@ -275,23 +276,26 @@ duration: '16 weeks'
 Write the case study here.
 ```
 
-| Field          | Requirement                                                                            |
-| -------------- | -------------------------------------------------------------------------------------- |
-| `title`        | Required string                                                                        |
-| `summary`      | Required string                                                                        |
-| `description`  | Optional string                                                                        |
-| `cover`        | Required local image under `src/assets/` (relative path), optimized via `astro:assets` |
-| `coverAlt`     | Optional string                                                                        |
-| `images`       | Optional array of local images under `src/assets/` (relative paths)                    |
-| `tech`         | Required string array                                                                  |
-| `role`         | Required string                                                                        |
-| `year`         | Required number                                                                        |
-| `featured`     | Boolean; defaults to `false`                                                           |
-| `links.live`   | Optional valid URL                                                                     |
-| `links.github` | Optional valid URL                                                                     |
-| `links.case`   | Optional string path or URL                                                            |
-| `client`       | Optional string                                                                        |
-| `duration`     | Optional string                                                                        |
+| Field          | Requirement                                                                                                                                          |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `title`        | Required string                                                                                                                                      |
+| `summary`      | Required string                                                                                                                                      |
+| `description`  | Optional string                                                                                                                                      |
+| `cover`        | Required local image under `src/assets/` (relative path), optimized via `astro:assets`                                                               |
+| `coverAlt`     | Optional string                                                                                                                                      |
+| `images`       | Optional array of local images under `src/assets/`; each entry is a relative path or `{ src, alt }`; `alt` is optional (a numbered one is generated) |
+| `tech`         | Required string array                                                                                                                                |
+| `role`         | Required string                                                                                                                                      |
+| `year`         | Required four-digit integer                                                                                                                          |
+| `featured`     | Boolean; defaults to `false`                                                                                                                         |
+| `links.live`   | Optional valid URL                                                                                                                                   |
+| `links.github` | Optional valid URL                                                                                                                                   |
+| `links.case`   | Optional URL (`http…`), root-relative path (`/…`), anchor (`#…`), or `mailto:`/`tel:` link                                                           |
+| `client`       | Optional string                                                                                                                                      |
+| `duration`     | Optional string                                                                                                                                      |
+
+A relative `links.case` is accepted too, but the browser resolves it against the project
+page (`/work/<slug>/`) rather than the site root, so prefer `/…` for an on-site case study.
 
 ### Landing-page data
 
@@ -326,7 +330,11 @@ The complete landing schema accepts these optional sections:
 | `finalCta`     | `{ title, description, button: { text, href } }`                                                                                 |
 
 Within `hero`, `title`, `subtitle`, `description`, and `cta.primary` are required.
-`cta.secondary` and `image` are optional.
+`cta.secondary` and `image` are optional. Image fields (`hero.image`, `features[].image`,
+`gallery[].src`, `testimonials[].avatar`) must be a URL (`http…`) or a path — either
+root-relative (`/…`, typically under `public/`) or relative to the page. Link fields
+(`cta.*.href`, `pricing[].cta.href`, `finalCta.button.href`) additionally accept anchors
+(`#…`) and `mailto:`/`tel:` links. Both reject other URL schemes such as `javascript:`.
 
 ---
 

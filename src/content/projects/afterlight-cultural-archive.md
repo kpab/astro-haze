@@ -5,9 +5,12 @@ description: 'Afterlight pairs a flexible editorial system with a spatial browsi
 cover: '../../assets/images/projects/afterlight-cover.webp'
 coverAlt: 'Afterlight archive showing an oral history beside collection photography'
 images:
-  - '../../assets/images/projects/afterlight-story.webp'
-  - '../../assets/images/projects/afterlight-map.webp'
-  - '../../assets/images/projects/afterlight-collection.webp'
+  - src: '../../assets/images/projects/afterlight-story.webp'
+    alt: 'Curated story view pairing an oral history transcript with archival photographs'
+  - src: '../../assets/images/projects/afterlight-map.webp'
+    alt: 'Geographic browsing view plotting collection records across a neighbourhood map'
+  - src: '../../assets/images/projects/afterlight-collection.webp'
+    alt: 'Open exploration grid showing connected records with provenance details'
 tech:
   - 'Astro'
   - 'TypeScript'

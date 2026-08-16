@@ -10,7 +10,7 @@ import Button from '@/components/ui/Button.astro';
 import Picture from '@/components/ui/Picture.astro';
 import ProjectGallery from '@/components/portfolio/ProjectGallery.astro';
 import siteConfig from '@/site.config';
-import { withBase } from '@/lib/url';
+import { classifyHref, withBase } from '@/lib/url';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -39,7 +39,8 @@ const projectLinks = [
   project.data.links?.case && {
     label: 'Read case study',
     href: withBase(project.data.links.case),
-    external: false,
+    // Unlike the two links above, a case study may live on or off site.
+    external: classifyHref(project.data.links.case) === 'external',
   },
 ].filter((link): link is { label: string; href: string; external: boolean } =>
   Boolean(link),

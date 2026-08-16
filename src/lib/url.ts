@@ -7,17 +7,67 @@
 // and leaves external URLs, anchors and already-prefixed paths untouched.
 const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
 
+export type HrefKind =
+  | 'external' // http(s):// or //host — another origin
+  | 'contact' // mailto: / tel:
+  | 'anchor' // #section — the current document
+  | 'absolute' // /path — root-relative, needs the base prefix
+  | 'relative' // path — resolved by the browser against the current page
+  | 'unsafe'; // any other scheme (javascript:, data:, …)
+
+// Strip the leading/trailing C0 controls and spaces the URL parser discards
+// before it looks at a URL at all, so `'  javascript:…'` is still recognized as
+// a scheme rather than as a relative path that happens to start with a space.
+function trimUrl(path: string): string {
+  // Everything at or below U+0020 — the C0 range plus the space itself.
+  const stripped = (code: number) => code <= 0x20;
+  let start = 0;
+  let end = path.length;
+  while (start < end && stripped(path.charCodeAt(start))) start++;
+  while (end > start && stripped(path.charCodeAt(end - 1))) end--;
+  return path.slice(start, end);
+}
+
+// The URL scheme of `path`, or '' when it has none. A scheme ends at the first
+// colon and cannot contain a path separator, query, or fragment marker (so
+// `/a:b` is a path, not a scheme). Only tab/CR/LF are dropped before matching,
+// mirroring what the URL parser removes from anywhere inside its input: a href
+// of `java\tscript:alert(1)` still runs as javascript:, while an interior space
+// is kept, so `Notes 2024: draft.html` stays the relative path browsers read it
+// as.
+function schemeOf(path: string): string {
+  const colon = path.indexOf(':');
+  if (colon <= 0) return '';
+  const head = path.slice(0, colon);
+  if (/[/?#]/.test(head)) return '';
+  const scheme = head.replace(/[\t\n\r]/g, '').toLowerCase();
+  return /^[a-z][a-z0-9+.-]*$/.test(scheme) ? scheme : '';
+}
+
+// Single source of truth for what a href-like string points at, shared by
+// withBase() below and the content-collection validators, so validation and
+// rendering can never disagree about a value.
+export function classifyHref(path: string): HrefKind {
+  const value = trimUrl(path);
+  // Two leading slashes mean another origin. Browsers fold a backslash into a
+  // slash for http(s), so `/\host` and `\\host` leave the site like `//host` does.
+  if (/^[/\\]{2}/.test(value)) return 'external';
+  if (value.startsWith('#')) return 'anchor';
+  const scheme = schemeOf(value);
+  if (scheme === 'http' || scheme === 'https') return 'external';
+  if (scheme === 'mailto' || scheme === 'tel') return 'contact';
+  if (scheme) return 'unsafe';
+  return value.startsWith('/') ? 'absolute' : 'relative';
+}
+
 export function withBase(path: string): string {
   if (!path) return path;
-  // Absolute URL, protocol-relative, anchor, or mailto/tel — leave as-is.
-  if (
-    /^([a-z][a-z0-9+.-]*:)?\/\//i.test(path) ||
-    path.startsWith('#') ||
-    /^(mailto:|tel:)/i.test(path)
-  ) {
-    return path;
-  }
-  if (!path.startsWith('/')) return path; // relative path — leave
-  if (BASE && (path === BASE || path.startsWith(BASE + '/'))) return path; // already prefixed
-  return BASE + path;
+  // Only root-relative paths need the base prefix; everything else — external
+  // URLs, anchors, mailto/tel, relative paths — is already resolvable as-is.
+  if (classifyHref(path) !== 'absolute') return path;
+  // Prefix the same string the classifier saw, or surrounding whitespace would
+  // land in the middle of the emitted URL.
+  const value = trimUrl(path);
+  if (BASE && (value === BASE || value.startsWith(BASE + '/'))) return value; // already prefixed
+  return BASE + value;
 }
