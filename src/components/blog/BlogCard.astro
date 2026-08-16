@@ -15,6 +15,7 @@ export interface Props {
   href: string;
   readingTime?: number;
   featured?: boolean;
+  class?: string;
 }
 
 const {
@@ -27,12 +28,13 @@ const {
   href,
   readingTime,
   featured = false,
+  class: className = '',
 } = Astro.props;
 
 const formattedDate = formatDate(pubDate);
 ---
 
-<article class="blog-card glass-card">
+<article class:list={['blog-card', 'glass-card', className]}>
   {
     heroImage && (
       <a
