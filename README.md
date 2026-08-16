@@ -32,20 +32,20 @@
 
 ## Features
 
-|                       |                                                                                                |
-| --------------------- | ---------------------------------------------------------------------------------------------- |
-| **Glass UI system**   | Aurora backgrounds with reusable cards, buttons, badges, tags, sections & containers           |
-| **Site search**       | Pagefind-powered static search in a glass modal — open with the header button or <kbd>⌘K</kbd> |
-| **Light / dark**      | System-aware theme toggle with no-flash startup and synced `theme-color`                       |
-| **Blog**              | Pagination, tags, table of contents, reading time, share links, prev/next navigation           |
-| **Portfolio**         | Index with technology filters, case-study pages, and responsive galleries                      |
-| **Landing page**      | Config-driven hero, features, benefits, pricing, gallery, testimonials, FAQ & final CTA        |
-| **Content Layer**     | Astro 7 collections with Zod-validated frontmatter; Markdown **and** MDX (Sätteri engine)      |
-| **SEO & feeds**       | Canonical URLs, Open Graph, Twitter cards, JSON-LD, full-text RSS & XML sitemap with `lastmod` |
-| **Accessible**        | Landmarks, skip nav, keyboard focus states, WCAG AA-conscious color & interaction              |
-| **Respectful motion** | Honors `prefers-reduced-motion` and `prefers-reduced-transparency`                             |
-| **Optimized images**  | AVIF/WebP with responsive `srcset` via `astro:assets`                                          |
-| **Static & fast**     | Minimal client JS — deploys to GitHub Pages or Cloudflare Pages                                |
+|                       |                                                                                                   |
+| --------------------- | ------------------------------------------------------------------------------------------------- |
+| **Glass UI system**   | Aurora backgrounds with reusable cards, buttons, badges, tags, sections & containers              |
+| **Site search**       | Pagefind-powered static search in a glass modal — open with the header button or <kbd>⌘K</kbd>    |
+| **Light / dark**      | System-aware theme toggle with no-flash startup and synced `theme-color`                          |
+| **Blog**              | Pagination, tags, table of contents, reading time, share links, prev/next navigation              |
+| **Portfolio**         | Index with technology filters, case-study pages, and responsive galleries                         |
+| **Landing page**      | Config-driven hero, features, benefits, pricing, gallery, testimonials, FAQ & final CTA           |
+| **Content Layer**     | Astro 7 collections with Zod-validated frontmatter; Markdown **and** MDX (Sätteri engine)         |
+| **SEO & feeds**       | Canonical URLs, generated social cards, Twitter cards, JSON-LD, full-text RSS & sitemap `lastmod` |
+| **Accessible**        | Landmarks, skip nav, keyboard focus states, WCAG AA-conscious color & interaction                 |
+| **Respectful motion** | Honors `prefers-reduced-motion` and `prefers-reduced-transparency`                                |
+| **Optimized images**  | AVIF/WebP with responsive `srcset` via `astro:assets`                                             |
+| **Static & fast**     | Minimal client JS — deploys to GitHub Pages or Cloudflare Pages                                   |
 
 > [!NOTE]
 > Blog hero images and project covers/galleries are validated with Astro's `image()` helper
@@ -373,6 +373,27 @@ element styles live in `src/styles/global.css`.
 The shared [`src/components/ui/Picture.astro`](src/components/ui/Picture.astro) component
 produces AVIF and WebP sources for imported local assets. Use descriptive `alt` text and
 explicit responsive sizes.
+
+### Social cards
+
+Every post and case study gets a 1200×630 card rendered at build time by
+[`src/lib/og.ts`](src/lib/og.ts) and served from `/og/blog/<id>.png` and
+`/og/work/<id>.png`. The path is built from the entry id alone, so a preview a platform
+scraped last month still resolves after a rebuild — pointing `og:image` at the hero image
+instead gave a content-hashed URL that changed on every build and dropped the cached
+preview each time. Pages that aren't a post or a case study keep `siteConfig.ogImage`.
+
+Two things are worth knowing before editing the design:
+
+- **It costs build time.** Roughly 1.5 seconds per entry (about 10 seconds for the six
+  demo entries on a 2024 laptop), and it scales linearly with the number of posts and
+  projects. Delete `src/pages/og/[...slug].png.ts` to opt out; `Seo.astro` falls back to
+  the site-wide image on its own.
+- **The bundled font is Latin-only.** `src/assets/fonts/Inter-{Regular,Bold}.ttf` ships
+  with the theme ([OFL-1.1](src/assets/fonts/OFL.txt)) because the renderer needs real
+  font bytes — it can't use the CSS font stack. A site writing in Japanese, Chinese, Korean
+  or any script Inter doesn't cover has to swap those files for a font that does, or the
+  card renders empty boxes.
 
 ---
 

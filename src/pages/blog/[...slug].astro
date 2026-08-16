@@ -46,7 +46,7 @@ const linkedInUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encod
 <BaseLayout
   title={post.data.title}
   description={post.data.description}
-  ogImage={post.data.heroImage?.src}
+  ogImage={withBase(`/og/blog/${post.id}.png`)}
   article={{
     publishedTime: post.data.pubDate.toISOString(),
     modifiedTime: post.data.updatedDate?.toISOString(),
