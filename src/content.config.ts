@@ -113,7 +113,6 @@ const landing = defineCollection({
           title: z.string(),
           description: z.string(),
           icon: z.string().optional(),
-          image: imageSrc.optional(),
         }),
       )
       .optional(),
@@ -156,7 +155,6 @@ const landing = defineCollection({
           role: z.string(),
           company: z.string().optional(),
           content: z.string(),
-          avatar: imageSrc.optional(),
           rating: z.number().min(1).max(5).optional(),
         }),
       )
