@@ -21,6 +21,7 @@ const showReadingTime = siteConfig.blog.showReadingTime;
     {
       posts.map((post) => (
         <BlogCard
+          class="reveal"
           title={post.data.title}
           description={post.data.description}
           pubDate={post.data.pubDate}
