@@ -351,3 +351,41 @@ button {
     display: flex;
   }
 }
+
+/* Scroll-driven entrance
+ *
+ * `.reveal` fades and lifts an element as it scrolls into view. The whole thing
+ * — animation, keyframes, the opacity: 0 start — lives inside the @supports
+ * block, so a browser without view() timelines never applies a starting state
+ * it has no way to animate away from: the content is simply there, at full
+ * opacity, from the first paint. That's the failure mode to design for; a
+ * JS-free reveal that hides content on unsupported browsers is worse than no
+ * reveal at all.
+ *
+ * Only opacity and transform animate, so nothing here can shift layout.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .reveal {
+      animation-name: reveal-in;
+      /* Required, and not the default: a progress-based timeline needs
+         `auto` to map the range onto the animation. Left unset it resolves to
+         a 0% duration, the animation never becomes active, and the element
+         just sits at its base style. */
+      animation-duration: auto;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      /* Finish well before the element reaches the middle of the screen —
+         a reveal still running when you're reading it is a distraction. */
+      animation-range: entry 0% entry 40%;
+    }
+
+    @keyframes reveal-in {
+      from {
+        opacity: 0;
+        transform: translateY(1.5rem);
+      }
+    }
+  }
+}
