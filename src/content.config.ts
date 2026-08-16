@@ -1,6 +1,31 @@
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'zod';
+import { classifyHref } from '@/lib/url';
+
+// A blank value is never a usable URL: `href=""` reloads the page and `src=""`
+// re-requests it, both without a word of warning. Surrounding whitespace is
+// trimmed off rather than carried into the markup.
+const nonBlank = z.string().trim().min(1, { message: 'Must not be empty' });
+
+// Values rendered into `href`. Every shape withBase() can resolve is accepted —
+// URLs, root-relative and relative paths, anchors, mailto:/tel: — so the schema
+// never rejects content the renderer handles. Only scheme-based injection
+// (javascript:, data:, …) is turned away.
+const href = nonBlank.refine((v) => classifyHref(v) !== 'unsafe', {
+  message:
+    'Must be an http(s) URL, a path, an anchor (#…), or a mailto:/tel: link',
+});
+
+// Values rendered into `<img src>`. Anchors and mailto:/tel: can never resolve
+// to an image, so they are rejected on top of the href rules.
+const imageSrc = nonBlank.refine(
+  (v) => {
+    const kind = classifyHref(v);
+    return kind === 'external' || kind === 'absolute' || kind === 'relative';
+  },
+  { message: 'Must be an http(s) URL or a path to an image file' },
+);
 
 // Blog collection — Markdown content via the Content Layer glob loader.
 // `image()` runs hero images through astro:assets (AVIF/WebP + responsive
@@ -33,16 +58,31 @@ const projects = defineCollection({
       description: z.string().optional(),
       cover: image(),
       coverAlt: z.string().optional(),
-      images: z.array(image()).optional(),
+      // A bare path (alt is auto-generated) or { src, alt } for a custom alt.
+      // Both are normalized to { src, alt? } so every consumer sees one shape.
+      images: z
+        .array(
+          z.preprocess(
+            (v) => (typeof v === 'string' ? { src: v } : v),
+            z.object({ src: image(), alt: z.string().min(1).optional() }),
+          ),
+        )
+        .optional(),
       tech: z.array(z.string()),
       role: z.string(),
-      year: z.number(),
+      // Four digits — catches a mistyped magnitude without ruling out the
+      // retrospective work people legitimately list.
+      year: z
+        .number()
+        .int()
+        .min(1000, { message: 'Must be a four-digit year' })
+        .max(9999, { message: 'Must be a four-digit year' }),
       featured: z.boolean().default(false),
       links: z
         .object({
           live: z.url().optional(),
           github: z.url().optional(),
-          case: z.string().optional(),
+          case: href.optional(),
         })
         .optional(),
       client: z.string().optional(),
@@ -62,10 +102,10 @@ const landing = defineCollection({
       subtitle: z.string(),
       description: z.string(),
       cta: z.object({
-        primary: z.object({ text: z.string(), href: z.string() }),
-        secondary: z.object({ text: z.string(), href: z.string() }).optional(),
+        primary: z.object({ text: z.string(), href }),
+        secondary: z.object({ text: z.string(), href }).optional(),
       }),
-      image: z.string().optional(),
+      image: imageSrc.optional(),
     }),
     features: z
       .array(
@@ -73,7 +113,7 @@ const landing = defineCollection({
           title: z.string(),
           description: z.string(),
           icon: z.string().optional(),
-          image: z.string().optional(),
+          image: imageSrc.optional(),
         }),
       )
       .optional(),
@@ -95,15 +135,16 @@ const landing = defineCollection({
           description: z.string(),
           features: z.array(z.string()),
           highlighted: z.boolean().default(false),
-          cta: z.object({ text: z.string(), href: z.string() }),
+          cta: z.object({ text: z.string(), href }),
         }),
       )
       .optional(),
     gallery: z
       .array(
         z.object({
-          src: z.string(),
-          alt: z.string(),
+          src: imageSrc,
+          // Empty alt would silently demote a content image to decorative.
+          alt: z.string().min(1),
           caption: z.string().optional(),
         }),
       )
@@ -115,7 +156,7 @@ const landing = defineCollection({
           role: z.string(),
           company: z.string().optional(),
           content: z.string(),
-          avatar: z.string().optional(),
+          avatar: imageSrc.optional(),
           rating: z.number().min(1).max(5).optional(),
         }),
       )
@@ -127,7 +168,7 @@ const landing = defineCollection({
       .object({
         title: z.string(),
         description: z.string(),
-        button: z.object({ text: z.string(), href: z.string() }),
+        button: z.object({ text: z.string(), href }),
       })
       .optional(),
   }),
