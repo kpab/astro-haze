@@ -50,7 +50,7 @@ const projectLinks = [
 <BaseLayout
   title={project.data.title}
   description={description}
-  ogImage={project.data.cover.src}
+  ogImage={withBase(`/og/work/${project.id}.png`)}
   article={{ type: 'CreativeWork', year: project.data.year }}
 >
   <Header />

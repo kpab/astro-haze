@@ -19,6 +19,11 @@ export interface Props {
   };
 }
 
+// og:image resolution, most specific first: whatever the page passes (the
+// detail routes pass their generated card), then the site-wide default from
+// site.config. A generated card is preferred over the entry's hero image
+// because its URL carries no content hash, so a platform's cached preview
+// survives a rebuild.
 const {
   title = siteConfig.title,
   description = siteConfig.description,

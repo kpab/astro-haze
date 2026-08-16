@@ -20,9 +20,11 @@
     "@astrojs/mdx": "^7.0.5",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
+    "@resvg/resvg-js": "^2.6.2",
     "astro": "^7.2.1",
     "astro-pagefind": "^2.0.1",
     "sanitize-html": "^2.17.7",
+    "satori": "^0.29.0",
     "zod": "^4.4.3"
   },
   "devDependencies": {
