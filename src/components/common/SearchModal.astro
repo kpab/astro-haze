@@ -72,8 +72,9 @@
     padding: 0;
     color: var(--color-text);
     background: var(--glass-bg-solid);
-    backdrop-filter: blur(20px) saturate(var(--glass-sat));
-    -webkit-backdrop-filter: blur(20px) saturate(var(--glass-sat));
+    backdrop-filter: blur(var(--glass-blur-lg)) saturate(var(--glass-sat));
+    -webkit-backdrop-filter: blur(var(--glass-blur-lg))
+      saturate(var(--glass-sat));
     border: 1px solid var(--glass-border);
     border-radius: var(--radius-lg);
     box-shadow:
