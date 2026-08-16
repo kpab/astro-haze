@@ -5,6 +5,8 @@ import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import pagefind from 'astro-pagefind';
 import siteConfig from './src/site.config.ts';
+import { satteri } from '@astrojs/markdown-satteri';
+import satteriBaseUrls from './src/lib/satteri-base-urls.ts';
 
 // Served from a GitHub Pages project site: https://kpab.github.io/astro-haze/
 const SITE = 'https://kpab.github.io';
@@ -99,7 +101,14 @@ export default defineConfig({
     format: ['avif', 'webp'],
   },
   // Markdown is handled by Sätteri (Astro 7 default). GFM — tables, task
-  // lists, footnotes — is enabled out of the box, so no config is needed.
+  // lists, footnotes — is on out of the box, so the processor is named here
+  // only to extend its hast pass with the plugin that applies `base` to
+  // root-relative URLs an author writes in a body, which Astro otherwise
+  // passes through untouched. MDX inherits this config, so `.mdx` bodies get
+  // the same treatment.
+  markdown: {
+    processor: satteri({ hastPlugins: [satteriBaseUrls(BASE)] }),
+  },
   server: {
     port: 3000,
     host: true,

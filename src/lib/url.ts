@@ -5,7 +5,6 @@
 // Astro auto-prefixes imported assets (astro:assets) and Astro.url, but NOT
 // hardcoded href/src strings, so those go through withBase(). It is idempotent
 // and leaves external URLs, anchors and already-prefixed paths untouched.
-const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 export type HrefKind =
   | 'external' // http(s):// or //host — another origin
@@ -60,14 +59,29 @@ export function classifyHref(path: string): HrefKind {
   return value.startsWith('/') ? 'absolute' : 'relative';
 }
 
-export function withBase(path: string): string {
+/**
+ * withBase() against an explicitly supplied base.
+ *
+ * Code that runs from `astro.config` — a Markdown plugin, say — sits outside
+ * the app's module graph, where `import.meta.env.BASE_URL` is still the default
+ * `/` rather than the configured base. Such callers pass the base in; everyone
+ * inside the app should use withBase() below.
+ */
+export function withBaseOf(base: string, path: string): string {
   if (!path) return path;
   // Only root-relative paths need the base prefix; everything else — external
   // URLs, anchors, mailto/tel, relative paths — is already resolvable as-is.
   if (classifyHref(path) !== 'absolute') return path;
+  const prefix = base.replace(/\/$/, '');
   // Prefix the same string the classifier saw, or surrounding whitespace would
   // land in the middle of the emitted URL.
   const value = trimUrl(path);
-  if (BASE && (value === BASE || value.startsWith(BASE + '/'))) return value; // already prefixed
-  return BASE + value;
+  if (prefix && (value === prefix || value.startsWith(prefix + '/'))) {
+    return value; // already prefixed
+  }
+  return prefix + value;
+}
+
+export function withBase(path: string): string {
+  return withBaseOf(import.meta.env.BASE_URL, path);
 }
