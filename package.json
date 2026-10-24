@@ -23,7 +23,7 @@
     "@resvg/resvg-js": "^2.6.2",
     "astro": "^7.3.5",
     "astro-pagefind": "^2.0.1",
-    "sanitize-html": "^2.18.0",
+    "sanitize-html": "^2.18.1",
     "satori": "^0.33.5",
     "zod": "^4.6.5"
   },
