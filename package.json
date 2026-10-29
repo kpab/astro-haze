@@ -25,7 +25,7 @@
     "astro-pagefind": "^2.0.1",
     "sanitize-html": "^2.18.1",
     "satori": "^0.33.5",
-    "zod": "^4.6.5"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
